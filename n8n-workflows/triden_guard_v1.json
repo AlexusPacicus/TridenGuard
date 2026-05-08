@@ -1,5 +1,5 @@
 {
-    "name": "Segundo Cerebro v3 - MVP Robusto Validado",
+    "name": "TridenGuard Agent Firewall v1 - Validated MVP",
     "nodes": [
         {
             "parameters": {
@@ -30,7 +30,7 @@
         },
         {
             "parameters": {
-                "jsCode": "for (const item of $input.all()) {\n  const output = item.json.output || {};\n  const axioma = output.axioma || '';\n  const radicales = output.radicales || [];\n  const falsabilidad = output.falsabilidad || '';\n\n  // 1. AXIOMA no vacío\n  const axioma_ok = axioma.trim().length > 5;\n\n  // 2. Formal Radicals + Min 2\n  const allowed = [\"Obligation\", \"Metric\", \"Contingency\", \"Risk\", \"Asset\", \"Exception\"];\n  const radicales_ok = radicales.length >= 2 && radicales.every(r => allowed.includes(r.radical));\n\n  // 3. Cartesian Guard (No Axis:Value collisions)\n  const pares_set = new Set();\n  let cartesiano_ok = true;\n  for (const r of radicales) {\n    const par = `${r.radical}:${r.valor}`;\n    if (pares_set.has(par)) {\n      cartesiano_ok = false;\n      break;\n    }\n    pares_set.add(par);\n  }\n\n  // 4. Flex-Falsifiability (Technical Exception Rule)\n  const falsabilidad_ok = (radicales.some(r => r.radical === 'Exception')) ? \n    true : (falsabilidad.trim().length > 5 && !falsabilidad.includes('none'));\n\n  // TRIDENT Consensus\n  const tridente = {\n    explorador: radicales_ok ? '✓' : '✗',\n    auditor: axioma_ok ? '✓' : '✗',\n    guardian: cartesiano_ok ? '✓' : '✗'\n  };\n  \n  const puerta_and = tridente.explorador === '✓' && tridente.auditor === '✓' && tridente.guardian === '✓';\n  \n  item.json = { \n    ...item.json, \n    axioma_ok, \n    radicales_ok, \n    cartesiano_ok, \n    falsabilidad_ok, \n    tridente_status: `${tridente.explorador}${tridente.auditor}${tridente.guardian}`, \n    puerta_and_ok: puerta_and, \n    debug: tridente \n  };\n}\n\nreturn $input.all();"
+                "jsCode": "for (const item of $input.all()) {\n  const output = item.json.output || {};\n  const axiom = output.axiom || '';\n  const radicals = output.radicals || [];\n  const falsability = output.falsability || '';\n\n  // 1. AXIOM not empty\n  const axiom_ok = axiom.trim().length > 5;\n\n  // 2. Formal Radicals + Min 2\n  const allowed = [\"Obligation\", \"Metric\", \"Contingency\", \"Risk\", \"Asset\", \"Exception\"];\n  const radicals_ok = radicals.length >= 2 && radicals.every(r => allowed.includes(r.radical));\n\n  // 3. Cartesian Guard (No Axis:Value collisions)\n  const pairs_set = new Set();\n  let cartesian_ok = true;\n  for (const r of radicals) {\n    const pair = `${r.radical}:${r.value}`;\n    if (pairs_set.has(pair)) {\n      cartesian_ok = false;\n      break;\n    }\n    pairs_set.add(pair);\n  }\n\n  // 4. Flex-Falsifiability (Technical Exception Rule)\n  const falsability_ok = (radicals.some(r => r.radical === 'Exception')) ? \n    true : (falsability.trim().length > 5 && !falsability.includes('none'));\n\n  // TRIDENT Consensus\n  const trident = {\n    explorer: radicals_ok ? '✓' : '✗',\n    auditor: axiom_ok ? '✓' : '✗',\n    guardian: cartesian_ok ? '✓' : '✗'\n  };\n  \n  const and_gate = trident.explorer === '✓' && trident.auditor === '✓' && trident.guardian === '✓';\n  \n  item.json = { \n    ...item.json, \n    axiom_ok, \n    radicals_ok, \n    cartesian_ok, \n    falsability_ok, \n    trident_status: `${trident.explorer}${trident.auditor}${trident.guardian}`, \n    and_gate_ok: and_gate, \n    debug: trident \n  };\n}\n\nreturn $input.all();"
             },
             "type": "n8n-nodes-base.code",
             "typeVersion": 2,
@@ -44,7 +44,7 @@
         {
             "parameters": {
                 "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
-                "text": "=⚠️ *LOCAL QUARANTINE* ⚠️\nSystem detected noise or coordinate collision.\n\n📂 *Trident Status:* {{$json.tridente_status}}\n💡 *Axiom:* {{$json.output.axioma}}",
+                "text": "=⚠️ *LOCAL QUARANTINE* ⚠️\nSystem detected noise or coordinate collision.\n\n📂 *Trident Status:* {{$json.trident_status}}\n💡 *Axiom:* {{$json.output.axiom}}",
                 "replyMarkup": "inlineKeyboard",
                 "inlineKeyboard": {
                     "rows": [
@@ -214,7 +214,7 @@
                                 "combinator": "and"
                             },
                             "renameOutput": true,
-                            "outputKey": "Brain Dump"
+                            "outputKey": "Legal Briefing"
                         }
                     ]
                 },
@@ -232,7 +232,7 @@
         {
             "parameters": {
                 "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
-                "text": "👋 Hi Alexis! Your Second Brain is operational.\n\nSend me any idea, doubt or brain dump and I'll separate the signal from the noise. 🏗️📐",
+                "text": "👋 Hi Alexis! Your TridenGuard Firewall is operational.\n\nSend me any legal text, contract or case and I'll separate the signal from the noise. 🏗️📐",
                 "additionalFields": {}
             },
             "type": "n8n-nodes-base.telegram",
@@ -309,7 +309,7 @@
                                 },
                                 "conditions": [
                                     {
-                                        "leftValue": "={{ $json.puerta_and_ok }}",
+                                        "leftValue": "={{ $json.and_gate_ok }}",
                                         "rightValue": "=approve_",
                                         "operator": {
                                             "type": "boolean",
@@ -346,7 +346,7 @@
                                 "combinator": "and"
                             },
                             "renameOutput": true,
-                            "outputKey": "Descartar"
+                            "outputKey": "Discard"
                         }
                     ]
                 },
@@ -412,7 +412,7 @@
                 "operation": "editMessageText",
                 "chatId": "={{ $('Telegram Trigger1').item.json.callback_query.message.chat.id }}",
                 "messageId": "={{ $('Telegram Trigger1').item.json.callback_query.message.message_id }}",
-                "text": "📦 Idea archived in 'Discarded' and removed from Quarantine.",
+                "text": "📦 Case archived in 'Discarded' and removed from Quarantine.",
                 "additionalFields": {}
             },
             "type": "n8n-nodes-base.telegram",
@@ -436,7 +436,7 @@
                 "operation": "editMessageText",
                 "chatId": "={{ $('Telegram Trigger1').item.json.callback_query.message.chat.id }}",
                 "messageId": "={{ $('Telegram Trigger1').item.json.callback_query.message.message_id }}",
-                "text": "✅ Idea archived in database and removed from Quarantine",
+                "text": "✅ Case archived in database and removed from Quarantine",
                 "additionalFields": {}
             },
             "type": "n8n-nodes-base.telegram",
@@ -551,8 +551,8 @@
                             "removed": false
                         },
                         {
-                            "id": "IDEA DESTILADA",
-                            "displayName": "IDEA DESTILADA",
+                            "id": "DISTILLED CASE",
+                            "displayName": "DISTILLED CASE",
                             "required": false,
                             "defaultMatch": false,
                             "display": true,
@@ -770,9 +770,9 @@
             "parameters": {
                 "text": "={{ $json.message.text }}",
                 "schemaType": "manual",
-                "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"axioma\": {\n      \"type\": \"string\",\n      \"description\": \"Foundational fact or axiom\"\n    },\n    \"radicales\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"radical\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"Obligation\",\n              \"Metric\",\n              \"Contingency\",\n              \"Risk\",\n              \"Asset\",\n              \"Exception\"\n            ]\n          },\n          \"valor\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"radical\",\n          \"valor\"\n        ]\n      },\n      \"minItems\": 2\n    },\n    \"falsabilidad\": {\n      \"type\": \"string\",\n      \"description\": \"Explicit invalidation condition\"\n    }\n  },\n  \"required\": [\n    \"axioma\",\n    \"radicales\",\n    \"falsabilidad\"\n  ]\n}",
+                "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"axiom\": {\n      \"type\": \"string\",\n      \"description\": \"Foundational fact or axiom\"\n    },\n    \"radicals\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"radical\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"Obligation\",\n              \"Metric\",\n              \"Contingency\",\n              \"Risk\",\n              \"Asset\",\n              \"Exception\"\n            ]\n          },\n          \"value\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"radical\",\n          \"value\"\n        ]\n      },\n      \"minItems\": 2\n    },\n    \"falsability\": {\n      \"type\": \"string\",\n      \"description\": \"Explicit invalidation condition\"\n    }\n  },\n  \"required\": [\n    \"axiom\",\n    \"radicals\",\n    \"falsability\"\n  ]\n}",
                 "options": {
-                    "systemPromptTemplate": "Role: Topological Tokenizer. ZERO HALLUCINATION.\n\nPSEUDO-TOKENS (Positional Encoding):\nAXIOM: Foundational truth or fact.\nRISK: Potential bottleneck or hazard.\nEXCEPTION: Valid invalidation condition.\nASSET: Core component or resource.\n\nATOMIC RADICALS: Obligation, Metric, Contingency, Risk, Asset, Exception\n\nEXAMPLE:\nInput: 'AXIOM: High acidity (pH < 4) degrades lead pipes'\nOutput: {\n  \"axioma\": \"High acidity (pH < 4) degrades lead pipes\",\n  \"radicales\": [\n    {\"radical\": \"Metric\", \"valor\": \"pH < 4\"},\n    {\"radical\": \"Risk\", \"valor\": \"pipe degradation\"}\n  ],\n  \"falsabilidad\": \"pH > 7 OR teflon-coated pipes\"\n}\n\nValid JSON ONLY. Minimum 2 radicals required."
+                    "systemPromptTemplate": "Role: Topological Tokenizer. ZERO HALLUCINATION.\n\nPSEUDO-TOKENS (Positional Encoding):\nAXIOM: Foundational truth or fact.\nRISK: Potential bottleneck or hazard.\nEXCEPTION: Valid invalidation condition.\nASSET: Core component or resource.\n\nATOMIC RADICALS: Obligation, Metric, Contingency, Risk, Asset, Exception\n\nEXAMPLE:\nInput: 'AXIOM: High acidity (pH < 4) degrades lead pipes'\nOutput: {\n  \"axiom\": \"High acidity (pH < 4) degrades lead pipes\",\n  \"radicals\": [\n    {\"radical\": \"Metric\", \"value\": \"pH < 4\"},\n    {\"radical\": \"Risk\", \"value\": \"pipe degradation\"}\n  ],\n  \"falsability\": \"pH > 7 OR teflon-coated pipes\"\n}\n\nValid JSON ONLY. Minimum 2 radicals required."
                 }
             },
             "type": "@n8n/n8n-nodes-langchain.informationExtractor",
@@ -797,7 +797,7 @@
                     "conditions": [
                         {
                             "id": "020f2350-6e95-461b-9eff-24e7caad8ebe",
-                            "leftValue": "={{ $json.puerta_and_ok }}",
+                            "leftValue": "={{ $json.and_gate_ok }}",
                             "rightValue": "",
                             "operator": {
                                 "type": "boolean",
@@ -852,7 +852,7 @@
         {
             "parameters": {
                 "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
-                "text": "=={{ \n`✅ *Structured Registry (Zero Leakage)*\n\nAXIOM: ${$json.output.axioma}\n\nRADICALS:\n${$json.output.radicales.map(r => `• ${r.radical}: ${r.valor}`).join('\\n')}\n\nFALSABILITY: ${$json.output.falsabilidad}\nTRIDENT STATUS: ${$json.tridente_status}`\n}}",
+                "text": "=={{ \n`✅ *Structured Registry (Zero Leakage)*\n\nAXIOM: ${$json.output.axiom}\n\nRADICALS:\n${$json.output.radicals.map(r => `• ${r.radical}: ${r.value}`).join('\\n')}\n\nFALSABILITY: ${$json.output.falsability}\nTRIDENT STATUS: ${$json.trident_status}`\n}}",
                 "additionalFields": {
                     "parse_mode": "MarkdownV2"
                 }
