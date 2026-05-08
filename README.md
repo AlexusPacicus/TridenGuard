@@ -29,23 +29,28 @@ TridenGuard enforces a strict schema using 6 atomic radicals:
 If the LLM hallucinates or fails schema validation, the vector goes to QUARANTINE for human review.
 
 ## Architecture
-User → Telegram → Lobster Trap (DPI) → n8n → Ollama/Gemini
-↓
-Cartesian Validator (Set())
-↓
-AND Gate
-↙ ↘
-Approve Block/Quarantine
-↓
-Human Review (Telegram)
+
+```mermaid
+graph TD
+    A[User] -->|Telegram Message| B[Lobster Trap DPI]
+    B -->|Filtered Request| C[n8n Workflow]
+    C -->|Zero Hallucination Prompt| D[Ollama / Gemini]
+    D -->|Radical Extraction| E[Cartesian Validator]
+    E -->|Validation Fail| F[Quarantine]
+    E -->|Validation Success| G[Validated Case]
+    F -->|Human-in-the-loop| H[Telegram Approval]
+    H -->|Approved| G
+    G -->|Commit| I[Google Sheets Audit]
+    F -->|Discarded| J[Archive]
+```
 
 ## Tech Stack
 
-- n8n (orchestration)
-- Lobster Trap (prompt inspection)
-- Ollama + Phi-4-mini (local inference)
-- Telegram (human-in-the-loop)
-- Google Sheets (audit trail)
+- **n8n**: Orchestration and state management.
+- **Lobster Trap**: Deep Prompt Inspection (DPI) and PII filtering.
+- **Ollama (Phi-4-mini)**: Local inference for zero-latency data residency.
+- **Telegram**: Interface for Human-in-the-loop (HITL) review.
+- **Google Sheets**: Enterprise-grade audit trail and persistence.
 
 ## Roadmap
 
