@@ -1,31 +1,53 @@
-# 🛡️ TridenGuard: Enterprise Agent Firewall
-**A zero-hallucination firewall for AI agents. Securing enterprise workflows through strict schema enforcement and human-in-the-loop validation.**
+# 🛡️ TridenGuard
 
-## 📌 Executive Summary
-As enterprises in highly regulated industries (Finance, Healthcare, Legal) deploy Autonomous Agents, the risk of data hallucination and prompt exfiltration grows exponentially. 
+**Deterministic firewall for LLM hallucinations in legal and financial documents.**
 
-**TridenGuard** is a deterministic security architecture operating as a "Zero-Trust" topological manifold. Instead of relying on probabilistic generic prompts, it implements a rigid **Schema Enforcement** and a multi-agent consensus system to ensure that no corrupted or hallucinated data ever reaches the corporate database.
+## Problem
 
-## 🏗️ Architecture & Core Components
+In 2025-2026, courts sanctioned lawyers for filing AI-hallucinated citations:
+- *Lacey v. State Farm*: $31,100 sanctions
+- *Russell v. Mells*: Referral to Florida Bar
+- *Flycatcher v. Affable*: Default judgment
 
-### 1. The Deep Prompt Inspection (DPI) Layer
-Powered by **Veea's Lobster Trap**, TridenGuard routes all LLM traffic through a P4-style firewall. This proxy intercepts PII exfiltration, malicious system overrides, and unauthorized domain webhooks before the LLM processes the payload.
+LLMs cannot distinguish contract text from malicious instructions (LegalPwn).
 
-### 2. The Multi-Agent Trident (Validation Layer)
-Data extraction is governed by three asymmetric forces that must reach a consensus via a strict **Logical AND Gate**:
-*   **The Explorer (High Entropy):** Parses unstructured input into predefined "Atomic Radicals" (e.g., Geometry, Data, Friction, Optimization).
-*   **The Density Auditor:** Ensures the extracted axiom has sufficient critical mass and contextual consistency.
-*   **The Cartesian Guardian:** A deterministic JavaScript engine using `Set()` objects to deduplicate pairs (Axis:Value) and mathematically block namespace collisions or taxonomic hallucinations.
+## Solution
 
-### 3. The Topological Incubator (Human-in-the-Loop)
-If an incoming data vector fails the Trident's Logical AND Gate, it does not fail silently, nor is it blindly ingested. The anomaly is isolated into the **Incubator** (a Quarantine state) and instantly triggers a webhook to an enterprise dashboard (simulated via Telegram). 
+TridenGuard enforces a strict schema using 6 atomic radicals:
+- **Obligation** | **Metric** | **Contingency** | **Risk** | **Asset** | **Exception**
 
-Security analysts receive real-time, interactive alerts to make the final decision:
-*   ✅ **Force Assimilation** (Override the model's caution)
-*   🗑️ **Collapse Vector** (Destroy the hallucinated/malicious data)
+If the LLM hallucinates or fails schema validation, the vector goes to QUARANTINE for human review.
 
-## 🛠️ Technology Stack
-*   **Orchestration:** n8n (Pro-Code deployment with custom JS nodes)
-*   **Local Inference:** Phi-4-mini (3.8b) running via Ollama for maximum Data Sovereignty and Zero Leakage.
-*   **Agent Security:** Lobster Trap (Veea) for bidirectional metadata inspection.
-*   **Audit Trail Store:** Google Sheets / CSV binary exports for compliance tracking.
+## Architecture
+Telegram → Lobster Trap (DPI) → n8n → Ollama/Gemini → Cartesian Validator (Set()) → AND Gate
+↓ ↓
+Quarantine ←─────────────────────── Block
+
+## Tech Stack
+
+- n8n (orchestration)
+- Lobster Trap (prompt inspection)
+- Ollama + Phi-4-mini (local inference)
+- Telegram (human-in-the-loop)
+- Google Sheets (audit trail)
+
+## Roadmap
+
+- **V1 (MVP)**: n8n + Lobster Trap (current)
+- **V2**: LangGraph for parallel execution
+- **V3**: ADK for native observability
+
+## Demo
+
+[Link to video]
+
+## Repository Structure
+├── n8n-workflow/
+│ └── triden_guard_v1.json
+├── docs/
+│ └── cases.md (real court cases)
+└── README.md
+
+## License
+
+MIT

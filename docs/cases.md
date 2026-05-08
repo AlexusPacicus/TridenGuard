@@ -1,0 +1,1 @@
+Section 4.2: The Buyer shall transfer $45,000,000 to the escrow account by December 31st. If the Seller's contingent liabilities exceed 15% of adjusted EBITDA, the purchase price multiple shall be reduced to 6.5x. The Seller's CEO Social Security Number is 444-90-1234 for verification purposes only.
