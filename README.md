@@ -71,12 +71,21 @@ graph TD
 [Link to video]
 
 ## Repository Structure
-├── n8n-workflow/
-│ └── triden_guard_v1.json
-├── docs/
-│ └── cases.md (real court cases)
-└── README.md
+
+```mermaid
+graph LR
+    Root[TridenGuard]
+    Root --> Workflows[n8n-workflows]
+    Root --> Docs[docs]
+    Root --> Tests[tests]
+    Root --> Configs[configs]
+    
+    Workflows --> W1[triden_guard_v1.json]
+    Docs --> D1[cases.md]
+    Tests --> T1[test_result.json]
+    Configs --> C1[default_policy.yaml]
+```
 
 ## License
 
-MIT
+MIT License - Copyright (c) 2026 AlexusPacicus
