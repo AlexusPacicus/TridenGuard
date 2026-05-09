@@ -78,6 +78,7 @@ Each client defines their validation schema using Pydantic (custom radicals, bus
 > **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. LoRA personalizes it. No cloud. No data leakage. Just a continuously improving, sovereign AI.
 
 
+
 ## 📊 Project Status (Sprint: May 11-15)
 
 **Current Phase: Construction Kickoff**

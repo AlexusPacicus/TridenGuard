@@ -1,5 +1,5 @@
 {
-    "name": "TridenGuard API Firewall v2 - Hackathon Ready",
+    "name": "TridenGuard API Firewall v3 - Hackathon Secure",
     "nodes": [
         {
             "parameters": {
@@ -10,11 +10,58 @@
             "type": "n8n-nodes-base.webhook",
             "typeVersion": 1,
             "position": [
-                -800,
+                -850,
                 960
             ],
             "id": "webhook-trigger",
             "name": "Frontend Webhook"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "options": {
+                        "caseSensitive": true,
+                        "leftValue": "",
+                        "typeValidation": "strict",
+                        "version": 3
+                    },
+                    "conditions": [
+                        {
+                            "id": "auth-check",
+                            "leftValue": "={{ $json.headers['x-api-key'] }}",
+                            "rightValue": "tridenguard_secret_key_2026",
+                            "operator": {
+                                "type": "string",
+                                "operation": "equals"
+                            }
+                        }
+                    ],
+                    "combinator": "and"
+                }
+            },
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 2.3,
+            "position": [
+                -650,
+                960
+            ],
+            "id": "auth-gate",
+            "name": "Auth Gate"
+        },
+        {
+            "parameters": {
+                "responseCode": 401,
+                "responseBody": "{\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid or missing x-api-key header.\"\n}",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.webhookResponse",
+            "typeVersion": 1,
+            "position": [
+                -450,
+                800
+            ],
+            "id": "unauthorized-response",
+            "name": "Unauthorized Response"
         },
         {
             "parameters": {
@@ -23,7 +70,7 @@
             "type": "n8n-nodes-base.executeCommand",
             "typeVersion": 1,
             "position": [
-                -600,
+                -450,
                 960
             ],
             "id": "lobstertrap-dpi",
@@ -55,7 +102,7 @@
             "type": "n8n-nodes-base.if",
             "typeVersion": 2.3,
             "position": [
-                -400,
+                -250,
                 960
             ],
             "id": "dpi-gate",
@@ -107,7 +154,7 @@
                 "schemaType": "manual",
                 "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"axiom\": {\n      \"type\": \"string\",\n      \"description\": \"Hecho o cláusula fundamental extraída de forma concisa.\"\n    },\n    \"radicals\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"radical\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"Actor\",\n              \"Deontic\",\n              \"Action\",\n              \"Object\",\n              \"Temporal\",\n              \"Spatial\",\n              \"Metric\",\n              \"Condition\"\n            ]\n          },\n          \"value\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"radical\",\n          \"value\"\n        ]\n      },\n      \"minItems\": 2\n    }\n  },\n  \"required\": [\n    \"axiom\",\n    \"radicals\"\n  ]\n}",
                 "options": {
-                    "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic Radicals (Ontology of 8):\n- Actor: Entity performing the action or subject of the rule. WHO.\n- Action: The core activity, verb, or behavior. DOES WHAT.\n- Object: The target or entity affected by the action. TO WHAT/WHOM.\n- Deontic: The nature of the rule (obligation, permission, prohibition). MUST/MAY/MUST NOT.\n- Condition: Prerequisites or triggers for the rule to apply. IF.\n- Temporal: Time constraints, deadlines, periods. WHEN.\n- Spatial: Geographic or location constraints. WHERE.\n- Metric: Measurable values, thresholds, limits, amounts. HOW MUCH.\n\nContainment rules:\n\nMust:\n1. Extract only what is explicitly stated in the text.\n2. Trace each radical value to a specific span in the source text. Prefer verbatim quotes.\n3. Include exactly the radicals present. Minimum 2. Maximum 8.\n4. Use the Deontic radical when the text expresses obligation (must/shall/required), permission (may/optional), or prohibition (must not/shall not/prohibited).\n5. Return empty radicals array if the text contains no actionable legal clause.\n6. Return valid JSON only. No markdown, no commentary.\n\nMust not:\n1. Invent a radical that is not explicitly in the text.\n2. Infer implicit actors, actions, or obligations.\n3. Expand abbreviations, fill gaps, or guess missing information.\n4. Include a radical if unsure. Prefer omission over invention.\n5. Generate text outside the JSON output.\n6. If the text is ambiguous, return fewer radicals, not more.\n\nOutput schema:\n{\n  \"axiom\": \"One sentence summary of the core legal fact.\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"verifiable span from text\"},\n    {\"radical\": \"Action\", \"value\": \"verifiable span from text\"}\n  ]\n}\n\nExample:\nInput: \"The contractor must complete the installation within 30 days at the main site if the permit is active.\"\nOutput:\n{\n  \"axiom\": \"Contractor must complete installation within 30 days at main site under active permit.\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"Contractor\"},\n    {\"radical\": \"Deontic\", \"value\": \"Must (Obligation)\"},\n    {\"radical\": \"Action\", \"value\": \"Complete installation\"},\n    {\"radical\": \"Temporal\", \"value\": \"Within 30 days\"},\n    {\"radical\": \"Spatial\", \"value\": \"Main site\"},\n    {\"radical\": \"Condition\", \"value\": \"Permit is active\"}\n  ]\n}\n\nOnly output the JSON object. No additional text."
+                    "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic Radicals (Ontology of 8):\n- Actor: Entity performing the action or subject of the rule. WHO.\n- Action: The core activity, verb, or behavior. DOES WHAT.\n- Object: The target or entity affected by the action. TO WHAT/WHOM.\n- Deontic: The nature of the rule (obligation, permission, prohibition). MUST/MAY/MUST NOT.\n- Condition: Prerequisites or triggers for the rule to apply. IF.\n- Temporal: Time constraints, deadlines, periods. WHEN.\n- Spatial: Geographic or location constraints. WHERE.\n- Metric: Measurable values, thresholds, limits, amounts. HOW MUCH.\n\nContainment rules:\n\nMust:\n1. Extract only what is explicitly stated in the text.\n2. Trace each radical value to a specific span in the source text. Prefer verbatim quotes.\n3. Include exactly the radicals present. Minimum 2. Maximum 8.\n4. Use the Deontic radical when the text expresses obligation (must/shall/required), permission (may/optional), or prohibition (must not/shall not/prohibited).\n5. Return empty radicals array if the text contains no actionable legal clause.\n6. Return valid JSON only. No markdown, no commentary.\n\nMust not:\n1. Invent a radical that is not explicitly in the text.\n2. Infer implicit actors, actions, or obligations.\n3. Expand abbreviations, fill gaps, or guess missing information.\n4. Include a radical if unsure. Prefer omission over invention.\n5. Generate text outside the JSON output.\n6. If the text is ambiguous, return fewer radicals, not more.\n\nOutput schema:\n{\n  \"axiom\": \"One sentence summary of the core legal fact.\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"verifiable span from text\"},\n    {\"radical\": \"Action\", \"value\": \"verifiable span from text\"}\n  ]\n}\n\nOnly output the JSON object. No additional text."
                 }
             },
             "type": "@n8n/n8n-nodes-langchain.informationExtractor",
@@ -208,7 +255,7 @@
             "type": "n8n-nodes-base.webhookResponse",
             "typeVersion": 1,
             "position": [
-                -200,
+                0,
                 864
             ],
             "id": "security-block-response",
@@ -220,7 +267,25 @@
             "main": [
                 [
                     {
+                        "node": "Auth Gate",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Auth Gate": {
+            "main": [
+                [
+                    {
                         "node": "Lobster Trap DPI",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Unauthorized Response",
                         "type": "main",
                         "index": 0
                     }
