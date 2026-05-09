@@ -1,0 +1,18 @@
+{
+  "original_text": "Lexos Media IP v. Overstock.com involves a lawyer who admitted to no verification of AI output in a show cause order.",
+  "llm_output": {
+    "axiom": "Lawyer admitted to no verification of AI output.",
+    "radicals": [
+      {
+        "radical": "Actor",
+        "value": "Lawyer"
+      },
+      {
+        "radical": "Deontic",
+        "value": "Admitted (Obligation failure)"
+      }
+    ]
+  },
+  "expected_failure": "GUARDIAN_FAIL (Rule B: Deontic without Action)",
+  "notes": "Simulates the Lexos case failing Rule B because it identifies a Deontic status (Admitted/Failure) but doesn't extract the specific Action (Verification) associated with it."
+}

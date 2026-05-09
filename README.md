@@ -47,12 +47,42 @@ graph TD
 - **Ollama (Phi-4-mini)**: Local inference for zero-latency data residency.
 - **Deterministic Validator**: Custom JS engine enforcing semantic completeness rules (Guardian Logic).
 
-## 🗺️ Roadmap & The "Flywheel" Moat
+## 🗺️ Roadmap: From Local Validation to Sovereign Fine-Tuning
 
-- **V1/V2 (Current MVP)**: n8n Orchestration + Lobster Trap (DPI) + Local UI + Deterministic Logic (8-Radicals).
-- **V3 (TridenGemma & Local MLOps)**: The Data Flywheel. We utilize the corrected local quarantine logs (Rejected vs. Chosen outputs securely stored in n8n Data Tables) to fine-tune **Google's Gemma 4 (Apache 2.0)**.
-  - Leveraging our proprietary `gemma-tuner-multimodal` pipeline (custom-patched for PEFT and optimized for Apple Silicon/MPS), we train a hyper-specialized edge model (`TridenGemma`).
-  - **The Result**: A lightweight, on-premise model capable of zero-shot 8-radical extraction with near-zero hallucination rates.
+### ✅ V1 (Current MVP) — Structural Firewall
+**Goal:** A verifiable, zero-trust legal firewall running 100% locally.
+
+- **Finished:** REST API (n8n), Lobster Trap DPI, Ontology (8 Radicals), Semantic Rules (A/B), Data Tables Audit/Quarantine.
+- **Next (before final submission):** 
+    - Dynamic `rejection_reason` tagging for every blocked entry.
+    - Simple frontend panel to review and resolve quarantine cases (Approve/Discard buttons).
+    - End-to-end testing with real court cases (Lacey, Lexos, Russell).
+
+### 🧠 V2 — Grounding & Hybrid Observability
+**Goal:** Eliminate hallucinated content and build the first version of the audit flywheel.
+
+- **Topological Grounding:** Mandatory `source_span` (verbatim quote) for each radical to prove factual existence in the source document.
+- **Rejection Analytics:** Basic structured logging (JSONL) for quarantined cases categorized by `rejection_reason`.
+- **Local UI:** Fully functional panel for human-in-the-loop case resolution.
+
+### 🔁 V3 — The Local Fine-Tuning Flywheel (Moat)
+**Goal:** Use real human feedback (Approve/Discard) from the quarantine log to fine-tune a local, specialized model.
+
+- **Dataset Curation:** Convert quarantine logs (Rejected vs. Chosen) into a preference dataset.
+- **Fine-Tuning (Gemma 4 / Phi-4):** Train a lightweight, on-premise adapter using PEFT (LoRA) on Apple Silicon (MPS) or CPU.
+- **Edge Deployment:** Replace the base LLM with `TridenGemma` — a model with near-zero hallucination rates for your specific contract taxonomy, retrained locally without ever sending a single clause to the cloud.
+
+> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. No cloud. No data leakage. Just a continuously improving, sovereign AI.
+
+
+## 📊 Project Status (Sprint: May 11-15)
+
+**Current Phase: Construction Kickoff**
+
+- **✅ Done**: Webhook REST, Lobster Trap DPI, 8-Radical Validation.
+- **🏗️ Next (Mon 11)**: Core Engine Hardening (UUIDs + Rejection Logic).
+- **🚀 Goal (Fri 15)**: Full MVP with human-in-the-loop resolution panel.
+- **🔗 Roadmap**: See the full [Construction Sprint Plan](docs/weekly_roadmap.md).
 
 ## 🚀 Quick Start
 

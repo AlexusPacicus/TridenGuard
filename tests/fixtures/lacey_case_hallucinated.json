@@ -1,0 +1,14 @@
+{
+  "original_text": "The attorney submitted a brief citing 'State Farm v. Lacey, 452 F.3d 112', which established a new precedent for AI liability.",
+  "llm_output": {
+    "axiom": "State Farm v. Lacey citation.",
+    "radicals": [
+      {
+        "radical": "Object",
+        "value": "State Farm v. Lacey, 452 F.3d 112"
+      }
+    ]
+  },
+  "expected_failure": "EXPLORER_FAIL (Density < 2) & AUDITOR_FAIL (Axiom too short)",
+  "notes": "Simulates the Lacey case where a hallucinated citation is provided with very little context, failing structural integrity."
+}

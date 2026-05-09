@@ -1,0 +1,18 @@
+{
+  "original_text": "In Russell v. Mells, the court found that a completely invented case 'Cade v. Roberts' was used as legal authority.",
+  "llm_output": {
+    "axiom": "The court found that a completely invented case was used as legal authority.",
+    "radicals": [
+      {
+        "radical": "Action",
+        "value": "found that a completely invented case was used"
+      },
+      {
+        "radical": "Condition",
+        "value": "in Russell v. Mells"
+      }
+    ]
+  },
+  "expected_failure": "GUARDIAN_FAIL (Rule A: Action without Actor)",
+  "notes": "Simulates the Russell case failing semantic completeness because the extraction identifies an Action but fails to identify who (the Court) is the Actor."
+}
