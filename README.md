@@ -30,21 +30,21 @@ If the LLM fails semantic completeness (e.g., extracting an Action without an Ac
 
 ```mermaid
 graph TD
-    A[Frontend App] -->|REST POST| B[n8n Webhook]
-    B -->|Zero Hallucination Prompt| C[Ollama / Gemini]
-    C -->|8-Radical Extraction| D[Deterministic Validator v2.1]
-    D -->|Validation Success| E[n8n Data Table: AUDIT]
-    D -->|Validation Fail| F[n8n Data Table: QUARANTINE]
-    E -->|JSON Response| G[Frontend UI]
-    F -->|JSON Response| G
+    A[Frontend UI] -->|REST POST| B[n8n Webhook]
+    B -->|DPI Inspection| C[Lobster Trap Engine]
+    C -->|Secure Prompt| D[Ollama / Phi-4-mini]
+    D -->|8-Radical Extraction| E[Deterministic Validator v2.1]
+    E -->|Validation Success| F[n8n Data Table: AUDIT]
+    E -->|Validation Fail| G[n8n Data Table: QUARANTINE]
+    F -->|JSON Response| A
+    G -->|JSON Response| A
 ```
 
 ## Tech Stack
 
 - **n8n**: Orchestration, state management, and native **Data Tables**.
-- **Lobster Trap**: Deep Prompt Inspection (DPI) and PII filtering.
+- **Lobster Trap (Go)**: Deep Prompt Inspection (DPI) and PII filtering.
 - **Ollama (Phi-4-mini)**: Local inference for zero-latency data residency.
-- **Frontend API**: RESTful integration for modern web applications.
 - **Deterministic Validator**: Custom JS engine enforcing semantic completeness rules (Guardian Logic).
 
 ## 🗺️ Roadmap & The "Flywheel" Moat
@@ -52,14 +52,14 @@ graph TD
 - **V1/V2 (Current MVP)**: n8n Orchestration + Lobster Trap (DPI) + Local UI + Deterministic Logic (8-Radicals).
 - **V3 (TridenGemma & Local MLOps)**: The Data Flywheel. We utilize the corrected local quarantine logs (Rejected vs. Chosen outputs securely stored in n8n Data Tables) to fine-tune **Google's Gemma 4 (Apache 2.0)**.
   - Leveraging our proprietary `gemma-tuner-multimodal` pipeline (custom-patched for PEFT and optimized for Apple Silicon/MPS), we train a hyper-specialized edge model (`TridenGemma`).
-  - **The Result**: A lightweight, on-premise model capable of zero-shot 8-radical extraction with near-zero hallucination rates. The system gets smarter with every quarantined contract, trained entirely locally without exposing a single confidential token to the cloud.
+  - **The Result**: A lightweight, on-premise model capable of zero-shot 8-radical extraction with near-zero hallucination rates.
 
-## Testing Result
+## 🚀 Quick Start
 
-**LegalPwn Test (Prompt Injection + PII Exfiltration):**
-- Input: Contract with SSN (444-90-1234) and system override instruction.
-- **Result: Zero data leakage. Zero hallucination.**
-- **Status: [VALIDATED]**
+1. `docker-compose up -d`
+2. Import `n8n-workflows/triden_guard_v1.json` into your n8n instance.
+3. Ensure Ollama is running with `phi4-mini:3.8b`.
+4. Send a test POST to `http://localhost:5678/webhook/tridenguard`.
 
 ## Repository Structure
 
@@ -67,12 +67,11 @@ graph TD
 graph LR
     Root[TridenGuard]
     Root --> Workflows[n8n-workflows]
-    Root --> Docs[docs]
-    Root --> Tests[tests]
+    Root --> Logic[Deterministic Validator]
+    Root --> Research[I+D / Code Engine]
     
     Workflows --> W1[triden_guard_v1.json]
-    Docs --> D1[cases.md]
-    Tests --> T1[test_result.json]
+    Research --> R1[triden_guard_code_engine_v4.json]
 ```
 
 ## License
