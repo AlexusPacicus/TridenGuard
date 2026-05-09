@@ -68,11 +68,9 @@ graph LR
     Root[TridenGuard]
     Root --> Workflows[n8n-workflows]
     Root --> UI[frontend]
-    Root --> Research[I+D / Code Engine]
     
     Workflows --> W1[triden_guard_v1.json]
     UI --> U1[tridenguard_panel.html]
-    Research --> R1[triden_guard_code_engine_v4.json]
 ```
 
 ## License
