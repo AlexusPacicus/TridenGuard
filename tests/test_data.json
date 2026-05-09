@@ -1,0 +1,52 @@
+{
+    "test_cases": [
+        {
+            "id": "R1_SUJETO_SIN_ACCION",
+            "regla": "R1",
+            "descripcion": "Actor + Deóntico, pero sin Acción",
+            "text": "El contratista debe cumplir con todas las obligaciones estipuladas en el presente acuerdo de prestación de servicios profesionales."
+        },
+        {
+            "id": "R2_ACCION_SIN_SUJETO",
+            "regla": "R2",
+            "descripcion": "Acción presente, sin Actor",
+            "text": "Se debe presentar el informe final de auditoría y los estados financieros consolidados del ejercicio fiscal 2024 antes del 15 de marzo."
+        },
+        {
+            "id": "R3_OBJETO_SIN_REFERENTE",
+            "regla": "R3",
+            "descripcion": "Objeto mencionado, sin Actor ni Acción",
+            "text": "El contrato de arrendamiento y sus anexos, junto con el inventario detallado de bienes muebles ubicados en el inmueble sito en la calle Gran Vía 45 de Madrid."
+        },
+        {
+            "id": "R4_METRICA_HUERFANA",
+            "regla": "R4",
+            "descripcion": "Métrica presente, sin Actor ni Objeto",
+            "text": "El umbral de rentabilidad se fija en el 15% y el período de cálculo comprenderá los últimos doce meses naturales a contar desde la fecha de cierre del ejercicio."
+        },
+        {
+            "id": "R5_CONDICION_SIN_GATILLO",
+            "regla": "R5",
+            "descripcion": "Condición presente, sin Acción asociada",
+            "text": "Siempre que el índice de referencia supere el 3,5% durante dos trimestres consecutivos y la tasa de morosidad exceda el 5% de la cartera total."
+        },
+        {
+            "id": "R6_TEMPORAL_SIN_ANCLAJE",
+            "regla": "R6",
+            "descripcion": "Temporal presente, sin Actor ni Acción",
+            "text": "El plazo de vigencia del presente acuerdo será de cinco años a contar desde el 1 de enero de 2026, con prórrogas automáticas anuales salvo denuncia expresa."
+        },
+        {
+            "id": "R7_ESPACIAL_INERTE",
+            "regla": "R7",
+            "descripcion": "Espacial presente, sin Actor ni Acción",
+            "text": "En el territorio comprendido por la Unión Europea, el Espacio Económico Europeo y Suiza, así como en cualquier otra jurisdicción donde la sociedad matriz posea establecimientos permanentes."
+        },
+        {
+            "id": "R8_DEONTICO_SIN_CONDUCTA",
+            "regla": "R8",
+            "descripcion": "Deóntico presente, sin Acción",
+            "text": "Queda terminantemente prohibido cualquier acto que contravenga las disposiciones establecidas en el presente reglamento de régimen interior de la comunidad de propietarios."
+        }
+    ]
+}

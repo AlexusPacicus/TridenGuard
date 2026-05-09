@@ -54,25 +54,28 @@ graph TD
 
 - **Finished:** REST API (n8n), Lobster Trap DPI, Ontology (8 Radicals), Semantic Rules (A/B), Data Tables Audit/Quarantine.
 - **Next (before final submission):** 
-    - Dynamic `rejection_reason` tagging for every blocked entry.
-    - Simple frontend panel to review and resolve quarantine cases (Approve/Discard buttons).
-    - End-to-end testing with real court cases (Lacey, Lexos, Russell).
+    - ✅ Dynamic `rejection_reason` tagging for every blocked entry.
+    - ✅ Simple frontend panel to review and resolve quarantine cases (Approve/Discard buttons).
+    - End-to-end testing with 8 orthogonal test vectors covering factual, reputational, privacy, and security dimensions across common law, civil law, and Chinese legal systems.
 
 ### 🧠 V2 — Grounding & Hybrid Observability
 **Goal:** Eliminate hallucinated content and build the first version of the audit flywheel.
 
 - **Topological Grounding:** Mandatory `source_span` (verbatim quote) for each radical to prove factual existence in the source document.
-- **Rejection Analytics:** Basic structured logging (JSONL) for quarantined cases categorized by `rejection_reason`.
-- **Local UI:** Fully functional panel for human-in-the-loop case resolution.
+- **Rejection Analytics:** Structured logging (JSONL) with `pipeline_stage`, `rule_id`, and `reason_code` fields for direct analysis.
+- **Local UI:** Panel with approve/discard actions connected to n8n webhooks for real-time quarantine resolution.
 
 ### 🔁 V3 — The Local Fine-Tuning Flywheel (Moat)
 **Goal:** Use real human feedback (Approve/Discard) from the quarantine log to fine-tune a local, specialized model.
 
 - **Dataset Curation:** Convert quarantine logs (Rejected vs. Chosen) into a preference dataset.
 - **Fine-Tuning (Gemma 4 / Phi-4):** Train a lightweight, on-premise adapter using PEFT (LoRA) on Apple Silicon (MPS) or CPU.
+
+Each client defines their validation schema using Pydantic (custom radicals, business rules, compliance checks). The schema is compiled to GBNF to force the model to output only valid structures at the token level. LoRA fine-tuning adapts Gemma 4 E2B to the client's specific terminology and document patterns. Everything runs on local hardware. No data leaves the premises.
+
 - **Edge Deployment:** Replace the base LLM with `TridenGemma` — a model with near-zero hallucination rates for your specific contract taxonomy, retrained locally without ever sending a single clause to the cloud.
 
-> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. No cloud. No data leakage. Just a continuously improving, sovereign AI.
+> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. LoRA personalizes it. No cloud. No data leakage. Just a continuously improving, sovereign AI.
 
 
 ## 📊 Project Status (Sprint: May 11-15)
