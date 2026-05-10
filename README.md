@@ -31,11 +31,13 @@ If the LLM fails semantic completeness (e.g., extracting an Action without an Ac
 ```mermaid
 graph TD
     A[Frontend UI] -->|REST POST| B[n8n Webhook]
-    B -->|DPI Inspection| C[Lobster Trap Engine]
-    C -->|Secure Prompt| D[Ollama / Phi-4-mini]
-    D -->|8-Radical Extraction| E[Deterministic Validator v2.1]
+    B -->|Layer 1: Ingress DPI| C[Lobster Trap Unified Security]
+    C -->|Secure Prompt| D[Ollama / Phi-4-mini + GBNF]
+    D -->|Layer 2: Egress Schema Check| C
+    C -->|Valid JSON| E[Deterministic Validator v2.1]
     E -->|Validation Success| F[n8n Data Table: AUDIT]
-    E -->|Validation Fail| G[n8n Data Table: QUARANTINE]
+    E -->|Validation Fail| C
+    C -->|Layer 3: Decision Tree| G[n8n Data Table: QUARANTINE]
     F -->|JSON Response| A
     G -->|JSON Response| A
 ```
@@ -43,7 +45,7 @@ graph TD
 ## Tech Stack
 
 - **n8n**: Orchestration, state management, and native **Data Tables**.
-- **Lobster Trap (Go)**: Deep Prompt Inspection (DPI) and PII filtering.
+- **Lobster Trap (Go)**: Unified Security Layer handling Ingress (DPI/PII), Egress (GBNF Schema Integrity), and Quarantine routing via Decision Tree.
 - **Ollama (Phi-4-mini)**: Local inference for zero-latency data residency.
 - **Deterministic Validator**: Custom JS engine enforcing semantic completeness rules (Guardian Logic).
 
@@ -69,23 +71,24 @@ graph TD
 **Goal:** Use real human feedback (Approve/Discard) from the quarantine log to fine-tune a local, specialized model.
 
 - **Dataset Curation:** Convert quarantine logs (Rejected vs. Chosen) into a preference dataset.
+- **Logographic Quarantine (TOON):** Convert quarantine logs into a semantic preference dataset using TOON. This format reduces token size by 40-60% vs JSON, treating each failure token as a complete semantic unit ("logogram") for efficient training. Handled seamlessly by the `@tehw0lf/n8n-nodes-toon` n8n node.
 - **Fine-Tuning (Gemma 4 / Phi-4):** Train a lightweight, on-premise adapter using PEFT (LoRA) on Apple Silicon (MPS) or CPU.
 
 Each client defines their validation schema using Pydantic (custom radicals, business rules, compliance checks). The schema is compiled to GBNF to force the model to output only valid structures at the token level. LoRA fine-tuning adapts Gemma 4 E2B to the client's specific terminology and document patterns. Everything runs on local hardware. No data leaves the premises.
 
 - **Edge Deployment:** Replace the base LLM with `TridenGemma` — a model with near-zero hallucination rates for your specific contract taxonomy, retrained locally without ever sending a single clause to the cloud.
 
-> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. LoRA personalizes it. No cloud. No data leakage. Just a continuously improving, sovereign AI.
+> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. TOON compresses the training data. LoRA personalizes the model. No cloud. No data leakage. Just a continuously improving, sovereign AI.
 
 
 
 ## 📊 Project Status (Sprint: May 11-15)
 
-**Current Phase: Construction Kickoff**
+**Current Phase: Stress Testing & Human-in-the-Loop Integration**
 
-- **✅ Done**: Webhook REST, Lobster Trap DPI, 8-Radical Validation.
-- **🏗️ Next (Mon 11)**: Core Engine Hardening (UUIDs + Rejection Logic).
-- **🚀 Goal (Fri 15)**: Full MVP with human-in-the-loop resolution panel.
+- **✅ Done**: Webhook REST, Unified Lobster Trap, 8-Radical Validation, Rejection Logic, and Human-in-the-loop UI Panel.
+- **🏗️ Next (Tue 12 - Wed 13)**: Stress testing with real court cases and refining UI flow.
+- **🚀 Goal (Fri 15)**: Final Polish, Demo Video, and Submission.
 - **🔗 Roadmap**: See the full [Construction Sprint Plan](docs/weekly_roadmap.md).
 
 ## 🚀 Quick Start

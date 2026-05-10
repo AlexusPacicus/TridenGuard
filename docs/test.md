@@ -1,11 +1,11 @@
-🧬 8 Reglas Atómicas de Exclusión
+🧬 8 Atomic Exclusion Rules
 
-#	Regla	Definición
-R1	Sujeto sin Acción	Si hay Actor/Deóntico pero falta la Acción.
-R2	Acción sin Sujeto	Si hay Acción pero falta el Actor.
-R3	Objeto sin Referente	Si hay Objeto pero falta Actor o Acción.
-R4	Métrica Huérfana	Si hay Métrica sin Actor ni Objeto.
-R5	Condición sin Gatillo	Si hay Condición pero falta la Acción.
-R6	Temporal sin Anclaje	Si hay Temporal sin Actor ni Acción.
-R7	Espacial Inerte	Si hay Espacial sin Actor ni Acción.
-R8	Deóntico sin Conducta	Si hay Deóntico pero falta la Acción.
+#	Rule	Definition
+R1	Subject without Action	If Actor/Deontic is present but Action is missing.
+R2	Action without Subject	If Action is present but Actor is missing.
+R3	Object without Referent	If Object is present but Actor or Action is missing.
+R4	Orphan Metric	If Metric is present without Actor or Object.
+R5	Condition without Trigger	If Condition is present but Action is missing.
+R6	Temporal without Anchor	If Temporal is present without Actor or Action.
+R7	Inert Spatial	If Spatial is present without Actor or Action.
+R8	Deontic without Behavior	If Deontic is present but Action is missing.
