@@ -11,14 +11,6 @@ In 2025-2026, courts sanctioned lawyers for filing AI-hallucinated citations:
 
 LLMs cannot distinguish contract text from malicious instructions (LegalPwn) and often "invent" clauses or metrics that don't exist.
 
-## Real Court Cases (2025-2026)
-
-| Case | Sanction | Key Finding |
-|------|----------|-------------|
-| **Lacey v. State Farm** | $31,100 | Lawyer filed 9 incorrect citations, 2 hallucinated |
-| **Lexos Media v. Overstock** | Show cause order | Lawyer admitted no verification of AI output |
-| **Russell v. Mells** | Florida Bar referral | Completely invented case citation |
-
 ## Solution: The 8-Radical Ontology
 
 TridenGuard enforces a strict, neuro-symbolic schema using 8 orthogonal atomic radicals:
@@ -26,20 +18,34 @@ TridenGuard enforces a strict, neuro-symbolic schema using 8 orthogonal atomic r
 
 If the LLM fails semantic completeness (e.g., extracting an Action without an Actor) or fails schema validation, the entry is automatically **QUARANTINED** for human review.
 
+## 🏗️ Pre-Hackathon Status
+
+**This repository contains the project blueprint, documentation, infrastructure configuration, and test data designed before the hackathon start (May 11, 2026).**
+
+All application code —including n8n workflows, the deterministic validator, the quarantine panel, and Lobster Trap integration— will be developed, committed, and iterated upon **during the hackathon week (May 11-19, 2026).**
+
+## 🏆 Hackathon Goal — Veea Award (Track 1)
+
+Building a **Unified Security Layer for AI Agents** using Lobster Trap as the single source of truth for Ingress, Egress, and Quarantine policy enforcement.
+
+**Targeting:**
+- Measurable risk reduction (64-case benchmark)
+- Audit trails a regulator could read (JSONL + TOON)
+- Human-in-the-loop governance dashboard
+- First-match-wins policy enforcement across the entire pipeline
+
 ## Architecture
 
 ```mermaid
 graph TD
-    A[Frontend UI] -->|REST POST| B[n8n Webhook]
-    B -->|Layer 1: Ingress DPI| C[Lobster Trap Unified Security]
+    A[Frontend UI] -->|REST POST| B[n8n Webhook + Auth Gate]
+    B -->|DPI Inspection| C[Lobster Trap Engine]
     C -->|Secure Prompt| D[Ollama / Phi-4-mini + GBNF]
-    D -->|Layer 2: Egress Schema Check| C
-    C -->|Valid JSON| E[Deterministic Validator v2.1]
-    E -->|Validation Success| F[n8n Data Table: AUDIT]
-    E -->|Validation Fail| C
-    C -->|Layer 3: Decision Tree| G[n8n Data Table: QUARANTINE]
+    D -->|8-Radical Extraction| E[Deterministic Validator v3]
+    E -->|Validation Success| F[Audit Table]
+    E -->|Validation Fail| G[Quarantine + Decision Tree]
     F -->|JSON Response| A
-    G -->|JSON Response| A
+    G -->|Human Review| A
 ```
 
 ## Tech Stack
@@ -47,68 +53,49 @@ graph TD
 - **n8n**: Orchestration, state management, and native **Data Tables**.
 - **Lobster Trap (Go)**: Unified Security Layer handling Ingress (DPI/PII), Egress (GBNF Schema Integrity), and Quarantine routing via Decision Tree.
 - **Ollama (Phi-4-mini)**: Local inference for zero-latency data residency.
-- **Deterministic Validator**: Custom JS engine enforcing semantic completeness rules (Guardian Logic).
+- **Deterministic Validator**: Custom JS engine enforcing semantic completeness rules (8 Atomic Rules).
 
 ## 🗺️ Roadmap: From Local Validation to Sovereign Fine-Tuning
 
-### ✅ V1 (Current MVP) — Structural Firewall
+### ✅ V1 (Hackathon MVP) — Structural Firewall
 **Goal:** A verifiable, zero-trust legal firewall running 100% locally.
 
-- **Finished:** REST API (n8n), Lobster Trap DPI, Ontology (8 Radicals), Semantic Rules (A/B), Data Tables Audit/Quarantine.
-- **Next (before final submission):** 
-    - ✅ Dynamic `rejection_reason` tagging for every blocked entry.
-    - ✅ Simple frontend panel to review and resolve quarantine cases (Approve/Discard buttons).
-    - End-to-end testing with 8 orthogonal test vectors covering factual, reputational, privacy, and security dimensions across common law, civil law, and Chinese legal systems.
+**To build this week:**
+- REST API (n8n) with Auth Gate
+- Lobster Trap DPI integration (Ingress + Egress)
+- Information Extractor with 8-Radical Ontology
+- Deterministic Validator (R1-R8 rules)
+- Data Tables (Audit + Quarantine)
+- Human-in-the-loop review panel
+- 64-case benchmark execution
 
 ### 🧠 V2 — Grounding & Hybrid Observability
-**Goal:** Eliminate hallucinated content and build the first version of the audit flywheel.
-
-- **Topological Grounding:** Mandatory `source_span` (verbatim quote) for each radical to prove factual existence in the source document.
-- **Rejection Analytics:** Structured logging (JSONL) with `pipeline_stage`, `rule_id`, and `reason_code` fields for direct analysis.
-- **Local UI:** Panel with approve/discard actions connected to n8n webhooks for real-time quarantine resolution.
+**Goal:** Eliminate hallucinated content and build the audit flywheel.
+- **Topological Grounding**: Mandatory `source_span` for each radical
+- **Rejection Analytics**: Structured logging (JSONL) with `pipeline_stage`, `rule_id`, `reason_code`
+- **Quarantine Decision Tree**: CRITICAL, WARNING, PII_LATE, UNKNOWN routing
 
 ### 🔁 V3 — The Local Fine-Tuning Flywheel (Moat)
-**Goal:** Use real human feedback (Approve/Discard) from the quarantine log to fine-tune a local, specialized model.
+**Goal:** Use real human feedback from the quarantine log to fine-tune a local, specialized model.
+- **Logographic Quarantine (TOON)**: Convert quarantine logs into a semantic preference dataset using TOON. Reduces token size by 40-60% vs JSON.
+- **Fine-Tuning (Gemma 4 E2B)**: Train a lightweight, on-premise adapter using PEFT (LoRA) on Apple Silicon.
+- **Pydantic + GBNF**: Each client defines their validation schema. Schema is compiled to GBNF to force valid token-level output.
 
-- **Dataset Curation:** Convert quarantine logs (Rejected vs. Chosen) into a preference dataset.
-- **Logographic Quarantine (TOON):** Convert quarantine logs into a semantic preference dataset using TOON. This format reduces token size by 40-60% vs JSON, treating each failure token as a complete semantic unit ("logogram") for efficient training. Handled seamlessly by the `@tehw0lf/n8n-nodes-toon` n8n node.
-- **Fine-Tuning (Gemma 4 / Phi-4):** Train a lightweight, on-premise adapter using PEFT (LoRA) on Apple Silicon (MPS) or CPU.
+> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. TOON compresses the training data. LoRA personalizes the model. No cloud. No data leakage.
 
-Each client defines their validation schema using Pydantic (custom radicals, business rules, compliance checks). The schema is compiled to GBNF to force the model to output only valid structures at the token level. LoRA fine-tuning adapts Gemma 4 E2B to the client's specific terminology and document patterns. Everything runs on local hardware. No data leaves the premises.
+## 📊 Project Status (Sprint: May 11-19)
 
-- **Edge Deployment:** Replace the base LLM with `TridenGemma` — a model with near-zero hallucination rates for your specific contract taxonomy, retrained locally without ever sending a single clause to the cloud.
+**Current Phase: Hackathon Construction**
 
-> **The Moat:** Every human decision (Approve/Discard) makes the local model smarter. Pydantic defines the contract. GBNF enforces it. TOON compresses the training data. LoRA personalizes the model. No cloud. No data leakage. Just a continuously improving, sovereign AI.
+- **✅ Pre-Hackathon**: Architecture design, 8-rule ontology, 64-case benchmark design, infrastructure setup (Docker, Ollama, n8n), documentation.
+- **🏗️ Hackathon (May 11-19)**: Workflow assembly, validator implementation, panel development, Lobster Trap integration, stress testing, demo recording, submission.
 
-
-
-## 📊 Project Status (Sprint: May 11-15)
-
-**Current Phase: Stress Testing & Human-in-the-Loop Integration**
-
-- **✅ Done**: Webhook REST, Unified Lobster Trap, 8-Radical Validation, Rejection Logic, and Human-in-the-loop UI Panel.
-- **🏗️ Next (Tue 12 - Wed 13)**: Stress testing with real court cases and refining UI flow.
-- **🚀 Goal (Fri 15)**: Final Polish, Demo Video, and Submission.
-- **🔗 Roadmap**: See the full [Construction Sprint Plan](docs/weekly_roadmap.md).
-
-## 🚀 Quick Start
+## 🚀 Quick Start (Post-Hackathon)
 
 1. `docker-compose up -d`
-2. Import `n8n-workflows/triden_guard_v1.json` into your n8n instance.
+2. Import the workflow into your n8n instance.
 3. Ensure Ollama is running with `phi4-mini:3.8b`.
 4. Send a test POST to `http://localhost:5678/webhook/tridenguard`.
-
-## Repository Structure
-
-```mermaid
-graph LR
-    Root[TridenGuard]
-    Root --> Workflows[n8n-workflows]
-    Root --> UI[frontend]
-    
-    Workflows --> W1[triden_guard_v1.json]
-    UI --> U1[tridenguard_panel.html]
-```
 
 ## License
 
