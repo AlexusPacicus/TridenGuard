@@ -1,0 +1,41 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n_tridenguard
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5678:5678"
+    environment:
+      - N8N_HOST=${N8N_HOST:-localhost}
+      - N8N_PORT=${N8N_PORT:-5678}
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-http}
+      - WEBHOOK_URL=${WEBHOOK_URL:-http://localhost:5678/}
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD:-admin}
+    volumes:
+      - ~/.n8n_tridenguard:/home/node/.n8n
+      - .:/data/tridenguard:ro
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 1G
+    networks:
+      - tridenguard_net
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama_tridenguard
+    restart: unless-stopped
+    volumes:
+      - ~/.ollama:/root/.ollama
+    # Expose only to n8n container, not host (unless needed for local testing)
+    networks:
+      - tridenguard_net
+
+networks:
+  tridenguard_net:
+    driver: bridge
