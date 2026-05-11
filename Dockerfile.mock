@@ -1,0 +1,6 @@
+FROM golang:1.21-alpine
+WORKDIR /app
+COPY lobstertrap_service/main.go .
+RUN go build -o lobstertrap main.go
+EXPOSE 8082
+CMD ["./lobstertrap", "serve", "--port", "8082"]
