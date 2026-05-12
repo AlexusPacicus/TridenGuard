@@ -10,3 +10,12 @@
       match_type: threshold
       value: 2
       operator: lt
+
+- name: radical_source_integrity_check
+  description: "Verifies that every radical value exists literally in the source text"
+  priority: 80
+  action: QUARANTINE
+  conditions:
+    - field: source_integrity
+      match_type: boolean
+      value: false

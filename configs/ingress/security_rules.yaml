@@ -53,3 +53,13 @@
     - field: risk_score
       match_type: threshold
       value: 0.3
+
+- name: source_truth_anchor
+  description: "Registers the original text as the immutable source of truth for all downstream validation"
+  priority: 100
+  action: LOG
+  conditions:
+    - field: source_text_length
+      match_type: threshold
+      value: 10
+      operator: gt
