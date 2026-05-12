@@ -538,6 +538,398 @@
       ],
       "id": "2e5990de-4840-4d53-8489-701314f04ce5",
       "name": "Source Truth Anchor"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "discard",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        1520,
+        1040
+      ],
+      "id": "86c4eed7-e172-4019-a02c-9b05ef69a7b9",
+      "name": "Webhook",
+      "webhookId": "d6f6e66d-db49-493c-879f-077d37de0de0"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "i465juhY0rXHhLja",
+          "mode": "list",
+          "cachedResultName": "quarantine-log",
+          "cachedResultUrl": "/projects/CfdxAVwXqndjJVk6/datatables/i465juhY0rXHhLja"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "case_id",
+              "keyValue": "={{ $json.body.caseId }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "and_gate_ok": false,
+            "source_integrity": false,
+            "status": "DISCARDED",
+            "radicals_extracted": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "case_id",
+              "displayName": "case_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "rejection_reason",
+              "displayName": "rejection_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "and_gate_ok",
+              "displayName": "and_gate_ok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_extracted",
+              "displayName": "radicals_extracted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "axiom",
+              "displayName": "axiom",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_json",
+              "displayName": "radicals_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "original_text",
+              "displayName": "original_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "trident_status",
+              "displayName": "trident_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_integrity",
+              "displayName": "source_integrity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ungrounded_radicals",
+              "displayName": "ungrounded_radicals",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1728,
+        1040
+      ],
+      "id": "c4989551-1630-49ec-a775-929e8e6f11bc",
+      "name": "Update row(s)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true, \"action\": \"discarded\", \"case_id\": \"{{ $json.body.caseId }}\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1936,
+        1040
+      ],
+      "id": "224609e9-5633-4efc-91ef-456dc4d6c78f",
+      "name": "Respond to Webhook3"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "approve",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        512,
+        1056
+      ],
+      "id": "e04b0ba4-6bad-4d4c-815a-4f15f3bd97eb",
+      "name": "Webhook1",
+      "webhookId": "2e08e52b-92e9-4463-8ee3-492c675d184c"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"ok\": true, \"action\": \"approved\", \"case_id\": \"{{ $json.body.caseId }}\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        928,
+        1056
+      ],
+      "id": "a64184d0-2dd8-4aff-b645-d3fcf4e16427",
+      "name": "Respond to Webhook4"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "i465juhY0rXHhLja",
+          "mode": "list",
+          "cachedResultName": "quarantine-log",
+          "cachedResultUrl": "/projects/CfdxAVwXqndjJVk6/datatables/i465juhY0rXHhLja"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "case_id",
+              "keyValue": "={{ $json.body.caseId }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "and_gate_ok": false,
+            "source_integrity": false,
+            "status": "APPROVED",
+            "radicals_extracted": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "case_id",
+              "displayName": "case_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "rejection_reason",
+              "displayName": "rejection_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "and_gate_ok",
+              "displayName": "and_gate_ok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_extracted",
+              "displayName": "radicals_extracted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "axiom",
+              "displayName": "axiom",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_json",
+              "displayName": "radicals_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "original_text",
+              "displayName": "original_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "trident_status",
+              "displayName": "trident_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_integrity",
+              "displayName": "source_integrity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ungrounded_radicals",
+              "displayName": "ungrounded_radicals",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        720,
+        1056
+      ],
+      "id": "a2cd2c62-9c7e-4587-b15e-00f2207e9df1",
+      "name": "Update row(s)1"
     }
   ],
   "pinData": {},
@@ -726,6 +1118,50 @@
           }
         ]
       ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Update row(s)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row(s)1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -733,7 +1169,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "e7769f66-3405-4593-87c6-8e45ffc84213",
+  "versionId": "e78c793e-dd72-47ec-80e8-9d11d98e6524",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c84f0dc3c134e37287388b7476ed42fc67a4794810e116768684b1ca156541bb"
