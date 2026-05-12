@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -75,14 +76,38 @@ func handleInspectCLI() {
 }
 
 func analyze(text string) (string, float64, string) {
-	isUnsafe := strings.Contains(strings.ToLower(text), "ignore previous instructions") ||
-		strings.Contains(strings.ToLower(text), "system override") ||
-		strings.Contains(strings.ToLower(text), "ignore all previous")
-
-	if isUnsafe {
-		return "BLOCK", 0.95, "Potential Prompt Injection detected (Mock Logic)"
-	}
-	return "ALLOW", 0.15, ""
+    lower := strings.ToLower(text)
+    
+    // Prompt injection
+    if strings.Contains(lower, "ignore previous instructions") ||
+       strings.Contains(lower, "system override") ||
+       strings.Contains(lower, "ignore all previous") {
+        return "BLOCK", 0.95, "Potential Prompt Injection detected"
+    }
+    
+    // PII Detection
+    ssnPattern := regexp.MustCompile(`\b\d{3}-\d{2}-\d{4}\b`)
+    emailPattern := regexp.MustCompile(`\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b`)
+    phonePattern := regexp.MustCompile(`\b\d{3}[-.]?\d{3}[-.]?\d{4}\b`)
+    dobPattern := regexp.MustCompile(`\bDOB\b.*\d{2}/\d{2}/\d{4}`)
+    
+    if ssnPattern.MatchString(text) || dobPattern.MatchString(lower) {
+        return "BLOCK", 0.90, "PII detected (SSN, DOB)"
+    }
+    if emailPattern.MatchString(text) {
+        return "BLOCK", 0.85, "PII detected (email)"
+    }
+    if phonePattern.MatchString(text) {
+        return "BLOCK", 0.80, "PII detected (phone)"
+    }
+    
+    // Data exfiltration
+    if strings.Contains(lower, "https://") && 
+       (strings.Contains(lower, "external") || strings.Contains(lower, "exfiltrat")) {
+        return "BLOCK", 0.95, "Data exfiltration attempt detected"
+    }
+    
+    return "ALLOW", 0.15, ""
 }
 
 func handleServe() {
