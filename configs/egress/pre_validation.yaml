@@ -19,3 +19,12 @@
     - field: source_integrity
       match_type: boolean
       value: false
+
+- name: semantic_validation_engine
+  description: "Clasifica la severidad del error semántico y decide la acción"
+  priority: 80
+  action: HUMAN_REVIEW
+  conditions:
+    - field: has_critical
+      match_type: boolean
+      value: true
