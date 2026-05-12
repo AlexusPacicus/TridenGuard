@@ -1,0 +1,55 @@
+# Security Ingress Rules — Prompt Injection, Malware, Data Exfiltration
+# These rules protect the LLM from malicious input before processing.
+
+- name: block_prompt_injection
+  description: "Detected prompt injection attempt"
+  priority: 100
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Blocked: prompt injection detected."
+  conditions:
+    - field: contains_injection_patterns
+      match_type: boolean
+      value: true
+
+- name: block_malware_request
+  description: "Prompt requests creation of malware, exploits, or offensive tools"
+  priority: 96
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Blocked: malware/exploit generation request detected."
+  conditions:
+    - field: contains_malware_request
+      match_type: boolean
+      value: true
+
+- name: block_data_exfiltration
+  description: "Prompt contains data exfiltration patterns"
+  priority: 92
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Blocked: data exfiltration attempt detected."
+  conditions:
+    - field: contains_exfiltration
+      match_type: boolean
+      value: true
+
+- name: block_obfuscation_evasion
+  description: "Prompt uses encoding or obfuscation to evade detection"
+  priority: 90
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Blocked: obfuscation/evasion technique detected."
+  conditions:
+    - field: contains_obfuscation
+      match_type: boolean
+      value: true
+
+- name: block_dangerous_commands
+  description: "Dangerous system commands detected"
+  priority: 80
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Blocked: dangerous command detected."
+  conditions:
+    - field: contains_system_commands
+      match_type: boolean
+      value: true
+    - field: risk_score
+      match_type: threshold
+      value: 0.3

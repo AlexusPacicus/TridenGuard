@@ -1,0 +1,21 @@
+# Quarantine Unknown Rules — New & Anomalous Patterns
+# Patterns not covered by existing rules.
+# These go to the incubator for V3 fine-tuning.
+
+- name: quarantine_pii_late
+  description: "PII detected during validation phase — auto-block"
+  priority: 95
+  action: DENY
+  conditions:
+    - field: contains_pii
+      match_type: boolean
+      value: true
+
+- name: quarantine_unknown_pattern
+  description: "New pattern not covered by existing rules — incubator candidate"
+  priority: 50
+  action: QUARANTINE
+  conditions:
+    - field: rejection_reason
+      match_type: exact
+      value: "NONE"

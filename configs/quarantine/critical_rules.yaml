@@ -1,0 +1,12 @@
+# Quarantine Critical Rules — Structural Failures (R1-R3)
+# Severe structural failures: missing Actor, Action, or Referent.
+# These require priority human review (Red flag in dashboard).
+
+- name: quarantine_critical
+  description: "Severe structural failure — priority human review"
+  priority: 100
+  action: HUMAN_REVIEW
+  conditions:
+    - field: rejection_reason
+      match_type: regex
+      value: "R[1-3]_"

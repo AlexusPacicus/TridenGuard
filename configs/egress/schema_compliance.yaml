@@ -1,0 +1,31 @@
+# Schema Compliance Egress Rules — Credential & PII Leak Prevention, Schema Structure
+# These rules validate the LLM output before it enters the validation pipeline.
+
+- name: block_credential_leak
+  description: "Model output contains credentials"
+  priority: 100
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Output blocked: contains credentials."
+  conditions:
+    - field: contains_credentials
+      match_type: boolean
+      value: true
+
+- name: block_pii_leak
+  description: "Model output contains PII"
+  priority: 90
+  action: DENY
+  deny_message: "[LOBSTER TRAP] Output blocked: contains PII."
+  conditions:
+    - field: contains_pii
+      match_type: boolean
+      value: true
+
+- name: schema_structure_check
+  description: "Flags output that fails GBNF schema compliance"
+  priority: 80
+  action: HUMAN_REVIEW
+  conditions:
+    - field: schema_valid
+      match_type: boolean
+      value: false

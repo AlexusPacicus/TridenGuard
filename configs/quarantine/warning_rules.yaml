@@ -1,0 +1,12 @@
+# Quarantine Warning Rules — Contextual Failures (R5-R7)
+# Contextual failures: Condition, Temporal, or Spatial without anchor.
+# These require deferred review (Yellow flag in dashboard).
+
+- name: quarantine_warning
+  description: "Contextual failure — deferred review"
+  priority: 80
+  action: LOG
+  conditions:
+    - field: rejection_reason
+      match_type: regex
+      value: "R[5-7]_"

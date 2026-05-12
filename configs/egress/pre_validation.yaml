@@ -1,0 +1,12 @@
+# Pre-Validation Egress Rules — Semantic Density & Source Integrity
+# These rules ensure input has enough information before LLM extraction.
+
+- name: pre_validation_density_check
+  description: "Rejects input with insufficient semantic density before LLM extraction"
+  priority: 75
+  action: QUARANTINE
+  conditions:
+    - field: info_score
+      match_type: threshold
+      value: 2
+      operator: lt
