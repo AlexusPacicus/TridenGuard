@@ -1,405 +1,743 @@
 {
-    "name": "TridenGuard API Firewall v3 - Hackathon Secure",
-    "nodes": [
-        {
-            "parameters": {
-                "httpMethod": "POST",
-                "path": "tridenguard",
-                "options": {}
-            },
-            "type": "n8n-nodes-base.webhook",
-            "typeVersion": 1,
-            "position": [
-                -850,
-                960
-            ],
-            "id": "webhook-trigger",
-            "name": "Frontend Webhook"
-        },
-        {
-            "parameters": {
-                "conditions": {
-                    "options": {
-                        "caseSensitive": true,
-                        "leftValue": "",
-                        "typeValidation": "strict",
-                        "version": 3
-                    },
-                    "conditions": [
-                        {
-                            "id": "auth-check",
-                            "leftValue": "={{ $json.headers['x-api-key'] }}",
-                            "rightValue": "tridenguard_secret_key_2026",
-                            "operator": {
-                                "type": "string",
-                                "operation": "equals"
-                            }
-                        }
-                    ],
-                    "combinator": "and"
-                }
-            },
-            "type": "n8n-nodes-base.if",
-            "typeVersion": 2.3,
-            "position": [
-                -650,
-                960
-            ],
-            "id": "auth-gate",
-            "name": "Auth Gate"
-        },
-        {
-            "parameters": {
-                "responseCode": 401,
-                "responseBody": "{\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid or missing x-api-key header.\"\n}",
-                "options": {}
-            },
-            "type": "n8n-nodes-base.webhookResponse",
-            "typeVersion": 1,
-            "position": [
-                -450,
-                800
-            ],
-            "id": "unauthorized-response",
-            "name": "Unauthorized Response"
-        },
-        {
-            "parameters": {
-                "command": "=/data/tridenguard/lobstertrap inspect \"{{ $json.body.text }}\" --policy /data/tridenguard/configs/default_policy.yaml"
-            },
-            "type": "n8n-nodes-base.executeCommand",
-            "typeVersion": 1,
-            "position": [
-                -450,
-                960
-            ],
-            "id": "lobstertrap-dpi",
-            "name": "Lobster Trap DPI"
-        },
-        {
-            "parameters": {
-                "conditions": {
-                    "options": {
-                        "caseSensitive": true,
-                        "leftValue": "",
-                        "typeValidation": "strict",
-                        "version": 3
-                    },
-                    "conditions": [
-                        {
-                            "id": "dpi-check",
-                            "leftValue": "={{ $json.stdout }}",
-                            "rightValue": "Action:  ALLOW",
-                            "operator": {
-                                "type": "string",
-                                "operation": "contains"
-                            }
-                        }
-                    ],
-                    "combinator": "and"
-                }
-            },
-            "type": "n8n-nodes-base.if",
-            "typeVersion": 2.3,
-            "position": [
-                -250,
-                960
-            ],
-            "id": "dpi-gate",
-            "name": "DPI Gate"
-        },
-        {
-            "parameters": {
-                "model": "phi4-mini:3.8b",
-                "options": {
-                    "temperature": 0,
-                    "format": "json"
-                }
-            },
-            "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
-            "typeVersion": 1,
-            "position": [
-                -224,
-                1152
-            ],
-            "id": "6cb1f6d2-908e-4b46-92e7-6d8cfc854c3a",
-            "name": "Ollama Chat Model1",
-            "retryOnFail": true,
-            "maxTries": 2,
-            "waitBetweenTries": 1200,
-            "credentials": {
-                "ollamaApi": {
-                    "id": "CDF9D2ya1PYD1WLN",
-                    "name": "Ollama account"
-                }
-            },
-            "onError": "continueErrorOutput"
-        },
-        {
-            "parameters": {
-                "jsCode": "/**\n * TRIDENGUARD: Deterministic Validator v3.2\n * Role: Senior AI Engineer / Neuro-symbolic Logic\n * Objetivo: Implementación de las 8 Reglas Atómicas de Exclusión (R1-R8).\n */\n\nfor (const item of $input.all()) {\n  const output = item.json.output || {};\n  const radicals = Array.isArray(output.radicals) ? output.radicals : [];\n  const types = new Set(radicals.map(r => r.radical));\n  const original_text = $(\"Frontend Webhook\").item.json.body?.text || \"\";\n\n  let errors = [];\n\n  // R1: Sujeto sin Acción (Actor/Deontic presente, pero falta Acción)\n  if ((types.has('Actor') || types.has('Deontic')) && !types.has('Action')) {\n      errors.push('R1_SUJETO_SIN_ACCION');\n  }\n\n  // R2: Acción sin Sujeto\n  if (types.has('Action') && !types.has('Actor')) {\n      errors.push('R2_ACCION_SIN_SUJETO');\n  }\n\n  // R3: Objeto sin Referente (Objeto sin Actor ni Acción)\n  if (types.has('Object') && !types.has('Actor') && !types.has('Action')) {\n      errors.push('R3_OBJETO_SIN_REFERENTE');\n  }\n\n  // R4: Métrica Huérfana (Métrica sin Actor ni Objeto)\n  if (types.has('Metric') && !types.has('Actor') && !types.has('Object')) {\n      errors.push('R4_METRICA_HUERFANA');\n  }\n\n  // R5: Condición sin Gatillo (Condición sin Acción)\n  if (types.has('Condition') && !types.has('Action')) {\n      errors.push('R5_CONDICION_SIN_GATILLO');\n  }\n\n  // R6: Temporal sin Anclaje (Temporal sin Actor ni Acción)\n  if (types.has('Temporal') && !types.has('Actor') && !types.has('Action')) {\n      errors.push('R6_TEMPORAL_SIN_ANCLAJE');\n  }\n\n  // R7: Espacial Inerte (Espacial sin Actor ni Acción)\n  if (types.has('Spatial') && !types.has('Actor') && !types.has('Action')) {\n      errors.push('R7_ESPACIAL_INERTE');\n  }\n\n  // R8: Deóntico sin Conducta (Deóntico sin Acción)\n  if (types.has('Deontic') && !types.has('Action')) {\n      errors.push('R8_DEONTICO_SIN_CONDUCTA');\n  }\n\n  // Validación Global\n  const is_valid = errors.length === 0 && radicals.length >= 2 && output.axiom?.length > 5;\n  \n  item.json = {\n    case_id: crypto.randomUUID(),\n    timestamp: new Date().toISOString(),\n    status: is_valid ? 'VALIDATED' : 'QUARANTINED',\n    rejection_reason: errors.length > 0 ? errors.join(', ') : (radicals.length < 2 ? 'INSUFFICIENT_DENSITY' : 'NONE'),\n    and_gate_ok: is_valid,\n    trident_status: `${output.axiom?.length > 5 ? '✓' : '✗'}${radicals.length >= 2 ? '✓' : '✗'}${errors.length === 0 ? '✓' : '✗'}`,\n    radicals_extracted: radicals.length,\n    axiom: output.axiom,\n    radicals_json: JSON.stringify(radicals),\n    original_text\n  };\n}\n\nreturn $input.all();"
-            },
-            "type": "n8n-nodes-base.code",
-            "typeVersion": 2,
-            "position": [
-                208,
-                1152
-            ],
-            "id": "89731977-c2da-45c1-949e-348ebe91bca1",
-            "name": "Deterministic Validator"
-        },
-        {
-            "parameters": {
-                "text": "={{ $(\"Frontend Webhook\").item.json.body.text }}",
-                "schemaType": "manual",
-                "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"axiom\": {\n      \"type\": \"string\",\n      \"description\": \"Hecho o cláusula fundamental extraída de forma concisa.\"\n    },\n    \"radicals\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"radical\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"Actor\",\n              \"Deontic\",\n              \"Action\",\n              \"Object\",\n              \"Temporal\",\n              \"Spatial\",\n              \"Metric\",\n              \"Condition\"\n            ]\n          },\n          \"value\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\n          \"radical\",\n          \"value\"\n        ]\n      },\n      \"minItems\": 2\n    }\n  },\n  \"required\": [\n    \"axiom\",\n    \"radicals\"\n  ]\n}",
-                "options": {
-                    "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic Radicals (Ontology of 8):\n- Actor: Entity performing the action or subject of the rule. WHO.\n- Action: The core activity, verb, or behavior. DOES WHAT.\n- Object: The target or entity affected by the action. TO WHAT/WHOM.\n- Deontic: The nature of the rule (obligation, permission, prohibition). MUST/MAY/MUST NOT.\n- Condition: Prerequisites or triggers for the rule to apply. IF.\n- Temporal: Time constraints, deadlines, periods. WHEN.\n- Spatial: Geographic or location constraints. WHERE.\n- Metric: Measurable values, thresholds, limits, amounts. HOW MUCH.\n\nContainment rules:\n\nMust:\n1. Extract only what is explicitly stated in the text.\n2. Trace each radical value to a specific span in the source text. Prefer verbatim quotes.\n3. Include exactly the radicals present. Minimum 2. Maximum 8.\n4. Use the Deontic radical when the text expresses obligation (must/shall/required), permission (may/optional), or prohibition (must not/shall not/prohibited).\n5. Return empty radicals array if the text contains no actionable legal clause.\n6. Return valid JSON only. No markdown, no commentary.\n\nMust not:\n1. Invent a radical that is not explicitly in the text.\n2. Infer implicit actors, actions, or obligations.\n3. Expand abbreviations, fill gaps, or guess missing information.\n4. Include a radical if unsure. Prefer omission over invention.\n5. Generate text outside the JSON output.\n6. If the text is ambiguous, return fewer radicals, not more.\n\nOutput schema:\n{\n  \"axiom\": \"One sentence summary of the core legal fact.\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"verifiable span from text\"},\n    {\"radical\": \"Action\", \"value\": \"verifiable span from text\"}\n  ]\n}\n\nOnly output the JSON object. No additional text."
-                }
-            },
-            "type": "@n8n/n8n-nodes-langchain.informationExtractor",
-            "typeVersion": 1.2,
-            "position": [
-                -16,
-                1152
-            ],
-            "id": "03dfbeeb-9891-4f44-9720-fccf9f73b02a",
-            "name": "Information Extractor1",
-            "onError": "continueErrorOutput"
-        },
-        {
-            "parameters": {
-                "conditions": {
-                    "options": {
-                        "caseSensitive": true,
-                        "leftValue": "",
-                        "typeValidation": "strict",
-                        "version": 3
-                    },
-                    "conditions": [
-                        {
-                            "id": "020f2350-6e95-461b-9eff-24e7caad8ebe",
-                            "leftValue": "={{ $json.status }}",
-                            "rightValue": "VALIDATED",
-                            "operator": {
-                                "type": "string",
-                                "operation": "equals"
-                            }
-                        }
-                    ],
-                    "combinator": "and"
-                }
-            },
-            "type": "n8n-nodes-base.if",
-            "typeVersion": 2.3,
-            "position": [
-                416,
-                1152
-            ],
-            "id": "31115f68-9310-4473-acca-468ac5fb86b9",
-            "name": "Is Validated?"
-        },
-        {
-            "parameters": {
-                "operation": "append",
-                "dataTable": "TABLE_ID_AUDIT",
-                "columns": {
-                    "mappingMode": "autoMapInputData"
-                }
-            },
-            "type": "n8n-nodes-base.n8nDataTable",
-            "typeVersion": 1,
-            "position": [
-                640,
-                1056
-            ],
-            "id": "audit-table-node",
-            "name": "Save to Audit Table"
-        },
-        {
-            "parameters": {
-                "operation": "append",
-                "dataTable": "TABLE_ID_QUARANTINE",
-                "columns": {
-                    "mappingMode": "autoMapInputData"
-                }
-            },
-            "type": "n8n-nodes-base.n8nDataTable",
-            "typeVersion": 1,
-            "position": [
-                640,
-                1248
-            ],
-            "id": "quarantine-table-node",
-            "name": "Save to Quarantine Table"
-        },
-        {
-            "parameters": {
-                "options": {}
-            },
-            "type": "n8n-nodes-base.webhookResponse",
-            "typeVersion": 1,
-            "position": [
-                864,
-                1152
-            ],
-            "id": "api-response-node",
-            "name": "API Response"
-        },
-        {
-            "parameters": {
-                "responseCode": 403,
-                "responseBody": "={\n  \"error\": \"Security Violation\",\n  \"message\": \"Lobster Trap DPI rejected the input prompt due to potential risk or policy violation.\",\n  \"details\": {{ JSON.stringify($json.stdout) }}\n}",
-                "options": {}
-            },
-            "type": "n8n-nodes-base.webhookResponse",
-            "typeVersion": 1,
-            "position": [
-                0,
-                864
-            ],
-            "id": "security-block-response",
-            "name": "Security Block Response"
-        }
-    ],
-    "connections": {
-        "Frontend Webhook": {
-            "main": [
-                [
-                    {
-                        "node": "Auth Gate",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Auth Gate": {
-            "main": [
-                [
-                    {
-                        "node": "Lobster Trap DPI",
-                        "type": "main",
-                        "index": 0
-                    }
-                ],
-                [
-                    {
-                        "node": "Unauthorized Response",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Lobster Trap DPI": {
-            "main": [
-                [
-                    {
-                        "node": "DPI Gate",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "DPI Gate": {
-            "main": [
-                [
-                    {
-                        "node": "Information Extractor1",
-                        "type": "main",
-                        "index": 0
-                    }
-                ],
-                [
-                    {
-                        "node": "Security Block Response",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Ollama Chat Model1": {
-            "ai_languageModel": [
-                [
-                    {
-                        "node": "Information Extractor1",
-                        "type": "ai_languageModel",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Information Extractor1": {
-            "main": [
-                [
-                    {
-                        "node": "Deterministic Validator",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Deterministic Validator": {
-            "main": [
-                [
-                    {
-                        "node": "Is Validated?",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Is Validated?": {
-            "main": [
-                [
-                    {
-                        "node": "Save to Audit Table",
-                        "type": "main",
-                        "index": 0
-                    }
-                ],
-                [
-                    {
-                        "node": "Save to Quarantine Table",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Save to Audit Table": {
-            "main": [
-                [
-                    {
-                        "node": "API Response",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        },
-        "Save to Quarantine Table": {
-            "main": [
-                [
-                    {
-                        "node": "API Response",
-                        "type": "main",
-                        "index": 0
-                    }
-                ]
-            ]
-        }
+  "name": "TridenGuard_v1",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tridenguard",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        160,
+        384
+      ],
+      "id": "e951c2b8-ebb2-4b76-9df4-37559d538099",
+      "name": "Frontend Webhook",
+      "webhookId": "1111b6fb-1a9f-436b-8e58-7c1220cccbd1"
     },
-    "active": false,
-    "settings": {
-        "executionOrder": "v1"
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "auth-check",
+              "leftValue": "={{ $json.headers['x-api-key'] }}",
+              "rightValue": "tridenguard_secret_key_2026",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        368,
+        384
+      ],
+      "id": "7c40392c-4416-41b7-aecc-8e30e73f8ca1",
+      "name": "Auth Gate"
     },
-    "meta": {
-        "templateCredsSetupCompleted": true
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "dpi-check",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "ALLOW",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        976,
+        384
+      ],
+      "id": "0574d4cd-3c10-447b-9a4d-00fd3d7dca16",
+      "name": "DPI Gate"
+    },
+    {
+      "parameters": {
+        "model": "phi4-mini:3.8b",
+        "options": {
+          "temperature": 0,
+          "format": "json"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1216,
+        240
+      ],
+      "id": "cda2b7ff-932e-4525-93ce-ef721e267b5f",
+      "name": "Ollama Chat Model1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "Nv2TYgMSU9OJy1xZ",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $(\"Frontend Webhook\").item.json.body.text }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n  \"axiom\": \"Contractor must complete installation within 30 days at main site under active permit\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"Contractor\"},\n    {\"radical\": \"Deontic\", \"value\": \"Must (Obligation)\"},\n    {\"radical\": \"Action\", \"value\": \"Complete installation\"},\n    {\"radical\": \"Temporal\", \"value\": \"Within 30 days\"},\n    {\"radical\": \"Spatial\", \"value\": \"Main site\"},\n    {\"radical\": \"Condition\", \"value\": \"Permit is active\"}\n  ]\n}",
+        "options": {
+          "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic Radicals (Ontology of 8):\n- Actor: Entity performing the action or subject of the rule. WHO.\n- Action: The core activity, verb, or behavior. DOES WHAT.\n- Object: The target or entity affected by the action. TO WHAT/WHOM.\n- Deontic: The nature of the rule (obligation, permission, prohibition). MUST/MAY/MUST NOT.\n- Condition: Prerequisites or triggers for the rule to apply. IF.\n- Temporal: Time constraints, deadlines, periods. WHEN.\n- Spatial: Geographic or location constraints. WHERE.\n- Metric: Measurable values, thresholds, limits, amounts. HOW MUCH.\n\nCRITICAL FORMAT RULES:\nEvery radical object MUST use exactly this format with the keys \"radical\" and \"value\":\n  {\"radical\": \"Actor\", \"value\": \"Contractor\"}\n  {\"radical\": \"Action\", \"value\": \"must submit\"}\n  {\"radical\": \"Object\", \"value\": \"the report\"}\n\nNEVER use the radical name as a key directly. This is WRONG:\n  {\"Action\": \"must submit\"}\n  {\"Object\": \"the report\"}\n\nOnly output the JSON object. No additional text.\nNo markdown. No explanation."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        1216,
+        368
+      ],
+      "id": "e2f18444-d480-4528-8096-05ad52c1ff7a",
+      "name": "Information Extractor1"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  const output = item.json.output || {};\n  const radicals = Array.isArray(output.radicals) ? output.radicals : [];\n  const types = new Set(radicals.map(r => r.radical));\n  const original_text = $(\"Frontend Webhook\").item.json.body?.text || \"\";\n\n  let errors = [];\n\n  // 8 Atomic Exclusion Rules\n  if ((types.has('Actor') || types.has('Deontic')) && !types.has('Action')) { errors.push('R1_SUBJECT_WITHOUT_ACTION'); }\n  if (types.has('Action') && !types.has('Actor')) { errors.push('R2_ACTION_WITHOUT_SUBJECT'); }\n  if (types.has('Object') && !types.has('Actor') && !types.has('Action')) { errors.push('R3_OBJECT_WITHOUT_REFERENT'); }\n  if (types.has('Metric') && !types.has('Actor') && !types.has('Object')) { errors.push('R4_ORPHAN_METRIC'); }\n  if (types.has('Condition') && !types.has('Action')) { errors.push('R5_CONDITION_WITHOUT_TRIGGER'); }\n  if (types.has('Temporal') && !types.has('Actor') && !types.has('Action')) { errors.push('R6_TEMPORAL_WITHOUT_ANCHOR'); }\n  if (types.has('Spatial') && !types.has('Actor') && !types.has('Action')) { errors.push('R7_INERT_SPATIAL'); }\n  if (types.has('Deontic') && !types.has('Action')) { errors.push('R8_DEONTIC_WITHOUT_BEHAVIOR'); }\n\n  // Source Integrity Check\n  if (!$input.item.json.source_integrity) { errors.push('UNGROUNDED_RADICAL'); }\n\n  const is_valid = errors.length === 0 && radicals.length >= 2 && output.axiom?.length > 5;\n  \n  item.json = {\n    source_integrity: $input.item.json.source_integrity,\n    ungrounded_radicals: JSON.stringify($input.item.json.ungrounded_radicals || []),\n    case_id: Math.random().toString(36).substring(2, 15),\n    timestamp: new Date().toISOString(),\n    status: is_valid ? 'VALIDATED' : 'QUARANTINED',\n    rejection_reason: errors.length > 0 ? errors.join(', ') : 'NONE',\n    and_gate_ok: is_valid,\n    radicals_extracted: radicals.length,\n    axiom: output.axiom,\n    radicals_json: JSON.stringify(radicals),\n    original_text\n  };\n}\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        368
+      ],
+      "id": "ab15f11a-b824-404a-9cd3-55ffe6aa8b5c",
+      "name": "Deterministic Validator"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"error\": \"Unauthorized\",\n  \"message\": \"Invalid or missing x-api-key header.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        576,
+        592
+      ],
+      "id": "4aff48d7-2aff-40eb-97db-7dd78ed99aea",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"error\": \"Security Violation\",\n  \"action\": \"DENY\",\n  \"reason\": \"Prompt blocked by Lobster Trap DPI\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1216,
+        592
+      ],
+      "id": "95b04666-ddfa-40e8-9249-928cda0cb5ca",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "ZIfqSQ6eFCU5nl3v",
+          "mode": "list",
+          "cachedResultName": "audit-log",
+          "cachedResultUrl": "/projects/CfdxAVwXqndjJVk6/datatables/ZIfqSQ6eFCU5nl3v"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2320,
+        272
+      ],
+      "id": "821babc0-f727-42bb-aabc-0b0c47c202d6",
+      "name": "Save to Audit Table"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "i465juhY0rXHhLja",
+          "mode": "list",
+          "cachedResultName": "quarantine-log",
+          "cachedResultUrl": "/projects/CfdxAVwXqndjJVk6/datatables/i465juhY0rXHhLja"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {
+            "and_gate_ok": false,
+            "radicals_extracted": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "case_id",
+              "displayName": "case_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "rejection_reason",
+              "displayName": "rejection_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "and_gate_ok",
+              "displayName": "and_gate_ok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_extracted",
+              "displayName": "radicals_extracted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "axiom",
+              "displayName": "axiom",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_json",
+              "displayName": "radicals_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "original_text",
+              "displayName": "original_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "trident_status",
+              "displayName": "trident_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        2320,
+        480
+      ],
+      "id": "8bbd4bac-2dac-4a59-9aec-ca3c5f4e66d2",
+      "name": "Save to Quarantine Table"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\n  \"case_id\": \"{{ $json.case_id }}\",\n  \"status\": \"{{ $json.status }}\",\n  \"rejection_reason\": \"{{ $json.rejection_reason }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2528,
+        352
+      ],
+      "id": "1b335db9-e0c4-4188-b8c7-ecd577716495",
+      "name": "Respond to Webhook2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://lobstertrap_mock:8082/inspect",
+        "sendBody": true,
+        "contentType": "raw",
+        "rawContentType": "application/json",
+        "body": "={\"text\": \"{{ $json.body.text }}\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        784,
+        384
+      ],
+      "id": "e0049124-95c6-4d0a-80e6-02d496cafef4",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output || {};\nlet radicals = output.radicals || [];\n\nradicals = radicals.map(r => {\n  if (r.radical && r.value) return r;\n  \n  const validRadicals = ['Actor', 'Deontic', 'Action', 'Object', 'Temporal', 'Spatial', 'Metric', 'Condition'];\n  for (const key of validRadicals) {\n    if (r[key]) {\n      return { radical: key, value: r[key] };\n    }\n  }\n  return null;\n}).filter(r => r !== null);\n\nreturn {\n  json: {\n    output: {\n      axiom: output.axiom || '',\n      radicals: radicals\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1456,
+        368
+      ],
+      "id": "dcb1f04c-80cc-47ff-955e-69614f614e05",
+      "name": "Normalizer"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status }}",
+                    "rightValue": "VALIDATED",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "b920ff96-85a5-49ba-afca-6c8e8e5babf6"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "VALIDATED"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "33f43b45-c472-4cbf-919f-a610c2a89eb0",
+                    "leftValue": "={{ $json.rejection_reason }}",
+                    "rightValue": "R[1-3]_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "CRITICAL"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "939aa15c-1333-43cc-9b1d-91ad030030e0",
+                    "leftValue": "={{ $json.rejection_reason }}",
+                    "rightValue": "R[5-7]_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "WARNING"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "25e2a694-deea-4f7e-85d6-471cb6550b78",
+                    "leftValue": "={{ $json.rejection_reason }}",
+                    "rightValue": "NONE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "UNKNOWN"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a1a8f6dd-05cc-421f-9d7f-1cd1c3caeee6",
+                    "leftValue": "={{ $json.rejection_reason }}",
+                    "rightValue": "UNGROUNDED_RADICAL",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "UNGROUNDED"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        368
+      ],
+      "id": "8816d58a-d3d0-465c-b427-e909e264272b",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output || {};\nconst radicals = output.radicals || [];\nconst originalText = $input.item.json.original_text || $(\"Frontend Webhook\").item.json.body?.text || \"\";\nconst textLower = originalText.toLowerCase();\n\nlet allGrounded = true;\nconst ungrounded = [];\n\nfor (const r of radicals) {\n    const value = (r.value || \"\").toLowerCase();\n    // Busca si el valor o una parte significativa del mismo aparece en el texto fuente\n    if (value.length > 3 && !textLower.includes(value.substring(0, 5))) {\n        allGrounded = false;\n        ungrounded.push({ radical: r.radical, claimed: r.value });\n    }\n}\n\nreturn {\n    json: {\n        ...$input.item.json,\n        source_integrity: allGrounded,\n        ungrounded_radicals: ungrounded\n    }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        368
+      ],
+      "id": "f1c00b8f-1bae-4691-b46f-c9fb20cec52c",
+      "name": "Radical Grounding Check"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.item.json.body.text || \"\";\n\nreturn {\n  json: {\n    ...$input.item.json,\n    source_truth: text,\n    source_text_length: text.length,\n    source_hash: Buffer.from(text).toString('base64').substring(0, 32)\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        576,
+        384
+      ],
+      "id": "2e5990de-4840-4d53-8489-701314f04ce5",
+      "name": "Source Truth Anchor"
     }
+  ],
+  "pinData": {},
+  "connections": {
+    "Frontend Webhook": {
+      "main": [
+        [
+          {
+            "node": "Auth Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DPI Gate": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor1": {
+      "main": [
+        [
+          {
+            "node": "Normalizer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deterministic Validator": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth Gate": {
+      "main": [
+        [
+          {
+            "node": "Source Truth Anchor",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Audit Table": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Quarantine Table": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "DPI Gate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizer": {
+      "main": [
+        [
+          {
+            "node": "Radical Grounding Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Save to Audit Table",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save to Quarantine Table",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save to Quarantine Table",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save to Quarantine Table",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Save to Quarantine Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Radical Grounding Check": {
+      "main": [
+        [
+          {
+            "node": "Deterministic Validator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Source Truth Anchor": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "e7769f66-3405-4593-87c6-8e45ffc84213",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c84f0dc3c134e37287388b7476ed42fc67a4794810e116768684b1ca156541bb"
+  },
+  "id": "GdSO0enNbTIDWDwL",
+  "tags": []
 }
