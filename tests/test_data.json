@@ -4,49 +4,49 @@
             "id": "R1_SUBJECT_WITHOUT_ACTION",
             "regla": "R1",
             "descripcion": "Actor + Deontic, but no Action",
-            "text": "The contractor must comply with all obligations stipulated in this professional services agreement."
+            "text": "The contractor must."
         },
         {
             "id": "R2_ACTION_WITHOUT_SUBJECT",
             "regla": "R2",
             "descripcion": "Action present, but no Actor",
-            "text": "The final audit report and consolidated financial statements for fiscal year 2024 must be submitted before March 15."
+            "text": "Submit the report before Friday."
         },
         {
             "id": "R3_OBJECT_WITHOUT_REFERENT",
             "regla": "R3",
             "descripcion": "Object mentioned, but no Actor or Action",
-            "text": "The lease agreement and its annexes, together with the detailed inventory of movable assets located at the property on Gran Vía 45, Madrid."
+            "text": "The lease agreement and its annexes."
         },
         {
             "id": "R4_ORPHAN_METRIC",
             "regla": "R4",
             "descripcion": "Metric present, but no Actor or Object",
-            "text": "The profitability threshold is set at 15% and the calculation period will cover the last twelve calendar months from the fiscal year-end date."
+            "text": "The threshold is 15%."
         },
         {
             "id": "R5_CONDITION_WITHOUT_TRIGGER",
             "regla": "R5",
             "descripcion": "Condition present, but no Action",
-            "text": "Whenever the reference index exceeds 3.5% for two consecutive quarters and the default rate exceeds 5% of the total portfolio."
+            "text": "Whenever the index exceeds 3.5%."
         },
         {
             "id": "R6_TEMPORAL_WITHOUT_ANCHOR",
             "regla": "R6",
             "descripcion": "Temporal present, but no Actor or Action",
-            "text": "The term of this agreement shall be five years from January 1, 2026, with automatic annual extensions unless expressly terminated."
+            "text": "For five years from January 1, 2026."
         },
         {
             "id": "R7_INERT_SPATIAL",
             "regla": "R7",
             "descripcion": "Spatial present, but no Actor or Action",
-            "text": "In the territory comprising the European Union, the European Economic Area, and Switzerland, as well as any other jurisdiction where the parent company holds permanent establishments."
+            "text": "In the territory of the European Union."
         },
         {
             "id": "R8_DEONTIC_WITHOUT_BEHAVIOR",
             "regla": "R8",
             "descripcion": "Deontic present, but no Action",
-            "text": "Any act contrary to the provisions established in this internal community of owners' regulations is strictly prohibited."
+            "text": "Any act contrary to the regulations is strictly prohibited."
         }
     ]
 }

@@ -26,25 +26,16 @@ services:
     networks:
       - tridenguard_net
 
-  lobstertrap:
-    build: ./lobstertrap_service
-    container_name: lobstertrap_tridenguard
+  lobstertrap_real:
+    image: alpine:latest
+    container_name: lobstertrap_real
+    command: /app/lobstertrap_linux serve --port 8080
     restart: unless-stopped
     ports:
-      - "127.0.0.1:8080:8080"
+      - "8080:8080"
     volumes:
-      - ./configs:/app/configs:ro
-    networks:
-      - tridenguard_net
-
-  lobstertrap_mock:
-    build:
-      context: .
-      dockerfile: Dockerfile.mock
-    container_name: lobstertrap_mock
-    restart: unless-stopped
-    ports:
-      - "8082:8082"
+      - ./lobstertrap_linux:/app/lobstertrap_linux
+      - ./configs:/app/configs
     networks:
       - tridenguard_net
 

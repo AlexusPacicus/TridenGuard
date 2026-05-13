@@ -10,10 +10,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 1,
       "position": [
-        160,
-        384
+        7456,
+        6848
       ],
-      "id": "e951c2b8-ebb2-4b76-9df4-37559d538099",
+      "id": "0efec550-69fe-4d2f-b850-ad7366e33517",
       "name": "Frontend Webhook",
       "webhookId": "1111b6fb-1a9f-436b-8e58-7c1220cccbd1"
     },
@@ -44,10 +44,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        368,
-        384
+        7664,
+        6848
       ],
-      "id": "7c40392c-4416-41b7-aecc-8e30e73f8ca1",
+      "id": "db990e19-e932-4c9b-a23b-173c666d1d40",
       "name": "Auth Gate"
     },
     {
@@ -77,10 +77,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        976,
-        384
+        8272,
+        6848
       ],
-      "id": "0574d4cd-3c10-447b-9a4d-00fd3d7dca16",
+      "id": "a359efd4-3c2b-428a-a0d3-d32a1b8d4911",
       "name": "DPI Gate"
     },
     {
@@ -94,10 +94,10 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        1216,
-        240
+        8512,
+        6704
       ],
-      "id": "cda2b7ff-932e-4525-93ce-ef721e267b5f",
+      "id": "fa07814b-6767-48f6-ab2a-b1851a5295c9",
       "name": "Ollama Chat Model1",
       "credentials": {
         "ollamaApi": {
@@ -112,29 +112,29 @@
         "schemaType": "fromJson",
         "jsonSchemaExample": "{\n  \"axiom\": \"Contractor must complete installation within 30 days at main site under active permit\",\n  \"radicals\": [\n    {\"radical\": \"Actor\", \"value\": \"Contractor\"},\n    {\"radical\": \"Deontic\", \"value\": \"Must (Obligation)\"},\n    {\"radical\": \"Action\", \"value\": \"Complete installation\"},\n    {\"radical\": \"Temporal\", \"value\": \"Within 30 days\"},\n    {\"radical\": \"Spatial\", \"value\": \"Main site\"},\n    {\"radical\": \"Condition\", \"value\": \"Permit is active\"}\n  ]\n}",
         "options": {
-          "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic Radicals (Ontology of 8):\n- Actor: Entity performing the action or subject of the rule. WHO.\n- Action: The core activity, verb, or behavior. DOES WHAT.\n- Object: The target or entity affected by the action. TO WHAT/WHOM.\n- Deontic: The nature of the rule (obligation, permission, prohibition). MUST/MAY/MUST NOT.\n- Condition: Prerequisites or triggers for the rule to apply. IF.\n- Temporal: Time constraints, deadlines, periods. WHEN.\n- Spatial: Geographic or location constraints. WHERE.\n- Metric: Measurable values, thresholds, limits, amounts. HOW MUCH.\n\nCRITICAL FORMAT RULES:\nEvery radical object MUST use exactly this format with the keys \"radical\" and \"value\":\n  {\"radical\": \"Actor\", \"value\": \"Contractor\"}\n  {\"radical\": \"Action\", \"value\": \"must submit\"}\n  {\"radical\": \"Object\", \"value\": \"the report\"}\n\nNEVER use the radical name as a key directly. This is WRONG:\n  {\"Action\": \"must submit\"}\n  {\"Object\": \"the report\"}\n\nOnly output the JSON object. No additional text.\nNo markdown. No explanation."
+          "systemPromptTemplate": "Role: Senior AI Engineer / Legal Ontologist.\n\nTask: Extract foundational facts (axioms) and their atomic components (radicals) from legal or technical text.\n\nAtomic radicals (ontology of 8):\n- Actor: entity explicitly named as performing the action. who.\n- Action: the core activity or verb explicitly stated. does what.\n- Object: the target or entity explicitly affected by the action. to what/whom.\n- Deontic: the nature of the rule (obligation, permission, prohibition). must/may/must not.\n- Condition: prerequisites or triggers explicitly stated. if.\n- Temporal: time constraints, deadlines, periods explicitly stated. when.\n- Spatial: geographic or location constraints explicitly stated. where.\n- Metric: measurable values, thresholds, limits explicitly stated. how much.\n\nMust:\n1. only extract radicals that are explicitly stated in the text.\n2. if no actor is explicitly named, omit the actor radical.\n3. prioritize Action as the core radical. if there is no Action, keep radicals to a minimum.\n4. prefer fewer radicals over inventing one. 2 radicals is better than 4 with one invented.\n5. if a radical type is uncertain, omit it.\n6. every radical object must have exactly two keys: \"radical\" and \"value\".\n7. return valid JSON only. no markdown. no explanation.\n\nMust not:\n1. invent a radical that is not explicitly in the text.\n2. extract Metric from a Temporal expression, or Temporal from a Spatial one.\n3. extract Deontic and Action as the same radical.\n4. use the radical name as a key directly.\n5. pad the output to reach a higher number of radicals.\n\nExamples of correct extraction:\n\nText: \"The contractor must complete the installation within 30 days.\"\nOutput: {\"axiom\": \"Contractor must complete installation within 30 days.\", \"radicals\": [{\"radical\": \"Actor\", \"value\": \"contractor\"}, {\"radical\": \"Deontic\", \"value\": \"must\"}, {\"radical\": \"Action\", \"value\": \"complete the installation\"}, {\"radical\": \"Object\", \"value\": \"the installation\"}, {\"radical\": \"Temporal\", \"value\": \"30 days\"}]}\n\nText: \"The report must be submitted before Friday.\"\nOutput: {\"axiom\": \"The report must be submitted before Friday.\", \"radicals\": [{\"radical\": \"Action\", \"value\": \"submit the report\"}, {\"radical\": \"Object\", \"value\": \"the report\"}, {\"radical\": \"Deontic\", \"value\": \"must\"}, {\"radical\": \"Temporal\", \"value\": \"before Friday\"}]}\n\nText: \"Any act violating the regulation is strictly prohibited.\"\nOutput: {\"axiom\": \"Any act violating the regulation is strictly prohibited.\", \"radicals\": [{\"radical\": \"Deontic\", \"value\": \"prohibited\"}, {\"radical\": \"Object\", \"value\": \"any act violating the regulation\"}]}\n\nText: \"The profitability threshold is set at 15%.\"\nOutput: {\"axiom\": \"The profitability threshold is set at 15%.\", \"radicals\": [{\"radical\": \"Metric\", \"value\": \"15%\"}]}\n\nText: \"Whenever the index exceeds 3.5% for two consecutive quarters.\"\nOutput: {\"axiom\": \"Whenever the index exceeds 3.5% for two consecutive quarters.\", \"radicals\": [{\"radical\": \"Condition\", \"value\": \"whenever the index exceeds 3.5%\"}, {\"radical\": \"Temporal\", \"value\": \"two consecutive quarters\"}]}\n\nOnly output the JSON object. No additional text."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.informationExtractor",
       "typeVersion": 1.2,
       "position": [
-        1216,
-        368
+        8512,
+        6832
       ],
-      "id": "e2f18444-d480-4528-8096-05ad52c1ff7a",
+      "id": "00b1515f-a3f4-463f-b652-dc3741d95264",
       "name": "Information Extractor1"
     },
     {
       "parameters": {
-        "jsCode": "for (const item of $input.all()) {\n  const output = item.json.output || {};\n  const radicals = Array.isArray(output.radicals) ? output.radicals : [];\n  const types = new Set(radicals.map(r => r.radical));\n  const original_text = $(\"Frontend Webhook\").item.json.body?.text || \"\";\n\n  let errors = [];\n\n  // 8 Atomic Exclusion Rules\n  if ((types.has('Actor') || types.has('Deontic')) && !types.has('Action')) { errors.push('R1_SUBJECT_WITHOUT_ACTION'); }\n  if (types.has('Action') && !types.has('Actor')) { errors.push('R2_ACTION_WITHOUT_SUBJECT'); }\n  if (types.has('Object') && !types.has('Actor') && !types.has('Action')) { errors.push('R3_OBJECT_WITHOUT_REFERENT'); }\n  if (types.has('Metric') && !types.has('Actor') && !types.has('Object')) { errors.push('R4_ORPHAN_METRIC'); }\n  if (types.has('Condition') && !types.has('Action')) { errors.push('R5_CONDITION_WITHOUT_TRIGGER'); }\n  if (types.has('Temporal') && !types.has('Actor') && !types.has('Action')) { errors.push('R6_TEMPORAL_WITHOUT_ANCHOR'); }\n  if (types.has('Spatial') && !types.has('Actor') && !types.has('Action')) { errors.push('R7_INERT_SPATIAL'); }\n  if (types.has('Deontic') && !types.has('Action')) { errors.push('R8_DEONTIC_WITHOUT_BEHAVIOR'); }\n\n  // Source Integrity Check\n  if (!$input.item.json.source_integrity) { errors.push('UNGROUNDED_RADICAL'); }\n\n  const is_valid = errors.length === 0 && radicals.length >= 2 && output.axiom?.length > 5;\n  \n  item.json = {\n    source_integrity: $input.item.json.source_integrity,\n    ungrounded_radicals: JSON.stringify($input.item.json.ungrounded_radicals || []),\n    case_id: Math.random().toString(36).substring(2, 15),\n    timestamp: new Date().toISOString(),\n    status: is_valid ? 'VALIDATED' : 'QUARANTINED',\n    rejection_reason: errors.length > 0 ? errors.join(', ') : 'NONE',\n    and_gate_ok: is_valid,\n    radicals_extracted: radicals.length,\n    axiom: output.axiom,\n    radicals_json: JSON.stringify(radicals),\n    original_text\n  };\n}\nreturn $input.all();"
+        "jsCode": "for (const item of $input.all()) {\n  const output = item.json.output || {};\n  const radicals = Array.isArray(output.radicals) ? output.radicals : [];\n  const types = new Set(radicals.map(r => r.radical));\n  const original_text = $(\"Frontend Webhook\").item.json.body?.text || \"\";\n\n  // --- Helper: check radical presence ---\n  const has = (r) => types.has(r);\n\n  // --- 8 Atomic Exclusion Rules ---\n  const rules = [\n    { id: 'R1_SUBJECT_WITHOUT_ACTION',   test: () => (has('Actor') || has('Deontic')) && !has('Action') },\n    { id: 'R2_ACTION_WITHOUT_SUBJECT',   test: () => has('Action') && !has('Actor') },\n    { id: 'R3_OBJECT_WITHOUT_REFERENT',  test: () => has('Object') && !has('Actor') && !has('Action') },\n    { id: 'R4_ORPHAN_METRIC',            test: () => has('Metric') && !has('Actor') && !has('Object') },\n    { id: 'R5_CONDITION_WITHOUT_TRIGGER',test: () => has('Condition') && !has('Action') },\n    { id: 'R6_TEMPORAL_WITHOUT_ANCHOR',  test: () => has('Temporal') && !has('Actor') && !has('Action') },\n    { id: 'R7_INERT_SPATIAL',            test: () => has('Spatial') && !has('Actor') && !has('Action') },\n    { id: 'R8_DEONTIC_WITHOUT_BEHAVIOR', test: () => has('Deontic') && !has('Action') },\n  ];\n\n  const errors = rules.filter(r => r.test()).map(r => r.id);\n\n  // --- Empty extraction check ---\n  if (radicals.length === 0) { errors.push('EMPTY_EXTRACTION'); }\n\n  // --- Source Integrity Check ---\n  if (!$input.item.json.source_integrity) { errors.push('UNGROUNDED_RADICAL'); }\n\n  // --- Business rules ---\n  const deonticCount = radicals.filter(r => r.radical === 'Deontic').length;\n  if (deonticCount > 1) { errors.push('DUPLICATE_DEONTIC'); }\n  if (has('Metric') && !has('Action') && !has('Object') && !has('Condition') && !has('Temporal')) {\n    errors.push('METRIC_WITHOUT_CONTEXT');\n  }\n\n  const is_valid = errors.length === 0 && radicals.length >= 2 && output.axiom?.length > 5;\n\n  item.json = {\n    source_integrity: $input.item.json.source_integrity,\n    ungrounded_radicals: JSON.stringify($input.item.json.ungrounded_radicals || []),\n    case_id: Math.random().toString(36).substring(2, 15),\n    timestamp: new Date().toISOString(),\n    status: is_valid ? 'VALIDATED' : 'QUARANTINED',\n    rejection_reason: errors.length > 0 ? errors.join(', ') : 'NONE',\n    and_gate_ok: is_valid,\n    radicals_extracted: radicals.length,\n    axiom: output.axiom,\n    radicals_json: JSON.stringify(radicals),\n    original_text\n  };\n}\nreturn $input.all();"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1968,
-        368
+        9600,
+        6832
       ],
-      "id": "ab15f11a-b824-404a-9cd3-55ffe6aa8b5c",
+      "id": "d09299b6-0c7e-44b9-84b2-57e1850ea5d6",
       "name": "Deterministic Validator"
     },
     {
@@ -146,10 +146,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        576,
-        592
+        7872,
+        7056
       ],
-      "id": "4aff48d7-2aff-40eb-97db-7dd78ed99aea",
+      "id": "20d63ca0-3669-4aae-8737-f6f0bb4658e3",
       "name": "Respond to Webhook"
     },
     {
@@ -161,10 +161,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1216,
-        592
+        8512,
+        7056
       ],
-      "id": "95b04666-ddfa-40e8-9249-928cda0cb5ca",
+      "id": "1aae4f66-a3f9-427b-b9f5-c3859faf5bb1",
       "name": "Respond to Webhook1"
     },
     {
@@ -189,10 +189,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        2320,
-        272
+        10272,
+        6752
       ],
-      "id": "821babc0-f727-42bb-aabc-0b0c47c202d6",
+      "id": "9ad06ea1-fdaa-46ea-bcb5-c1fdaa60c4bf",
       "name": "Save to Audit Table"
     },
     {
@@ -321,31 +321,16 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        2320,
-        480
+        10272,
+        6960
       ],
-      "id": "8bbd4bac-2dac-4a59-9aec-ca3c5f4e66d2",
+      "id": "db4ecaf1-2cf6-4e8d-9467-43cc431ad7e9",
       "name": "Save to Quarantine Table"
     },
     {
       "parameters": {
-        "respondWith": "json",
-        "responseBody": "{\n  \"case_id\": \"{{ $json.case_id }}\",\n  \"status\": \"{{ $json.status }}\",\n  \"rejection_reason\": \"{{ $json.rejection_reason }}\"\n}",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.respondToWebhook",
-      "typeVersion": 1.5,
-      "position": [
-        2528,
-        352
-      ],
-      "id": "1b335db9-e0c4-4188-b8c7-ecd577716495",
-      "name": "Respond to Webhook2"
-    },
-    {
-      "parameters": {
         "method": "POST",
-        "url": "http://lobstertrap_mock:8082/inspect",
+        "url": "http://host.docker.internal:8080/inspect",
         "sendBody": true,
         "contentType": "raw",
         "rawContentType": "application/json",
@@ -355,10 +340,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        784,
-        384
+        8080,
+        6848
       ],
-      "id": "e0049124-95c6-4d0a-80e6-02d496cafef4",
+      "id": "bb20e06e-6c65-4d38-bb0f-a8b883b3a8c7",
       "name": "HTTP Request"
     },
     {
@@ -368,10 +353,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1456,
-        368
+        8816,
+        6832
       ],
-      "id": "dcb1f04c-80cc-47ff-955e-69614f614e05",
+      "id": "27a090d5-b7a9-4bf9-8932-62103ee4f7ea",
       "name": "Normalizer"
     },
     {
@@ -383,13 +368,13 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict",
+                  "typeValidation": "loose",
                   "version": 3
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.status }}",
-                    "rightValue": "VALIDATED",
+                    "leftValue": "={{ $json.has_validated }}",
+                    "rightValue": "true",
                     "operator": {
                       "type": "string",
                       "operation": "equals"
@@ -407,17 +392,17 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict",
+                  "typeValidation": "loose",
                   "version": 3
                 },
                 "conditions": [
                   {
                     "id": "33f43b45-c472-4cbf-919f-a610c2a89eb0",
-                    "leftValue": "={{ $json.rejection_reason }}",
-                    "rightValue": "R[1-3]_",
+                    "leftValue": "={{ $json.has_critical }}",
+                    "rightValue": "true",
                     "operator": {
                       "type": "string",
-                      "operation": "regex"
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -431,17 +416,17 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict",
+                  "typeValidation": "loose",
                   "version": 3
                 },
                 "conditions": [
                   {
                     "id": "939aa15c-1333-43cc-9b1d-91ad030030e0",
-                    "leftValue": "={{ $json.rejection_reason }}",
-                    "rightValue": "R[5-7]_",
+                    "leftValue": "={{ $json.has_warning }}",
+                    "rightValue": "true",
                     "operator": {
                       "type": "string",
-                      "operation": "regex"
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -455,18 +440,17 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict",
+                  "typeValidation": "loose",
                   "version": 3
                 },
                 "conditions": [
                   {
                     "id": "25e2a694-deea-4f7e-85d6-471cb6550b78",
-                    "leftValue": "={{ $json.rejection_reason }}",
-                    "rightValue": "NONE",
+                    "leftValue": "={{ $json.has_unknown }}",
+                    "rightValue": "true",
                     "operator": {
                       "type": "string",
-                      "operation": "equals",
-                      "name": "filter.operator.equals"
+                      "operation": "equals"
                     }
                   }
                 ],
@@ -480,7 +464,7 @@
                 "options": {
                   "caseSensitive": true,
                   "leftValue": "",
-                  "typeValidation": "strict",
+                  "typeValidation": "loose",
                   "version": 3
                 },
                 "conditions": [
@@ -488,6 +472,30 @@
                     "id": "a1a8f6dd-05cc-421f-9d7f-1cd1c3caeee6",
                     "leftValue": "={{ $json.rejection_reason }}",
                     "rightValue": "UNGROUNDED_RADICAL",
+                    "operator": {
+                      "type": "string",
+                      "operation": "regex"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "UNGROUNDED"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a26dfa11-aa17-4834-a6fe-18eafab92acb",
+                    "leftValue": "={{ $json.has_borderline }}",
+                    "rightValue": "true",
                     "operator": {
                       "type": "string",
                       "operation": "equals",
@@ -498,33 +506,21 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "UNGROUNDED"
+              "outputKey": "BORDERLINE"
             }
           ]
         },
+        "looseTypeValidation": true,
         "options": {}
       },
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2112,
-        368
+        10048,
+        6768
       ],
-      "id": "8816d58a-d3d0-465c-b427-e909e264272b",
+      "id": "17778f66-cf95-4cdc-9246-7951f11dfa94",
       "name": "Switch"
-    },
-    {
-      "parameters": {
-        "jsCode": "const output = $input.item.json.output || {};\nconst radicals = output.radicals || [];\nconst originalText = $input.item.json.original_text || $(\"Frontend Webhook\").item.json.body?.text || \"\";\nconst textLower = originalText.toLowerCase();\n\nlet allGrounded = true;\nconst ungrounded = [];\n\nfor (const r of radicals) {\n    const value = (r.value || \"\").toLowerCase();\n    // Busca si el valor o una parte significativa del mismo aparece en el texto fuente\n    if (value.length > 3 && !textLower.includes(value.substring(0, 5))) {\n        allGrounded = false;\n        ungrounded.push({ radical: r.radical, claimed: r.value });\n    }\n}\n\nreturn {\n    json: {\n        ...$input.item.json,\n        source_integrity: allGrounded,\n        ungrounded_radicals: ungrounded\n    }\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1664,
-        368
-      ],
-      "id": "f1c00b8f-1bae-4691-b46f-c9fb20cec52c",
-      "name": "Radical Grounding Check"
     },
     {
       "parameters": {
@@ -533,10 +529,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        576,
-        384
+        7872,
+        6848
       ],
-      "id": "2e5990de-4840-4d53-8489-701314f04ce5",
+      "id": "fa132ad6-f7ad-4e8c-aa0d-47e3dc84b11b",
       "name": "Source Truth Anchor"
     },
     {
@@ -549,10 +545,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        1520,
-        1040
+        8816,
+        7504
       ],
-      "id": "86c4eed7-e172-4019-a02c-9b05ef69a7b9",
+      "id": "e727942b-4ff1-4f35-9061-d1d0db15ca61",
       "name": "Webhook",
       "webhookId": "d6f6e66d-db49-493c-879f-077d37de0de0"
     },
@@ -714,10 +710,10 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        1728,
-        1040
+        9024,
+        7504
       ],
-      "id": "c4989551-1630-49ec-a775-929e8e6f11bc",
+      "id": "5f858988-5a9c-48f2-883f-d02264961fd9",
       "name": "Update row(s)"
     },
     {
@@ -729,10 +725,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        1936,
-        1040
+        9232,
+        7504
       ],
-      "id": "224609e9-5633-4efc-91ef-456dc4d6c78f",
+      "id": "e3474ed9-f5a1-4e24-8c59-1b8cef70fbd6",
       "name": "Respond to Webhook3"
     },
     {
@@ -745,10 +741,10 @@
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2.1,
       "position": [
-        512,
-        1056
+        7808,
+        7520
       ],
-      "id": "e04b0ba4-6bad-4d4c-815a-4f15f3bd97eb",
+      "id": "1cfbcfd1-d9e8-430e-bb5c-7bb43c4a494d",
       "name": "Webhook1",
       "webhookId": "2e08e52b-92e9-4463-8ee3-492c675d184c"
     },
@@ -761,10 +757,10 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        928,
-        1056
+        8224,
+        7520
       ],
-      "id": "a64184d0-2dd8-4aff-b645-d3fcf4e16427",
+      "id": "7fe1c9af-79e6-4879-90bc-370365819214",
       "name": "Respond to Webhook4"
     },
     {
@@ -925,11 +921,67 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        720,
-        1056
+        8016,
+        7520
       ],
-      "id": "a2cd2c62-9c7e-4587-b15e-00f2207e9df1",
+      "id": "229425b7-d380-4bb5-99a2-11d0bf4dfa57",
       "name": "Update row(s)1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json || {};\nconst errors = output.rejection_reason ? output.rejection_reason.split(', ') : [];\n\nconst has_critical = errors.some(e => \n  e.startsWith('UNGROUNDED_RADICAL') || \n  e.includes('R1') || e.includes('R2') || e.includes('R3') || e.includes('R4') ||\n  e === 'EMPTY_EXTRACTION'\n);\nconst has_warning = errors.some(e => e.includes('R5') || e.includes('R6') || e.includes('R7'));\nconst has_borderline = !has_critical && !has_warning && errors.length > 0 && output.source_integrity;\nconst has_unknown = !has_critical && !has_warning && !has_borderline && errors.length > 0;\nconst has_validated = errors.length === 0 && output.source_integrity;\n\nreturn {\n  json: {\n    ...output,\n    has_critical,\n    has_warning,\n    has_borderline,\n    has_unknown,\n    has_validated,\n    error_count: errors.length\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9808,
+        6832
+      ],
+      "id": "8f424e1a-29fd-4a46-93ee-d29fbffba204",
+      "name": "Semantic Rule Engine"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"case_id\": \"{{ $json.case_id }}\", \"status\": \"VALIDATED\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        10480,
+        6752
+      ],
+      "id": "64eefef7-2e92-494e-9d7c-0908a00b13b2",
+      "name": "Respond to Webhook (Audit)"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "{\"case_id\": \"{{ $json.case_id }}\", \"status\": \"{{ $json.status }}\", \"rejection_reason\": \"{{ $json.rejection_reason }}\", \"severity\": \"{{ $json.has_critical ? 'CRITICAL' : ($json.has_warning ? 'WARNING' : 'UNKNOWN') }}\"}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        10480,
+        6960
+      ],
+      "id": "3f8a500f-7e2d-475a-99a3-1e8e352caf81",
+      "name": "Respond to Webhook (Quarantine)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const output = $input.item.json.output || {};\nconst radicals = output.radicals || [];\nconst originalText = $input.item.json.original_text || $(\"Frontend Webhook\").item.json.body?.text || \"\";\nconst textLower = originalText.toLowerCase();\n\nlet allGrounded = true;\nconst ungrounded = [];\n\nfor (const r of radicals) {\n    const value = (r.value || \"\").toLowerCase();\n    // Busca si el valor o una parte significativa del mismo aparece en el texto fuente\n    if (value.length > 3 && !textLower.includes(value.substring(0, 4))) {\n        allGrounded = false;\n        ungrounded.push({ radical: r.radical, claimed: r.value });\n    }\n}\n\nreturn {\n    json: {\n        ...$input.item.json,\n        source_integrity: allGrounded,\n        ungrounded_radicals: ungrounded\n    }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9280,
+        6832
+      ],
+      "id": "7867c861-415a-4036-8c9d-ce504e768bba",
+      "name": "Radical Grounding Check"
     }
   ],
   "pinData": {},
@@ -989,7 +1041,7 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Semantic Rule Engine",
             "type": "main",
             "index": 0
           }
@@ -1018,7 +1070,7 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook2",
+            "node": "Respond to Webhook (Audit)",
             "type": "main",
             "index": 0
           }
@@ -1029,7 +1081,7 @@
       "main": [
         [
           {
-            "node": "Respond to Webhook2",
+            "node": "Respond to Webhook (Quarantine)",
             "type": "main",
             "index": 0
           }
@@ -1094,18 +1146,8 @@
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "Radical Grounding Check": {
-      "main": [
-        [
-          {
-            "node": "Deterministic Validator",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        ],
+        []
       ]
     },
     "Source Truth Anchor": {
@@ -1162,6 +1204,28 @@
           }
         ]
       ]
+    },
+    "Semantic Rule Engine": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Radical Grounding Check": {
+      "main": [
+        [
+          {
+            "node": "Deterministic Validator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1169,7 +1233,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "e78c793e-dd72-47ec-80e8-9d11d98e6524",
+  "versionId": "4f319d77-9a3a-496d-b51d-91989cef1b79",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c84f0dc3c134e37287388b7476ed42fc67a4794810e116768684b1ca156541bb"
