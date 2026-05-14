@@ -50,3 +50,97 @@ The aggregate units to be sold on an annual basis described above are for the Il
 
 1.7 Relationship of Parties. The relationship between the Company and the Distributor is that of vendor and vendee. This Agreement does not create the relationship of principal and agent between the Company and the Distributor for any purpose whatsoever. This Agreement shall not be construed as constituting the Distributor and the Company as partners, joint venturers, or as creating any other form of legal association or arrangement which would impose liability upon one party for the act or omission of the other party. Neither party is granted any express or implied right of authority by the other party to assume or to create any obligation or responsibility on behalf of or in the name of the other party, or to bind the other party in any manner or thing whatsoever.
 
+
+
+📄 Contrato 2: TECHVISTA INC. (SaaS / Licencia de Software)
+Contrato realista de una empresa tech cotizada en SEC. Ideal para probar reglas de métricas (R4) y temporal (R6).
+
+docId: TECHVISTA_SaaS_2025
+title: TECHVISTA INC. - Master SaaS Agreement
+
+MASTER SOFTWARE AS A SERVICE AGREEMENT
+
+THIS MASTER SOFTWARE AS A SERVICE AGREEMENT (the "Agreement") is entered into as of January 15, 2025 (the "Effective Date") by and between TechVista Inc., a Delaware corporation with offices at 450 Innovation Drive, San Jose, CA 95134 ("Company") and GlobalLogic Corp., a Nevada corporation with offices at 200 Park Avenue, New York, NY 10166 ("Customer").
+
+1. DEFINITIONS
+
+1.1 "Confidential Information" means any data or information, oral or written, that is treated as confidential by either Party, including but not limited to: (a) the Company's proprietary algorithms, source code, and system architecture; (b) the Customer's patient data, financial records, and business strategies; and (c) the terms and conditions of this Agreement.
+
+1.2 "Subscription Fee" means the annual fee payable by the Customer to the Company for the right to access and use the Software Services as specified in Exhibit A.
+
+2. GRANT OF LICENSE
+
+2.1 Subject to the terms and conditions of this Agreement, the Company hereby grants to the Customer a non-exclusive, non-transferable, limited right to access and use the Software Services solely for the Customer's internal business operations during the Subscription Term.
+
+2.2 The Customer shall not: (a) sublicense, resell, or distribute the Software Services to any third party; (b) modify, adapt, alter, translate, or create derivative works based upon the Software Services; or (c) use the Software Services to process data on behalf of a third party.
+
+3. FEES AND PAYMENT
+
+3.1 The Customer shall pay to the Company an annual Subscription Fee of Two Hundred Fifty Thousand Dollars ($250,000.00), payable within thirty (30) days of the Effective Date.
+
+3.2 Late payments shall bear interest at the rate of 1.5% per month, or the maximum rate permitted by applicable law, whichever is lower.
+
+4. TERM AND TERMINATION
+
+4.1 This Agreement shall commence on the Effective Date and continue for a period of three (3) years (the "Initial Term"). Thereafter, this Agreement shall automatically renew for successive one (1) year periods unless either Party provides written notice of its intent not to renew at least sixty (60) days prior to the expiration of the then-current term.
+
+
+
+📄 Contrato 3: PHARMA GLOBAL (NDA / Confidencialidad)
+Contrato farmacéutico realista. Ideal para probar PII (DPI) y cláusulas de Deontic (R8).
+
+docId: PHARMA_NDA_2024
+title: PHARMA GLOBAL - Mutual Non-Disclosure Agreement
+MUTUAL NON-DISCLOSURE AGREEMENT
+
+THIS MUTUAL NON-DISCLOSURE AGREEMENT (the "Agreement") is made and entered into as of March 1, 2024 (the "Effective Date") by and between Pharma Global AG, a Swiss corporation with its principal place of business at Bahnhofstrasse 42, 8001 Zurich, Switzerland ("Disclosing Party") and BioResearch Solutions Ltd., an Israeli company with its principal place of business at Rothschild Boulevard 45, Tel Aviv, Israel ("Receiving Party").
+
+1. PURPOSE
+
+The Parties wish to explore a potential business relationship related to the clinical development of Compound PG-889 (the "Purpose"). In connection with the Purpose, each Party may disclose certain confidential and proprietary information to the other Party.
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+
+2.1 "Confidential Information" means any and all non-public information, whether written, oral, or electronic, disclosed by the Disclosing Party to the Receiving Party, including but not limited to: (a) clinical trial data and results; (b) chemical structures and formulations; (c) patient records and genetic data; and (d) business plans and financial projections.
+
+3. OBLIGATIONS OF RECEIVING PARTY
+
+3.1 The Receiving Party shall: (a) hold the Confidential Information in strict confidence; (b) not disclose the Confidential Information to any third party without the prior written consent of the Disclosing Party; and (c) use the Confidential Information solely for the Purpose.
+
+3.2 The Receiving Party shall restrict access to the Confidential Information to those of its employees or contractors who have a strict "need to know" for the Purpose and who are bound by confidentiality obligations at least as restrictive as those contained herein.
+
+4. TERM
+
+4.1 The obligations of confidentiality contained in this Agreement shall survive for a period of five (5) years from the date of the last disclosure of Confidential Information.
+
+
+
+
+
+
+Contrato 4: APEX CONSTRUCTION (Construcción / Servicios)
+Contrato de obra civil. Ideal para probar Spatial (R7) y Condición (R5).
+
+docId: APEX_CONSTRUCTION_2023
+title: APEX CONSTRUCTION - General Contractor Agreement
+GENERAL CONTRACTOR AGREEMENT
+
+THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023, by and between Apex Construction LLC, a Texas limited liability company with offices at 1200 Industrial Blvd, Houston, TX 77002 ("Contractor") and Metro Transit Authority, a municipal corporation of the State of California ("Owner").
+
+1. SCOPE OF WORK
+
+1.1 The Contractor shall furnish all labor, materials, equipment, and services necessary for the construction of the Metro East Line Extension (the "Project"), located in the County of Los Angeles, State of California.
+
+1.2 The Project shall be constructed in accordance with the plans and specifications prepared by Smith & Associates Engineering, Inc., dated April 15, 2023 (the "Plans").
+
+2. CONTRACT PRICE
+
+2.1 The Owner shall pay to the Contractor the sum of Fourteen Million Five Hundred Thousand Dollars ($14,500,000.00) for the complete performance of the Work (the "Contract Price").
+
+2.2 Progress payments shall be made monthly on or before the 25th day of the following month, based on ninety percent (90%) of the value of the Work completed during the preceding month.
+
+3. TIME OF COMPLETION
+
+3.1 The Work shall commence within ten (10) calendar days after the Effective Date and shall be substantially completed within twenty-four (24) months.
+
+3.2 If the Contractor fails to complete the Work within the time specified, the Contractor shall pay to the Owner liquidated damages in the amount of Five Thousand Dollars ($5,000.00) for each calendar day of delay.

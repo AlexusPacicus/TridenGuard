@@ -15,6 +15,7 @@ services:
       - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD:-admin}
     volumes:
       - ~/.n8n_tridenguard:/home/node/.n8n
+      - ./logs:/home/node/.n8n/logs
       - .:/data/tridenguard:ro
     security_opt:
       - no-new-privileges:true

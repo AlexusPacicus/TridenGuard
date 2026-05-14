@@ -77,7 +77,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        8272,
+        8544,
         6848
       ],
       "id": "a359efd4-3c2b-428a-a0d3-d32a1b8d4911",
@@ -94,7 +94,7 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        8512,
+        8928,
         6704
       ],
       "id": "fa07814b-6767-48f6-ab2a-b1851a5295c9",
@@ -118,7 +118,7 @@
       "type": "@n8n/n8n-nodes-langchain.informationExtractor",
       "typeVersion": 1.2,
       "position": [
-        8512,
+        8928,
         6832
       ],
       "id": "00b1515f-a3f4-463f-b652-dc3741d95264",
@@ -131,7 +131,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9600,
+        10016,
         6832
       ],
       "id": "d09299b6-0c7e-44b9-84b2-57e1850ea5d6",
@@ -161,8 +161,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        8512,
-        7056
+        9024,
+        7152
       ],
       "id": "1aae4f66-a3f9-427b-b9f5-c3859faf5bb1",
       "name": "Respond to Webhook1"
@@ -178,9 +178,208 @@
         },
         "columns": {
           "mappingMode": "autoMapInputData",
-          "value": {},
+          "value": {
+            "and_gate_ok": false,
+            "source_integrity": false,
+            "has_critical": false,
+            "has_warning": false,
+            "has_unknown": false,
+            "has_validates": false,
+            "has_borderline": false
+          },
           "matchingColumns": [],
-          "schema": [],
+          "schema": [
+            {
+              "id": "case_id",
+              "displayName": "case_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "rejection_reason",
+              "displayName": "rejection_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "and_gate_ok",
+              "displayName": "and_gate_ok",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_extracted",
+              "displayName": "radicals_extracted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "axiom",
+              "displayName": "axiom",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_json",
+              "displayName": "radicals_json",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "original_text",
+              "displayName": "original_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "trident_status",
+              "displayName": "trident_status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_integrity",
+              "displayName": "source_integrity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "ungrounded_radicals",
+              "displayName": "ungrounded_radicals",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_critical",
+              "displayName": "has_critical",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_warning",
+              "displayName": "has_warning",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_unknown",
+              "displayName": "has_unknown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_validates",
+              "displayName": "has_validates",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_count",
+              "displayName": "error_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "errors",
+              "displayName": "errors",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_borderline",
+              "displayName": "has_borderline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
           "attemptToConvertTypes": false,
           "convertFieldsToString": false
         },
@@ -189,7 +388,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        10272,
+        11104,
         6752
       ],
       "id": "9ad06ea1-fdaa-46ea-bcb5-c1fdaa60c4bf",
@@ -321,7 +520,7 @@
       "type": "n8n-nodes-base.dataTable",
       "typeVersion": 1.1,
       "position": [
-        10272,
+        11104,
         6960
       ],
       "id": "db4ecaf1-2cf6-4e8d-9467-43cc431ad7e9",
@@ -353,7 +552,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        8816,
+        9232,
         6832
       ],
       "id": "27a090d5-b7a9-4bf9-8932-62103ee4f7ea",
@@ -516,7 +715,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        10048,
+        10880,
         6768
       ],
       "id": "17778f66-cf95-4cdc-9246-7951f11dfa94",
@@ -929,12 +1128,12 @@
     },
     {
       "parameters": {
-        "jsCode": "const output = $input.item.json || {};\nconst errors = output.rejection_reason ? output.rejection_reason.split(', ') : [];\n\nconst has_critical = errors.some(e => \n  e.startsWith('UNGROUNDED_RADICAL') || \n  e.includes('R1') || e.includes('R2') || e.includes('R3') || e.includes('R4') ||\n  e === 'EMPTY_EXTRACTION'\n);\nconst has_warning = errors.some(e => e.includes('R5') || e.includes('R6') || e.includes('R7'));\nconst has_borderline = !has_critical && !has_warning && errors.length > 0 && output.source_integrity;\nconst has_unknown = !has_critical && !has_warning && !has_borderline && errors.length > 0;\nconst has_validated = errors.length === 0 && output.source_integrity;\n\nreturn {\n  json: {\n    ...output,\n    has_critical,\n    has_warning,\n    has_borderline,\n    has_unknown,\n    has_validated,\n    error_count: errors.length\n  }\n};"
+        "jsCode": "const output = $input.item.json || {};\nconst errors = (output.rejection_reason && output.rejection_reason !== 'NONE') ? output.rejection_reason.split(', ') : [];\n\nconst has_critical = errors.some(e => \n  e.startsWith('UNGROUNDED_RADICAL') || \n  e.includes('R1') || e.includes('R2') || e.includes('R3') || e.includes('R4') ||\n  e === 'EMPTY_EXTRACTION'\n);\nconst has_warning = errors.some(e => e.includes('R5') || e.includes('R6') || e.includes('R7'));\nconst has_borderline = !has_critical && !has_warning && errors.length > 0 && output.source_integrity;\nconst has_unknown = !has_critical && !has_warning && !has_borderline && errors.length > 0;\nconst has_validated = errors.length === 0 && output.source_integrity;\n\nreturn {\n  json: {\n    ...output,\n    has_critical,\n    has_warning,\n    has_borderline,\n    has_unknown,\n    has_validated,\n    error_count: errors.length\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9808,
+        10384,
         6832
       ],
       "id": "8f424e1a-29fd-4a46-93ee-d29fbffba204",
@@ -949,7 +1148,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        10480,
+        11312,
         6752
       ],
       "id": "64eefef7-2e92-494e-9d7c-0908a00b13b2",
@@ -964,7 +1163,7 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        10480,
+        11312,
         6960
       ],
       "id": "3f8a500f-7e2d-475a-99a3-1e8e352caf81",
@@ -977,11 +1176,186 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        9280,
+        9696,
         6832
       ],
       "id": "7867c861-415a-4036-8c9d-ce504e768bba",
       "name": "Radical Grounding Check"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $('Source Truth Anchor').item.json.source_truth || 'N/A';\n\nreturn {\n  json: {\n    case_id: Math.random().toString(36).substring(2, 15),\n    timestamp: new Date().toISOString(),\n    status: 'BLOCKED',\n    rejection_reason: $json.reason || 'DPI_BLOCKED',\n    source_integrity: true,\n    has_critical: true,\n    has_warning: false,\n    has_borderline: false,\n    has_unknown: false,\n    error_count: 1,\n    radicals_extracted: 0,\n    original_text: text\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        8656,
+        7152
+      ],
+      "id": "9973eeaf-cbf3-43e9-9ede-838e5b13c6c9",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "IJCUXxKxD8PhrlWF",
+          "mode": "list",
+          "cachedResultName": "dpi-block-log",
+          "cachedResultUrl": "/projects/CfdxAVwXqndjJVk6/datatables/IJCUXxKxD8PhrlWF"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "source_integrity": "={{ $json.source_integrity }}",
+            "has_critical": "={{ $json.has_critical }}",
+            "has_warning": "={{ $json.has_warning }}",
+            "has_borderline": "={{ $json.has_borderline }}",
+            "has_unknown": "={{ $json.has_unknown }}",
+            "case_id": "={{ $json.case_id }}",
+            "timestamp": "={{ $json.timestamp }}",
+            "status": "={{ $json.status }}",
+            "rejection_reason": "={{ $json.rejection_reason }}",
+            "error_count": "={{ $json.error_count }}",
+            "radicals_extracted": "={{ $json.radicals_extracted }}",
+            "original_text": "={{ $json.original_text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "case_id",
+              "displayName": "case_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "rejection_reason",
+              "displayName": "rejection_reason",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "source_integrity",
+              "displayName": "source_integrity",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_critical",
+              "displayName": "has_critical",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_warning",
+              "displayName": "has_warning",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_borderline",
+              "displayName": "has_borderline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "has_unknown",
+              "displayName": "has_unknown",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "error_count",
+              "displayName": "error_count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "radicals_extracted",
+              "displayName": "radicals_extracted",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "original_text",
+              "displayName": "original_text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        8864,
+        7152
+      ],
+      "id": "bd41c8df-b6d4-4d0e-9017-f8c4e25b0480",
+      "name": "Save to dpi-block-log"
     }
   ],
   "pinData": {},
@@ -1008,7 +1382,7 @@
         ],
         [
           {
-            "node": "Respond to Webhook1",
+            "node": "Code in JavaScript",
             "type": "main",
             "index": 0
           }
@@ -1147,7 +1521,13 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "Save to Quarantine Table",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Source Truth Anchor": {
@@ -1226,6 +1606,28 @@
           }
         ]
       ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Save to dpi-block-log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to dpi-block-log": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -1233,7 +1635,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "4f319d77-9a3a-496d-b51d-91989cef1b79",
+  "versionId": "a71c88ac-a3a9-4a02-85f9-186c2b99f8d8",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "c84f0dc3c134e37287388b7476ed42fc67a4794810e116768684b1ca156541bb"
