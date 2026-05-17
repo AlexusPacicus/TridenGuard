@@ -9,7 +9,7 @@ Define the strict boundary between the probabilistic layer (LLM extraction) and 
 | Layer | Technology | Responsibility | What it does NOT do |
 |:--|:--|:--|:--|
 | **Neural (Extraction)** | Phi-4-mini / Gemma 4 E2B + Prompt | Produce structured JSON with 8 atomic radicals. Handle form and type. | It does NOT decide if the content is safe or complete. |
-| **Symbolic (Validation)** | Custom JS Engine + 9 Atomic Rules | Apply deterministic exclusion rules. Check source integrity. Decide VALIDATED or QUARANTINED. | It does NOT use ML. It does NOT parse free text. |
+| **Symbolic (Validation)** | Custom JS Engine + 8 Atomic Rules | Apply deterministic exclusion rules. Check source integrity. Decide VALIDATED or QUARANTINED. | It does NOT use ML. It does NOT parse free text. |
 
 ## Why Isolation Matters
 

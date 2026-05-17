@@ -5,7 +5,7 @@
 Extend Lobster Trap beyond the ingress layer. Use it as the unified policy engine for:
 1. Pre-extraction entity validation (Egress)
 2. Red-teaming automation
-3. Logographic token inspection in quarantine
+3. Semantic token inspection in quarantine
 
 ---
 
@@ -67,11 +67,13 @@ Attacks blocked by Lobster Trap (injection, PII, exfiltration)
 Attacks caught by Validator (structural failures)
 False positives (clean cases incorrectly blocked)
 False negatives (attacks that passed)
-Demo Narrative
+## Demo Narrative
+
+*"Projected metrics for V2/V3 full benchmark execution."*
 
 "TridenGuard includes an automated red-teaming module. We tested 64 adversarial cases. Lobster Trap blocked 24 at the ingress layer. The Validator caught 32 structural failures. Only 8 edge cases passed clean. Zero false negatives."
 
-3. Logographic Token Inspection (V3 Preview)
+3. Semantic Token Constraint Inspection (V3 Preview)
 
 Concept
 
@@ -88,7 +90,7 @@ Quarantine Table → Group by reason_code → Lobster Trap Egress → Incubator 
 Lobster Trap Rule (Egress)
 
 yaml
-- name: logographic_pattern_detector
+- name: semantic_pattern_detector
   description: "Detects anomalous token clusters in quarantine logs"
   priority: 70
   action: LOG
@@ -98,10 +100,10 @@ yaml
       value: true
 Demo Narrative (V3 Preview)
 
-"In V3, every quarantine token becomes a logogram — a complete unit of meaning. Lobster Trap inspects these logograms in batches, detecting new failure patterns and proposing new atomic rules. The system learns from every rejection."
+"In V3, every quarantine token becomes a Semantic Token Constraint — a complete unit of meaning. Lobster Trap inspects these Semantic Token Constraints in batches, detecting new failure patterns and proposing new atomic rules. The system learns from every rejection."
 
 Status
 
 Pre-extraction node + Lobster Trap Egress rule → Today
 Red-teaming automation script → Wednesday
-Logographic token inspection → V3 (documentation only for demo)
+Semantic token inspection → V3 (documentation only for demo)

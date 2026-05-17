@@ -51,15 +51,18 @@ class SeverityLevel(str, Enum):
 
 TOON as the primary serialization format, with export to JSONL for tools that do not natively support TOON.
 
-Append-only. Only add, never delete, to maintain the audit chain of custody.
+Append-only. Only add, never delete.
 
-3.2 Conversion
+## The "Why" of the Metric Stack (V2 Roadmap)
 
-The community node @tehw0lf/n8n-nodes-toon manages the conversion between JSON and TOON in the n8n flow without external dependencies.
+> **Note**: The integration of `@tehw0lf/n8n-nodes-toon` and TOON serialization is planned for V2 and is not currently implemented in the Phase 1 MVP.
 
-3.3 Required Implementation
+Once implemented in V2:
+- **Storage cost**: JSON overhead is stripped. `{"has_actor": true}` becomes a binary Semantic Token Constraint.
+- **Latency**: Smaller payloads move faster through webhook boundaries.
+- **ML Readiness**: The audit trail is instantly ready for LoRA preference fine-tuning without preprocessing overhead.
 
-Synchronous writing. There must be no file corruption when logging simultaneous quarantines.
+The combination of deterministic tests (the deterministic logic) and structured logging (the history) guarantees that the AI firewall operates under strict, quantifiable boundaries.
 
 4. END-TO-END PIPELINE
 

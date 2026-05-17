@@ -6,15 +6,13 @@ Replace fragile keyword-based detection with a **cartesian policy engine** that 
 
 ## Inspiration
 
-This approach adapts the **Safety Governor** architecture from Tessellarium Hito 1, where exclusion rules are stored as `frozenset` of `(factor, level)` tuples and evaluated via algebraic constraints:
+Inspired by formal verification techniques in safety-critical systems, each extracted radical becomes a tuple `(radical_type, radical_value)`, and Lobster Trap evaluates incompatibilities between them:
 
 ```python
 exclusion_matrix = [
     frozenset([("Factor_A", "Level_1"), ("Factor_B", "Level_2")])
 ]
 ```
-
-In TridenGuard, each extracted radical becomes a tuple `(radical_type, radical_value)`, and Lobster Trap evaluates incompatibilities between them.
 
 ## Tuple Translation
 
@@ -69,9 +67,9 @@ Translates to:
 
 ## Early Pruning
 
-When a rule fires, Lobster Trap stops evaluating subsequent rules. This is equivalent to **Early Pruning (Backtracking)** in the Tessellarium Hito 1:
+When a rule fires, Lobster Trap stops evaluating subsequent rules. This is equivalent to **Early Pruning (Backtracking)** in formal verification constraint solvers:
 
-> "Si la intersección matemática con exclusion_matrix es positiva, el generador descarta la rama actual y no evalúa los factores restantes."
+> "Si la intersección matemática con la matriz de exclusión es positiva, el motor descarta la evaluación actual y no evalúa las condiciones restantes."
 
 In TridenGuard terms: if `has_action = true AND has_actor = false`, the case goes to QUARANTINE immediately. No further rules are checked.
 
@@ -94,7 +92,7 @@ In TridenGuard terms: if `has_action = true AND has_actor = false`, the case goe
 ### V3 Vision
 - Lobster Trap evaluates cartesian tuples natively
 - Rules defined as incompatible pairs `[("field", "value"), ("field", "value")]`
-- Automatic rule suggestion from quarantine logs (logographic inspection)
+- Automatic rule suggestion from quarantine logs (semantic token constraint inspection)
 
 ## Demo Narrative
 

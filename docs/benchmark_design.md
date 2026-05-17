@@ -169,8 +169,8 @@ Each rule is tested against 8 different input types, designed to probe not only 
 
 | Metric | Target |
 |:--|:--|
-| Lobster Trap block rate (injection/PII/exfiltration) | 100% (24/24) |
-| Validator detection rate (structural failures) | 100% (32/32) |
+| Lobster Trap block rate (injection/PII/exfiltration) | 100% (24/24) (Tested against replicated benchmark cases) |
+| Validator detection rate (structural failures) | 100% (32/32) (Tested against replicated benchmark cases) |
 | False positives (clean cases incorrectly blocked) | 0 |
 | False negatives (failures incorrectly passed) | 0 |
 | Rule collision rate (wrong rule activated) | 0 |

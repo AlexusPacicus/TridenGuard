@@ -1,7 +1,7 @@
 # 🛡️ TridenGuard — Master Submission Document
 ### Veea / lablab.ai Hackathon · May 11–19, 2026
 
-> **The first B2B Neuro-Symbolic Contract Integrity Validation System bringing enterprise-grade, deterministic discipline to enterprise AI adoption.**
+> **The first B2B Neuro-Symbolic Contract Integrity Validation System bringing enterprise-grade, deterministic discipline to enterprise AI adoption — enforcing Zero Trust for LLM outputs.**
 
 ---
 
@@ -13,7 +13,7 @@ Generative AI operates on probability, but enterprise compliance demands determi
 
 > When you are automating enterprise workflows, a **95% accuracy rate isn't a success; it's a 5% critical failure rate** waiting to happen. 
 
-TridenGuard was built to solve this exact gap. It is the first B2B Neuro-Symbolic Contract Integrity Validation System designed to impose strict, mathematical logic over LLM outputs, enabling enterprises to adopt generative AI with absolute certainty.
+TridenGuard was built to solve this exact gap. It is the first B2B Neuro-Symbolic Contract Integrity Validation System designed to impose strict, deterministic logic over LLM outputs, enabling enterprises to adopt generative AI with absolute certainty.
 
 ---
 
@@ -119,7 +119,7 @@ Before the exclusion rules even run, the pipeline executes a final deterministic
 
 > **The Guarantee:** If a required radical is missing or hallucinated, TridenGuard doesn't guess — it flags a **structural failure** and routes the case to the Human-in-the-Loop Quarantine Panel.
 >
-> TridenGuard guarantees **zero false negatives on structural failures** because our validator never uses probabilities — **it uses math**.
+> TridenGuard guarantees **zero false negatives on structural failures** because our validator never uses probabilities — **it uses deterministic logic**.
 
 ---
 
@@ -136,13 +136,13 @@ For this Hackathon MVP, I executed **Phase 1: a 20-case targeted evaluation** de
 | Layer | Test Scope | Result |
 | :--- | :--- | :--- |
 | **Overall Pipeline** | 20 targeted cases | **85% accuracy (17/20)** |
-| **Lobster Trap (Ingress)** | Injection, PII, Exfiltration | **100% block rate** |
-| **Real-World Court Events** | Hallucination replication | **100% intercepted** |
+| **Lobster Trap (Ingress)** | Injection, PII, Exfiltration | **100% block rate (Tested against replicated benchmark cases)** |
+| **Real-World Court Events** | Hallucination replication | **100% intercepted (Tested against replicated benchmark cases)** |
 | **Structural Validator** | R1–R8 rule enforcement | **87.5% accuracy** |
 
 ### 🔍 Finding 1: Ingress Defense — Full Coverage
 
-Lobster Trap achieved a **100% block rate** against all Prompt Injection, PII, and Data Exfiltration attempts before they ever reached the LLM. It also successfully intercepted **100% of the real-world court hallucination events** replicated from documented legal cases.
+Lobster Trap achieved a **100% block rate (Tested against replicated benchmark cases)** against all Prompt Injection, PII, and Data Exfiltration attempts before they ever reached the LLM. It also successfully intercepted **100% of the real-world court hallucination events (Tested against replicated benchmark cases)** replicated from documented legal cases.
 
 ### 🔍 Finding 2: Structural Defense — Identified Edge Cases
 
@@ -156,31 +156,31 @@ These are known, bounded failure modes — not undefined behavior.
 
 During stress-testing, an attempt was made to substitute Phi-4-mini with **Gemma 4 E2B** to enhance extraction depth. The result was a critical pipeline failure: the model's native chain-of-thought tokens (internal reasoning pathways) could not be stripped reliably within the n8n orchestration layer, causing **structured JSON parsing failures**.
 
-> This is not a bug. This is the architectural proof.
+> This is not a bug. This stress test exposed a key architectural constraint.
 
-Raw text extraction from reasoning models is **fundamentally insufficient** for production legal environments. This discovery establishes the exact engineering parameters for the V3 token-level logography roadmap detailed below.
+Raw text extraction from reasoning models is **unreliable for deterministic legal validation workflows** for production legal environments. This discovery establishes the exact engineering parameters for the V3 Semantic Token Constraints roadmap detailed below.
 
 ---
 
 ## 8. The North Star: Horizon 3 Roadmap
 
-### Sovereign AI, Fisher's Statistics, and Token Logography.
+### Sovereign AI, Fisher's Statistics, and GBNF Constrained Decoding.
 
 TridenGuard V1 establishes the deterministic firewall. The V2/V3 roadmap transforms this security checkpoint into a **self-improving, sovereign ecosystem** — each pillar directly motivated by the engineering constraints discovered in Phase 1.
 
-### Pillar 1: Token Logography via TOON + GBNF
+### Pillar 1: GBNF Constrained Decoding via TOON + GBNF
 
 **The problem it solves**: The Gemma 4 E2B parsing failures.
 
-To solve the structured parsing failures caused by reasoning models, we are shifting from text parsing to **token-level logography**. Enterprise-defined Pydantic schemas will be compiled into native **GBNF grammars**, physically constraining the LLM at the inference stage.
+To solve the structured parsing failures caused by reasoning models, we are shifting from text parsing to **Semantic Token Constraints**. Enterprise-defined Pydantic schemas will be compiled into native **GBNF grammars**, physically constraining the LLM at the inference stage.
 
-This makes it **mathematically impossible** for the model to emit unwanted reasoning loops, raw thoughts, or malformed structures. Every validation result is emitted instantly as a single, semantically dense pseudo-token — a "logogram" — using the compact **TOON** format, achieving a projected 40–60% token reduction vs. raw JSON.
+This enforces absolute compliance, making it deterministically impossible for the model to emit unwanted reasoning loops, raw thoughts, or malformed structures. Every validation result is emitted instantly as a single, semantically dense pseudo-token — a "Semantic Token Constraint" — using the compact **TOON** format, achieving a projected 40–60% token reduction vs. raw JSON.
 
 ### Pillar 2: Statistical Threat Hunting (Fisher's Exact Test)
 
 **The problem it solves**: Passive detection → Active threat intelligence.
 
-By combining Lobster Trap's structured observability with TOON-compressed audit logs, the system will apply **Fisher's Exact Test** across the data tables. This statistical method mathematically detects non-random associations between input patterns and structural failures — turning the passive firewall into an **active threat-hunting tool** capable of detecting systemic drift, targeted evasion campaigns, and document-level adversarial patterns before they escalate.
+By combining Lobster Trap's structured observability with TOON-compressed audit logs, the system will apply **Fisher's Exact Test** across the data tables. This statistical method rigorously detects non-random associations between input patterns and structural failures — turning the passive firewall into an **active threat-hunting tool** capable of detecting systemic drift, targeted evasion campaigns, and document-level adversarial patterns before they escalate.
 
 ### Pillar 3: The Local LoRA Flywheel
 
@@ -189,7 +189,7 @@ By combining Lobster Trap's structured observability with TOON-compressed audit 
 The flywheel is complete when lawyers click "Approve" or "Discard" in the Quarantine Panel. Each decision is logged as a TOON-compressed preference signal. This clean, structured dataset continuously fine-tunes small sovereign models locally on the enterprise's own hardware via **LoRA (PEFT)** on Gemma 4 E2B.
 
 ```
-Human Decision → TOON Logogram → LoRA Dataset → Fine-Tuned Local Model → Better Extraction → Fewer False Positives → Better Human Decisions
+Human Decision → TOON Semantic Token Constraint → LoRA Dataset → Fine-Tuned Local Model → Better Extraction → Fewer False Positives → Better Human Decisions
 ```
 
 > **The Moat**: Every human decision makes the model smarter. No cloud. No data leakage. Full legal sovereignty. The enterprise owns its intelligence.
@@ -199,7 +199,7 @@ Human Decision → TOON Logogram → LoRA Dataset → Fine-Tuned Local Model →
 | Horizon | Milestone | Status |
 | :--- | :--- | :--- |
 | ✅ **V1 (MVP)** | Deterministic Firewall + Human Review Panel | **Delivered** |
-| 🔄 **V2** | TOON logging, GBNF schema compilation, Topological Grounding | Next sprint |
+| 🔄 **V2** | TOON logging, GBNF schema compilation, Source-Level Grounding | Next sprint |
 | 🔁 **V3** | Fisher's threat hunting + Local LoRA fine-tuning flywheel | Q3 2026 |
 
 ---
@@ -210,7 +210,7 @@ Human Decision → TOON Logogram → LoRA Dataset → Fine-Tuned Local Model →
 
 ### Orchestrating the Neuro-Symbolic Pipeline at the Edge
 
-TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic is orchestrated deterministically through n8n to manage state, handle sub-millisecond webhooks, and route decisions without ever exposing data to external clouds.
+TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic is orchestrated deterministically through n8n to manage state, handle low-latency webhooks, and route decisions without ever exposing data to external clouds.
 
 ```
                ┌────────────────────────┐
@@ -240,7 +240,7 @@ TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic
                            ▼
                ┌────────────────────────┐
                │ ⚖️ Custom JS Validator  │◄── Run 8 Exclusion Rules
-               └───────────┬────────────┘    (Deterministic Math)
+               └───────────┬────────────┘    (Deterministic Logic)
                            │
             ┌──────────────┴──────────────┐
      (Pass) │                             │ (Fail)
@@ -253,7 +253,7 @@ TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic
                                           ▼
                              ┌────────────────────────┐
                              │ 👨‍⚖️ Legal Review Panel │◄── Generates TOON
-                             │  (Human-in-the-Loop)   │    Logogram for LoRA
+                             │  (Human-in-the-Loop)   │    Constraint for LoRA
                              └────────────────────────┘
 ```
 
@@ -268,11 +268,11 @@ TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic
 | Component | Technology | Role in TridenGuard |
 | :--- | :--- | :--- |
 | **Orchestration** | n8n | The backbone connecting the webhook, DPI, LLM, and data tables |
-| **Unified Security** | Veea Lobster Trap (Go) | DPI proxy enforcing YAML-based firewall rules in sub-millisecond time |
+| **Unified Security** | Veea Lobster Trap (Go) | DPI proxy enforcing YAML-based firewall rules in low-latency time |
 | **Neural Extraction** | Phi-4-mini (3.8B) + Ollama | Runs locally (Temp=0). Extracts the 8 orthogonal atomic radicals |
 | **Symbolic Validation** | Custom JS Engine | Applies deterministic exclusion rules (e.g., Action without Subject) |
-| **Observability** | TOON + JSONL | Compresses forensic audit logs for future model fine-tuning |
-| **Frontend UI** | Vanilla JS / HTML / CSS | Strict B2B Enterprise Quarantine & Forensic Audit Dashboard |
+| **Observability** | TOON + JSONL | Compresses security audit logs for future model fine-tuning |
+| **Frontend UI** | Vanilla JS / HTML / CSS | Strict B2B Enterprise Quarantine & Audit Dashboard |
 
 ---
 
@@ -282,17 +282,17 @@ TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic
 
 The provided video and live demo showcase the system intercepting real-world contractual structural anomalies. The system executes these **4 deterministic steps** on every submission:
 
-**Step 1 — Input a Semantic Divergence**
+**Step 1 — Input a Structural Anomaly**
 Submit a contract extract missing a critical element. Example: *"The profitability threshold is set at 15%."* — the Actor and the Object binding that metric to a party have been removed.
 
 **Step 2 — Lobster Trap Ingress**
-The proxy inspects the payload for prompt injections or PII leaks in sub-millisecond time. If clean, the payload advances. If not, it is permanently blocked and logged.
+The proxy inspects the payload for prompt injections or PII leaks in low-latency time. If clean, the payload advances. If not, it is permanently blocked and logged.
 
 **Step 3 — Radical Extraction**
 Phi-4-mini structures the text into our 8-radical ontology at Temperature=0, producing a deterministic structured JSON payload.
 
 **Step 4 — Deterministic Quarantine**
-The validation engine detects the structural failure (`R4_ORPHAN_METRIC`), **overriding the LLM's output** and sending a `CRITICAL` Business Risk alert to the Forensic Panel for human review.
+The validation engine detects the structural failure (`R4_ORPHAN_METRIC`), **overriding the LLM's output** and sending a `CRITICAL` Business Risk alert to the Review Panel for human review.
 
 ### 🧪 Live Test Cases
 
@@ -313,12 +313,24 @@ Use these in the validator to reproduce the demo:
 
 TridenGuard is designed to pave the way for strict corporate compliance and security audits:
 
-* **Deterministic Auditability:** CISOs do not trust black-box LLM validation. TridenGuard provides mathematical proof for every decision. If a contract fails, the system doesn't just vaguely say "unsafe" — it provides the exact missing radical or structural flaw (e.g., `R2_ACTION_WITHOUT_SUBJECT`) as irrefutable evidence.
-* **The Unified Policy Roadmap:** In this Hackathon MVP, Veea's Lobster Trap successfully secures the Ingress layer (DPI), while the complex Egress schema validation and Quarantine Decision Tree are prototyped via deterministic n8n JavaScript. Proving this mathematical logic natively was the core goal of Phase 1. Phase 2 involves migrating this proven JS logic entirely into Lobster Trap's native YAML policies, transforming it into a true 3-Layer Unified Engine.
-* **Forensic Audit Trails:** Currently logging to structured data tables, the immediate architecture evolution includes serializing these validation failures into compressed TOON logograms. This transition replaces verbose JSON logs with semantically dense records, providing clear compliance tracking while optimizing storage overhead.
+* **Deterministic Auditability:** CISOs do not trust black-box LLM validation. TridenGuard provides explicit structural traceability for every decision. If a contract fails, the system doesn't just vaguely say "unsafe" — it provides the exact missing radical or structural flaw (e.g., `R2_ACTION_WITHOUT_SUBJECT`) as irrefutable evidence.
+* **The Unified Policy Roadmap:** In this Hackathon MVP, Veea's Lobster Trap successfully secures the Ingress layer (DPI), while the complex Egress schema validation and Quarantine Decision Tree are prototyped via deterministic n8n JavaScript. Establishing this deterministic logic natively was the core goal of Phase 1. Phase 2 involves migrating this proven JS logic entirely into Lobster Trap's native YAML policies, transforming it into a true 3-Layer Unified Engine.
+* **Audit Trails:** Currently logging to structured data tables, the immediate architecture evolution includes serializing these validation failures into compressed TOON Semantic Token Constraints. This transition replaces verbose JSON logs with semantically dense records, providing clear compliance tracking while optimizing storage overhead.
 
 ### System Boundaries & Strict Limitations
 To maintain deterministic integrity, TridenGuard operates under strict boundaries:
 * **No Autonomous Legal Reasoning:** The system does not give legal advice or interpret the law.
 * **No Generative Rewrites:** The LLM is never allowed to "auto-correct" or rewrite a failed clause.
 * **Human-in-the-Loop Required:** The system acts strictly as a filter and router. Final approval or dismissal is always delegated to human counsel.
+
+---
+
+## 🚀 Quick Start (Post-Hackathon)
+
+1. `docker-compose up -d`
+2. Import the workflow into your n8n instance.
+3. Ensure Ollama is running with `phi4-mini:3.8b`.
+4. Send a test POST to `http://localhost:5678/webhook/tridenguard`.
+
+> [!NOTE]
+> The Lobster Trap (`lobstertrap_real`) service is currently commented out in `docker-compose.yml`. You can uncomment it to run it automatically within Docker, or you can run it manually if desired (e.g. executing `./lobstertrap_linux serve --port 8080` in the directory).

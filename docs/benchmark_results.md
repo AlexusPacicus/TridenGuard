@@ -11,11 +11,13 @@
 
 | Category | Total | Correct | Accuracy |
 |:--|:--|:--|:--|
-| DPI (Lobster Trap Ingress) | 4 | 4 | 100% |
+| DPI (Lobster Trap Ingress) | 4 | 4 | 100%* |
 | Structural (8 Atomic Rules) | 8 | 7 | 87.5% |
-| Court Cases (Real Events) | 4 | 4 | 100% |
+| Court Cases (Real Events) | 4 | 4 | 100%* |
 | Valid Documents | 4 | 3 | 75% |
 | **Total** | **20** | **17** | **85%** |
+
+\* Tested against replicated benchmark cases.
 
 ---
 

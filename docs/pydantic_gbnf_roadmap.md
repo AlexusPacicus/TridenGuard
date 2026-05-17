@@ -35,8 +35,8 @@ text
 
 | Format | Size | Tokens (1K entries) | Fine-tuning cost |
 |:--|:--|:--|:--|
-| JSON | Baseline | ~500K tokens | Baseline |
-| TOON | -40 to -60% | ~200-300K tokens | ~50% reduction |
+| JSON | Baseline | Baseline | Baseline |
+| TOON | -40 to -60% | ~40-60% reduction | ~50% reduction |
 
 TOON compresses the preference dataset before fine-tuning. Less tokens = less compute = faster training on local hardware. The `@tehw0lf/n8n-nodes-toon` node handles conversion without external dependencies.
 

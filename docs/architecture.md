@@ -2,7 +2,7 @@
 
 ## Overview
 
-TridenGuard is a deterministic firewall for LLM hallucinations in legal and financial documents. It enforces a neuro-symbolic schema using 8 orthogonal atomic radicals and a human-in-the-loop quarantine system.
+TridenGuard is a deterministic firewall enforcing Zero Trust for LLM outputs in legal and financial documents. It enforces a neuro-symbolic schema using 8 orthogonal atomic radicals and a human-in-the-loop quarantine system.
 
 ## Pipeline
 User Input → n8n Webhook → Lobster Trap DPI → Information Extractor (Phi-4-mini)

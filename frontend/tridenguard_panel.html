@@ -366,7 +366,7 @@ THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023,
       "REAL-R2": {
         fullContract: CONTRACTS.LIME_ENERGY,
         originalText: "Company hereby appoints Distributor as Company's exclusive distributor within the Market",
-        radicals: { "Actor": ["Company", "Distributor"], "Action": ["appoints"], "Object": ["exclusive distributor"], "Spatial": ["within the Market"] }
+        radicals: { "Action": ["appoints"], "Object": ["exclusive distributor"], "Spatial": ["within the Market"] }
       },
       "TECH-R4": {
         fullContract: CONTRACTS.TECHVISTA,
@@ -526,7 +526,7 @@ THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023,
               <span style="color: var(--discard); font-weight: 800; font-size: 0.75rem;">FAIL (${c.radicals - c.errors}/${c.radicals} Found)</span>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center;">
-              <span style="font-size: 0.65rem; color: var(--fg-muted); font-weight: bold; text-transform: uppercase;">Topological Grounding</span>
+              <span style="font-size: 0.65rem; color: var(--fg-muted); font-weight: bold; text-transform: uppercase;">Source-Level Grounding</span>
               <span style="color: ${c.ground === '✓' ? 'var(--approve)' : 'var(--discard)'}; font-weight: 800; font-size: 0.75rem;">${c.ground === '✓' ? 'VERIFIED' : 'UNGROUNDED'}</span>
             </div>
           </div>
@@ -641,7 +641,7 @@ THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023,
 
       // Simular latencia de red y procesamiento de Pipeline (Para el vídeo)
       btn.disabled = true;
-      btn.innerHTML = "🛡️ Inspecting (Lobstrap)...";
+      btn.innerHTML = "🛡️ Inspecting (Lobster Trap)...";
       btn.style.backgroundColor = "var(--warn)";
       btn.style.color = "#000";
 
@@ -659,7 +659,7 @@ THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023,
           // Desplazar la pantalla suavemente hacia la tabla
           document.querySelector('.table-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
           
-          // Abrir automáticamente el panel rojo de "Semantic Divergence"
+          // Abrir automáticamente el panel rojo de "Structural Anomaly"
           // Si ya estaba abierto, lo cerramos y lo volvemos a abrir para que se note el efecto
           if (detailPanel.classList.contains('open')) {
             detailPanel.classList.remove('open');
@@ -671,7 +671,7 @@ THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023,
           // Añadir un Toast de notificación
           const el = document.createElement('div'); 
           el.className = 'toast toast-err';
-          el.innerHTML = `<span>🔴</span><span><strong>Critical Failure</strong> intercepted and quarantined.</span>`;
+          el.innerHTML = `<span>🔴</span><span><strong>Structural Anomaly</strong> intercepted and quarantined.</span>`;
           toastRack.appendChild(el); 
           setTimeout(() => el.remove(), 4000);
 

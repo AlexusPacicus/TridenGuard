@@ -27,18 +27,18 @@ services:
     networks:
       - tridenguard_net
 
-  lobstertrap_real:
-    image: alpine:latest
-    container_name: lobstertrap_real
-    command: /app/lobstertrap_linux serve --port 8080
-    restart: unless-stopped
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./lobstertrap_linux:/app/lobstertrap_linux
-      - ./configs:/app/configs
-    networks:
-      - tridenguard_net
+#  lobstertrap_real:
+#    image: alpine:latest
+#    container_name: lobstertrap_real
+#    command: /app/lobstertrap_linux serve --port 8080
+#    restart: unless-stopped
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./lobstertrap_linux:/app/lobstertrap_linux
+#      - ./configs:/app/configs
+#    networks:
+#      - tridenguard_net
 
   ollama:
     image: ollama/ollama:latest
