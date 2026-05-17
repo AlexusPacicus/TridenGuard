@@ -32,984 +32,156 @@
       --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 15px;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 15px; }
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg-base);
-      color: var(--fg);
-      min-height: 100vh;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      font-family: 'Inter', system-ui, sans-serif; background: var(--bg-base); color: var(--fg);
+      min-height: 100vh; overflow-x: hidden; -webkit-font-smoothing: antialiased;
     }
-
     body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
+      content: ''; position: fixed; inset: 0;
       background:
         radial-gradient(ellipse 700px 500px at 15% 10%, rgba(59, 130, 246, 0.04) 0%, transparent 70%),
         radial-gradient(ellipse 500px 600px at 85% 85%, rgba(16, 185, 129, 0.03) 0%, transparent 70%),
         repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(59, 130, 246, 0.012) 80px, rgba(59, 130, 246, 0.012) 81px),
         repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(59, 130, 246, 0.012) 80px, rgba(59, 130, 246, 0.012) 81px);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
-
-    .app {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 28px 20px 72px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-
-    .topbar-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
+    .app { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 28px 20px 72px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .topbar-left { display: flex; align-items: center; gap: 14px; }
     .logo-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: var(--radius);
+      width: 42px; height: 42px; border-radius: var(--radius);
       background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 0 24px rgba(37, 99, 235, 0.3);
-      flex-shrink: 0;
+      display: grid; place-items: center; box-shadow: 0 0 24px rgba(37, 99, 235, 0.3); flex-shrink: 0;
     }
-
-    .logo-mark svg {
-      width: 22px;
-      height: 22px;
-      fill: #fff;
-    }
-
-    .brand-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
-      line-height: 1.2;
-    }
-
-    .brand-sub {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--fg-muted);
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
+    .logo-mark svg { width: 22px; height: 22px; fill: #fff; }
+    .brand-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2; }
+    .brand-sub { font-size: 0.72rem; font-weight: 500; color: var(--fg-muted); letter-spacing: 0.4px; text-transform: uppercase; }
+    .topbar-right { display: flex; align-items: center; gap: 12px; }
     .btn-refresh {
-      background: var(--bg-surface);
-      color: var(--accent);
-      border: 1px solid var(--border);
-      padding: 8px 16px;
-      border-radius: 40px;
-      cursor: pointer;
-      font-size: 0.75rem;
-      font-weight: 600;
-      font-family: inherit;
-      transition: var(--transition);
+      background: var(--bg-surface); color: var(--accent); border: 1px solid var(--border);
+      padding: 8px 16px; border-radius: 40px; cursor: pointer; font-size: 0.75rem; font-weight: 600; font-family: inherit; transition: var(--transition);
     }
-
-    .btn-refresh:hover {
-      border-color: var(--accent);
-      box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
-    }
-
-    .btn-refresh.loading {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
+    .btn-refresh:hover { border-color: var(--accent); box-shadow: 0 0 12px rgba(59, 130, 246, 0.15); }
+    .btn-refresh.loading { opacity: 0.5; pointer-events: none; }
     .conn-status {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-size: 0.73rem;
-      font-weight: 500;
-      color: var(--fg-secondary);
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      padding: 7px 14px 7px 10px;
-      border-radius: 40px;
-    }
-
-    .conn-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: var(--approve);
-      box-shadow: 0 0 8px rgba(16, 185, 129, 0.25);
-      animation: connPulse 2.4s ease-in-out infinite;
-    }
-
-    @keyframes connPulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 4px rgba(16, 185, 129, 0.25);
-      }
-
-      50% {
-        box-shadow: 0 0 14px rgba(16, 185, 129, 0.25);
-      }
-    }
-
-    /* VALIDATOR BOX STYLES */
-    .validator-box {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .validator-box::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--approve), transparent);
-    }
-
-    .validator-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .validator-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--fg);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .validator-sub {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-      margin-top: 4px;
-    }
-
-    .validator-badges {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .v-badge {
-      font-size: 0.65rem;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .v-badge-ingress {
-      background: rgba(16, 185, 129, 0.1);
-      color: #10b981;
-      border: 1px solid rgba(16, 185, 129, 0.2);
-    }
-
-    .v-badge-validator {
-      background: rgba(59, 130, 246, 0.1);
-      color: #3b82f6;
-      border: 1px solid rgba(59, 130, 246, 0.2);
-    }
-
-    .validator-kb {
-      font-size: 0.68rem;
-      color: var(--fg-muted);
-      margin-bottom: 14px;
-    }
-
-    .validator-kb span {
-      color: var(--fg-secondary);
-      font-weight: 600;
-    }
-
-    .validator-body {
-      display: flex;
-      gap: 10px;
-    }
-
-    .validator-input {
-      flex: 1;
-      background: var(--bg-base);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 12px;
-      color: var(--fg);
-      font-family: inherit;
-      font-size: 0.85rem;
-      resize: none;
-      outline: none;
-      transition: border 0.2s;
-    }
-
-    .validator-input:focus {
-      border-color: var(--border-focus);
-    }
-
-    .btn-validate {
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      border-radius: var(--radius-sm);
-      padding: 0 28px;
-      font-weight: 700;
-      cursor: pointer;
-      font-family: inherit;
-      transition: 0.2s;
-      font-size: 0.85rem;
-    }
-
-    .btn-validate:hover {
-      background: #2563eb;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    /* STATS & TABLE */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-
-    .stat-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-    }
-
-    .stat-card:hover {
-      border-color: var(--border-focus);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow);
-    }
-
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 2px;
-    }
-
-    .stat-card.s-critical::before {
-      background: linear-gradient(90deg, var(--discard), transparent);
-    }
-
-    .stat-card.s-warning::before {
-      background: linear-gradient(90deg, var(--warn), transparent);
-    }
-
-    .stat-card.s-borderline::before {
-      background: linear-gradient(90deg, var(--borderline), transparent);
-    }
-
-    .stat-card.s-total::before {
-      background: linear-gradient(90deg, var(--accent), transparent);
-    }
-
-    .stat-card.s-blocked::before {
-      background: linear-gradient(90deg, var(--discard), transparent);
-    }
-
-    .stat-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      color: var(--fg-muted);
-      margin-bottom: 6px;
-    }
-
-    .stat-val {
-      font-size: 1.5rem;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .s-critical .stat-val {
-      color: var(--discard);
-    }
-
-    .s-warning .stat-val {
-      color: var(--warn);
-    }
-
-    .s-borderline .stat-val {
-      color: var(--borderline);
-    }
-
-    .s-total .stat-val {
-      color: var(--accent);
-    }
-
-    .s-blocked .stat-val {
-      color: var(--discard);
-    }
-
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .section-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-title .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--warn);
-      animation: dotBlink 1.8s ease-in-out infinite;
-    }
-
-    @keyframes dotBlink {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.3;
-      }
-    }
-
-    .section-desc {
-      font-size: 0.72rem;
-      color: var(--fg-muted);
-    }
-
-    .filter-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .filter-tab {
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--fg-secondary);
-      font-family: inherit;
-      transition: var(--transition);
-    }
-
-    .filter-tab:hover {
-      border-color: var(--fg-muted);
-      color: var(--fg);
-    }
-
-    .filter-tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    .table-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .table-scroll {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 800px;
-    }
-
-    thead {
-      background: rgba(0, 0, 0, 0.25);
-    }
-
-    thead th {
-      padding: 13px 14px;
-      font-size: 0.66rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--fg-muted);
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-    }
-
-    tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background var(--transition);
-      cursor: pointer;
-    }
-
-    tbody tr:last-child {
-      border-bottom: none;
-    }
-
-    tbody tr:hover {
-      background: var(--bg-hover);
-    }
-
-    tbody td {
-      padding: 12px 14px;
-      vertical-align: middle;
-      font-size: 0.8rem;
-    }
-
-    .cell-id {
-      font-weight: 700;
-      font-size: 0.75rem;
-      color: var(--accent);
-      white-space: nowrap;
-    }
-
-    .cell-text {
-      color: var(--fg-secondary);
-      font-size: 0.78rem;
-      line-height: 1.5;
-      max-width: 300px;
-    }
-
-    .cell-text .reason {
-      font-size: 0.65rem;
-      color: var(--fg-muted);
-      margin-top: 3px;
-    }
-
-    .badge-sev {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 0.65rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      white-space: nowrap;
-      letter-spacing: 0.3px;
-    }
-
-    .badge-critical {
-      background: rgba(239, 68, 68, 0.12);
-      color: var(--discard);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-
-    .badge-warning {
-      background: rgba(245, 158, 11, 0.12);
-      color: var(--warn);
-      border: 1px solid rgba(245, 158, 11, 0.25);
-    }
-
-    .badge-borderline {
-      background: rgba(99, 102, 241, 0.12);
-      color: var(--borderline);
-      border: 1px solid rgba(99, 102, 241, 0.25);
-    }
-
-    .badge-unknown {
-      background: rgba(79, 99, 130, 0.12);
-      color: var(--fg-muted);
-      border: 1px solid rgba(79, 99, 130, 0.25);
-    }
-
-    .cell-number {
-      font-variant-numeric: tabular-nums;
-      color: var(--fg-secondary);
-      text-align: center;
-    }
-
-    .cell-ground {
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .cell-ground.grounded {
-      color: var(--approve);
-    }
-
-    .cell-ground.ungrounded {
-      color: var(--discard);
-    }
-
-    .cell-doc {
-      font-size: 1rem;
-      cursor: pointer;
-      text-align: center;
-      transition: transform 0.2s;
-      width: 40px;
-    }
-
-    .cell-doc:hover {
-      transform: scale(1.3);
-    }
-
-    .actions {
-      display: flex;
-      gap: 6px;
-      align-items: center;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 12px;
-      border-radius: var(--radius-sm);
-      font-size: 0.68rem;
-      font-weight: 700;
-      font-family: inherit;
-      cursor: pointer;
-      border: 1px solid transparent;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn-approve {
-      background: var(--approve);
-      color: #fff;
-      border-color: var(--approve);
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12);
-    }
-
-    .btn-approve:hover {
-      background: #059669;
-      border-color: #059669;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2);
-    }
-
-    .btn-discard {
-      background: transparent;
-      color: var(--discard);
-      border-color: rgba(239, 68, 68, 0.25);
-    }
-
-    .btn-discard:hover {
-      background: var(--discard);
-      color: #fff;
-      border-color: var(--discard);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
-    }
-
-    .btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-      transform: none !important;
-      box-shadow: none !important;
-    }
-
-    .btn .spin {
-      width: 12px;
-      height: 12px;
-      border: 2px solid transparent;
-      border-top-color: currentColor;
-      border-radius: 50%;
-      animation: spin 0.55s linear infinite;
-      display: none;
-    }
-
-    .btn.loading .spin {
-      display: inline-block;
-    }
-
-    .btn.loading .btn-text {
-      display: none;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes rowIn {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    tbody tr {
-      animation: rowIn 0.35s ease both;
-    }
-
-    tr.row-out {
-      animation: rowOut 0.45s ease forwards;
-    }
-
-    @keyframes rowOut {
-      to {
-        opacity: 0;
-        transform: translateX(50px);
-        max-height: 0;
-      }
-    }
-
-    .empty {
-      text-align: center;
-      padding: 56px 20px;
-    }
-
-    .empty-icon {
-      font-size: 2.6rem;
-      opacity: 0.2;
-      margin-bottom: 12px;
-    }
-
-    .empty h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--fg-secondary);
-      margin-bottom: 6px;
-    }
-
-    .empty p {
-      font-size: 0.78rem;
-      color: var(--fg-muted);
-    }
-
-    .table-foot {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-top: 1px solid var(--border);
-      font-size: 0.68rem;
-      color: var(--fg-muted);
-      background: rgba(0, 0, 0, 0.15);
-    }
-
-    .toast-rack {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      pointer-events: none;
-    }
-
-    .toast {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      padding: 13px 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.8rem;
-      color: var(--fg);
-      box-shadow: var(--shadow-lg);
-      animation: toastSlide 0.3s ease;
-      pointer-events: auto;
-      max-width: 400px;
-      backdrop-filter: blur(16px);
-    }
-
-    .toast.leaving {
-      animation: toastLeave 0.25s ease forwards;
-    }
-
-    .toast-ok {
-      border-left: 3px solid var(--approve);
-    }
-
-    .toast-err {
-      border-left: 3px solid var(--discard);
-    }
-
-    .toast-note {
-      border-left: 3px solid var(--accent);
-    }
-
-    @keyframes toastSlide {
-      from {
-        opacity: 0;
-        transform: translateX(40px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes toastLeave {
-      to {
-        opacity: 0;
-        transform: translateX(40px);
-      }
-    }
-
-    .overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(4px);
-      z-index: 8000;
-      display: grid;
-      place-items: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
-
-    .overlay.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .modal {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 30px;
-      max-width: 400px;
-      width: 92%;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .modal h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-
-    .modal p {
-      font-size: 0.82rem;
-      color: var(--fg-secondary);
-      line-height: 1.6;
-      margin-bottom: 22px;
-    }
-
-    .modal-btns {
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    .mbtn {
-      padding: 9px 18px;
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
-      font-weight: 600;
-      font-family: inherit;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: var(--bg-raised);
-      color: var(--fg-secondary);
-      transition: var(--transition);
-    }
-
-    .mbtn:hover {
-      border-color: var(--fg-muted);
-      color: var(--fg);
-    }
-
-    .mbtn-red {
-      background: var(--discard);
-      border-color: var(--discard);
-      color: #fff;
-    }
-
-    .mbtn-red:hover {
-      background: #dc2626;
-      border-color: #dc2626;
-    }
-
-    .detail-panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      margin-top: 12px;
-      display: none;
-      font-size: 0.75rem;
-      color: var(--fg-secondary);
-      max-height: 300px;
-      overflow-y: auto;
-    }
-
-    .detail-panel.open {
-      display: block;
-    }
-
-    /* Document Preview Overlay */
-    .doc-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      z-index: 9000;
-      display: none;
-      place-items: center;
-      padding: 40px;
-    }
-
-    .doc-overlay.open {
-      display: grid;
-    }
-
-    .doc-window {
-      background: #fff;
-      color: #333;
-      width: 100%;
-      max-width: 800px;
-      height: 80vh;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    }
-
-    .doc-header {
-      padding: 15px 25px;
-      border-bottom: 1px solid #eee;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #f9f9f9;
-      border-radius: 8px 8px 0 0;
-    }
-
-    .doc-title {
-      font-weight: 700;
-      color: #1a1a1a;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .doc-body {
-      padding: 30px;
-      overflow-y: auto;
-      font-family: 'Inter', serif;
-      line-height: 1.8;
-      font-size: 1rem;
-      flex: 1;
-      white-space: pre-wrap;
-    }
-
-    .btn-close-doc {
-      background: #eee;
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-      font-weight: 700;
-      display: grid;
-      place-items: center;
-      transition: 0.2s;
-    }
-
-    .btn-close-doc:hover {
-      background: #ddd;
-    }
-
-    @media (max-width: 640px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .actions {
-        flex-direction: column;
-      }
-
-      .btn {
-        width: 100%;
-        justify-content: center;
-      }
-    }
+      display: flex; align-items: center; gap: 7px; font-size: 0.73rem; font-weight: 500;
+      color: var(--fg-secondary); background: var(--bg-surface); border: 1px solid var(--border); padding: 7px 14px 7px 10px; border-radius: 40px;
+    }
+    .conn-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--approve); box-shadow: 0 0 8px rgba(16, 185, 129, 0.25); animation: connPulse 2.4s ease-in-out infinite; }
+    @keyframes connPulse { 0%, 100% { box-shadow: 0 0 4px rgba(16, 185, 129, 0.25); } 50% { box-shadow: 0 0 14px rgba(16, 185, 129, 0.25); } }
+
+    .validator-box { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .validator-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent), var(--approve), transparent); }
+    .validator-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+    .validator-title { font-size: 0.92rem; font-weight: 700; color: var(--fg); display: flex; align-items: center; gap: 8px; }
+    .validator-sub { font-size: 0.72rem; color: var(--fg-muted); margin-top: 4px; }
+    .validator-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .v-badge { font-size: 0.65rem; padding: 4px 10px; border-radius: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+    .v-badge-ingress { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .v-badge-validator { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+    .validator-kb { font-size: 0.68rem; color: var(--fg-muted); margin-bottom: 14px; }
+    .validator-kb span { color: var(--fg-secondary); font-weight: 600; }
+    .validator-body { display: flex; gap: 10px; }
+    .validator-input { flex: 1; background: var(--bg-base); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px; color: var(--fg); font-family: inherit; font-size: 0.85rem; resize: none; outline: none; transition: border 0.2s; }
+    .validator-input:focus { border-color: var(--border-focus); }
+    .btn-validate { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 0 28px; font-weight: 700; cursor: pointer; font-family: inherit; transition: 0.2s; font-size: 0.85rem; }
+    .btn-validate:hover { background: #2563eb; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); }
+
+    .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 24px; }
+    .stat-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; position: relative; overflow: hidden; transition: var(--transition); }
+    .stat-card:hover { border-color: var(--border-focus); transform: translateY(-1px); box-shadow: var(--shadow); }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+    .stat-card.s-critical::before { background: linear-gradient(90deg, var(--discard), transparent); }
+    .stat-card.s-warning::before { background: linear-gradient(90deg, var(--warn), transparent); }
+    .stat-card.s-borderline::before { background: linear-gradient(90deg, var(--borderline), transparent); }
+    .stat-card.s-total::before { background: linear-gradient(90deg, var(--accent), transparent); }
+    .stat-card.s-blocked::before { background: linear-gradient(90deg, var(--discard), transparent); }
+    .stat-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--fg-muted); margin-bottom: 6px; }
+    .stat-val { font-size: 1.5rem; font-weight: 800; line-height: 1; }
+    .s-critical .stat-val { color: var(--discard); }
+    .s-warning .stat-val { color: var(--warn); }
+    .s-borderline .stat-val { color: var(--borderline); }
+    .s-total .stat-val { color: var(--accent); }
+    .s-blocked .stat-val { color: var(--discard); }
+
+    .section-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .section-title { font-size: 0.92rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .section-title .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warn); animation: dotBlink 1.8s ease-in-out infinite; }
+    @keyframes dotBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .section-desc { font-size: 0.72rem; color: var(--fg-muted); }
+
+    .table-card { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    thead { background: rgba(0, 0, 0, 0.25); }
+    thead th { padding: 13px 14px; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--fg-muted); text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+    tbody tr { border-bottom: 1px solid var(--border); transition: background var(--transition); cursor: pointer; }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: var(--bg-hover); }
+    tbody td { padding: 12px 14px; vertical-align: middle; font-size: 0.8rem; }
+
+    .cell-id { font-weight: 700; font-size: 0.75rem; color: var(--accent); white-space: nowrap; }
+    .cell-text { color: var(--fg-secondary); font-size: 0.78rem; line-height: 1.5; max-width: 300px; }
+    .cell-text .reason { font-size: 0.65rem; color: var(--fg-muted); margin-top: 3px; }
+    .badge-sev { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; white-space: nowrap; letter-spacing: 0.3px; }
+    .badge-critical { background: rgba(239, 68, 68, 0.12); color: var(--discard); border: 1px solid rgba(239, 68, 68, 0.25); }
+    .badge-warning { background: rgba(245, 158, 11, 0.12); color: var(--warn); border: 1px solid rgba(245, 158, 11, 0.25); }
+    .badge-borderline { background: rgba(99, 102, 241, 0.12); color: var(--borderline); border: 1px solid rgba(99, 102, 241, 0.25); }
+    .badge-unknown { background: rgba(79, 99, 130, 0.12); color: var(--fg-muted); border: 1px solid rgba(79, 99, 130, 0.25); }
+
+    .cell-number { font-variant-numeric: tabular-nums; color: var(--fg-secondary); text-align: center; }
+    .cell-ground { text-align: center; font-weight: 700; }
+    .cell-ground.grounded { color: var(--approve); }
+    .cell-ground.ungrounded { color: var(--discard); }
+    .cell-doc { font-size: 1rem; cursor: pointer; text-align: center; transition: transform 0.2s; width: 40px; }
+    .cell-doc:hover { transform: scale(1.3); }
+
+    .actions { display: flex; gap: 6px; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: var(--radius-sm); font-size: 0.68rem; font-weight: 700; font-family: inherit; cursor: pointer; border: 1px solid transparent; transition: var(--transition); white-space: nowrap; }
+    .btn-approve { background: var(--approve); color: #fff; border-color: var(--approve); box-shadow: 0 2px 8px rgba(16, 185, 129, 0.12); }
+    .btn-approve:hover { background: #059669; border-color: #059669; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(16, 185, 129, 0.2); }
+    .btn-discard { background: transparent; color: var(--discard); border-color: rgba(239, 68, 68, 0.25); }
+    .btn-discard:hover { background: var(--discard); color: #fff; border-color: var(--discard); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+    .detail-panel { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-top: 12px; display: none; font-size: 0.75rem; color: var(--fg-secondary); max-height: 450px; overflow-y: auto; }
+    .detail-panel.open { display: block; }
+    .toast-rack { position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .toast { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 13px 18px; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: var(--fg); box-shadow: var(--shadow-lg); animation: toastSlide 0.3s ease; pointer-events: auto; max-width: 400px; backdrop-filter: blur(16px); }
+    .toast-ok { border-left: 3px solid var(--approve); } .toast-err { border-left: 3px solid var(--discard); } .toast-note { border-left: 3px solid var(--accent); }
+    
+    @keyframes toastSlide { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes rowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    tbody tr { animation: rowIn 0.35s ease both; }
+    
+    .overlay, .doc-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(4px); z-index: 8000; display: none; place-items: center; padding: 40px;}
+    .overlay.open, .doc-overlay.open { display: grid; }
+    .modal { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 30px; max-width: 400px; width: 92%; box-shadow: var(--shadow-lg); }
+    .modal h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; }
+    .modal p { font-size: 0.82rem; color: var(--fg-secondary); line-height: 1.6; margin-bottom: 22px; }
+    .modal-btns { display: flex; justify-content: flex-end; gap: 10px; }
+    .mbtn { padding: 9px 18px; border-radius: var(--radius-sm); font-size: 0.78rem; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--border); background: var(--bg-raised); color: var(--fg-secondary); transition: var(--transition); }
+    .mbtn:hover { border-color: var(--fg-muted); color: var(--fg); }
+    .mbtn-red { background: var(--discard); border-color: var(--discard); color: #fff; }
+    .mbtn-red:hover { background: #dc2626; border-color: #dc2626; }
+    
+    .doc-window { background: #fff; color: #333; width: 100%; max-width: 800px; height: 85vh; border-radius: 8px; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5); }
+    .doc-header { padding: 15px 25px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; border-radius: 8px 8px 0 0; }
+    .doc-title { font-weight: 700; color: #1a1a1a; display: flex; align-items: center; gap: 10px; }
+    .doc-body { padding: 30px; overflow-y: auto; font-family: 'Inter', serif; line-height: 1.8; font-size: 0.95rem; flex: 1; white-space: pre-wrap; }
+    .btn-close-doc { background: #eee; border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-weight: 700; display: grid; place-items: center; transition: 0.2s; }
+    .btn-close-doc:hover { background: #ddd; }
   </style>
 </head>
 
 <body>
-
   <div class="app">
     <header class="topbar">
       <div class="topbar-left">
         <div class="logo-mark">
-          <svg viewBox="0 0 24 24">
-            <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5z" />
-          </svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5zm-1 14h-2v-2h2v2zm0-4h-2V7h2v5z" /></svg>
         </div>
         <div>
           <div class="brand-title">TridenGuard</div>
@@ -1017,67 +189,58 @@
         </div>
       </div>
       <div class="topbar-right">
-        <button class="btn-refresh" id="btnRefresh" onclick="refreshData()">🔄 Refresh from n8n</button>
+        <button class="btn-refresh" id="btnRefresh" onclick="refreshData()">🔄 Refresh</button>
         <div class="conn-status">
           <span class="conn-dot"></span> n8n <span style="color:var(--fg-muted);margin-left:4px;">localhost:5678</span>
         </div>
       </div>
     </header>
 
-    <!-- DOCUMENT VALIDATOR -->
     <div class="validator-box">
       <div class="validator-header">
         <div>
           <div class="validator-title">📄 Document Validator</div>
-          <div class="validator-sub">Submit a legal document for integrity validation</div>
+          <div class="validator-sub">Submit a legal clause to check against Ground Truth</div>
         </div>
         <div class="validator-badges">
           <span class="v-badge v-badge-ingress">🛡️ Ingress: ACTIVE</span>
           <span class="v-badge v-badge-validator">🔍 Validator: ACTIVE</span>
         </div>
       </div>
-      <div class="validator-kb">Compared against: <span>Enterprise Knowledge Base</span></div>
-      <div class="validator-body">
-        <textarea id="docInput" class="validator-input" rows="2"
-          placeholder="Paste a contract clause, legal citation, or financial statement..."></textarea>
-        <button class="btn-validate" onclick="sendValidation()">🔍 Validate Document</button>
+      <div class="validator-kb">Compared against: <span style="color:var(--accent);">Legal Benchmark DB (v2.0)</span></div>
+      <div class="validator-body" style="flex-direction: column;">
+        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <select id="groundTruthSelector" style="flex: 1; background: var(--bg-raised); color: var(--fg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 12px; font-family: inherit; font-size: 0.8rem; outline: none; cursor: pointer;">
+            <option value="REAL-R1">📄 [REAL-R1] Master Contract: LIMEENERGYCO (Distribution)</option>
+            <option value="TECH-R4">📄 [TECH-R4] Master Contract: TECHVISTA INC. (SaaS Agreement)</option>
+            <option value="PHARMA-R8">📄 [PHARMA-R8] Master Contract: PHARMA GLOBAL (Mutual NDA)</option>
+            <option value="APEX-R7">📄 [APEX-R7] Master Contract: APEX CONSTRUCTION (General Contractor)</option>
+          </select>
+          <span style="font-size: 0.75rem; color: var(--fg-muted); align-self: center;">Base de Referencia Activa</span>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+          <textarea id="docInput" class="validator-input" rows="2" placeholder="Paste the modified contract clause received from the counterparty..."></textarea>
+          <button class="btn-validate" onclick="sendValidation()">🔍 Validate</button>
+        </div>
       </div>
     </div>
 
-    <section class="stats">
-      <div class="stat-card s-total">
-        <div class="stat-label">Total</div>
-        <div class="stat-val" id="sTotal">0</div>
-      </div>
-      <div class="stat-card s-blocked">
-        <div class="stat-label">🚫 DPI Blocked</div>
-        <div class="stat-val" id="sBlocked">0</div>
-      </div>
-      <div class="stat-card s-critical">
-        <div class="stat-label">🔴 Critical</div>
-        <div class="stat-val" id="sCritical">0</div>
-      </div>
-      <div class="stat-card s-warning">
-        <div class="stat-label">🟡 Warnings</div>
-        <div class="stat-val" id="sWarning">0</div>
-      </div>
-      <div class="stat-card s-borderline">
-        <div class="stat-label">🔵 Borderline</div>
-        <div class="stat-val" id="sBorderline">0</div>
-      </div>
+    <section class="stats" style="grid-template-columns: repeat(6, 1fr);">
+      <div class="stat-card s-total"><div class="stat-label">Total</div><div class="stat-val" id="sTotal">0</div></div>
+      <div class="stat-card s-blocked"><div class="stat-label">🚫 Blocked</div><div class="stat-val" id="sBlocked">0</div></div>
+      <div class="stat-card s-critical"><div class="stat-label">🔴 Critical</div><div class="stat-val" id="sCritical">0</div></div>
+      <div class="stat-card s-warning"><div class="stat-label">🟡 Warning</div><div class="stat-val" id="sWarning">0</div></div>
+      <div class="stat-card s-borderline"><div class="stat-label">🔵 Borderline</div><div class="stat-val" id="sBorderline">0</div></div>
+      <div class="stat-card s-training" style="border-color: var(--approve);"><div class="stat-label">🧠 LoRA Dataset</div><div class="stat-val" id="sTraining" style="color:var(--approve);">0</div></div>
     </section>
 
     <div class="section-head">
-      <div class="section-title"><span class="dot"></span> Quarantined Cases</div>
-      <div class="section-desc" id="lastUpdate">Last update: -</div>
-    </div>
-
-    <div class="filter-tabs">
-      <button class="filter-tab active" data-filter="all">All</button>
-      <button class="filter-tab" data-filter="CRITICAL">🔴 Critical</button>
-      <button class="filter-tab" data-filter="WARNING">🟡 Warnings</button>
-      <button class="filter-tab" data-filter="BORDERLINE">🔵 Borderline</button>
-      <button class="filter-tab" data-filter="BLOCKED">🚫 Blocked</button>
+      <div class="section-title"><span class="dot"></span> Validation Review Queue</div>
+      <div class="actions-group" style="display:flex; gap:10px;">
+        <button class="btn-refresh" style="background: var(--accent); color: white; border: none;" onclick="exportReport()">📥 Export Audit Report</button>
+        <div class="section-desc" id="lastUpdate" style="align-self:center;">Last update: -</div>
+      </div>
     </div>
 
     <main class="table-card">
@@ -1087,7 +250,7 @@
             <tr>
               <th style="width:40px;"></th>
               <th>ID</th>
-              <th>Legal Text</th>
+              <th>Legal Extract (Audited)</th>
               <th>Severity</th>
               <th>Errors</th>
               <th>Radicals</th>
@@ -1099,7 +262,7 @@
           <tbody id="tbody"></tbody>
         </table>
       </div>
-      <div class="table-foot">
+      <div class="table-foot" style="padding: 10px 14px; border-top: 1px solid var(--border); font-size: 0.68rem; color: var(--fg-muted); background: rgba(0,0,0,0.15); display: flex; justify-content: space-between;">
         <span id="footInfo">0 cases in view</span><span>TridenGuard v1.5</span>
       </div>
     </main>
@@ -1107,28 +270,25 @@
     <div class="detail-panel" id="detailPanel">
       <div id="detailContent"></div>
     </div>
-
-    <footer style="text-align:center;margin-top:32px;font-size:0.68rem;color:var(--fg-muted);">
-      Communicating with <span style="color:var(--accent);">n8n</span> at localhost:5678 · Webhooks /approve · /discard
-    </footer>
   </div>
 
   <div class="toast-rack" id="toastRack"></div>
 
   <div class="overlay" id="overlay">
     <div class="modal">
-      <h3 id="mTitle">Confirm Action</h3>
+      <h3 id="mTitle">Confirm</h3>
       <p id="mMsg">Are you sure?</p>
-      <div class="modal-btns"><button class="mbtn" id="mCancel">Cancel</button><button class="mbtn mbtn-red"
-          id="mOk">Discard</button></div>
+      <div class="modal-btns">
+        <button class="mbtn" id="mCancel">Cancel</button>
+        <button class="mbtn mbtn-red" id="mOk">Confirm</button>
+      </div>
     </div>
   </div>
 
-  <!-- Document Preview Overlay -->
   <div class="doc-overlay" id="docOverlay" onclick="closeDoc()">
     <div class="doc-window" onclick="event.stopPropagation()">
       <div class="doc-header">
-        <div class="doc-title">📄 Original Document</div>
+        <div class="doc-title">📄 Original Contract Extract</div>
         <button class="btn-close-doc" onclick="closeDoc()">✕</button>
       </div>
       <div class="doc-body" id="docContent"></div>
@@ -1136,179 +296,391 @@
   </div>
 
   <script>
-    const N8N_API_URL = 'http://localhost:5678/api/v1/data-tables';
-    const QUARANTINE_TABLE = 'i465juhY0rXHhLja';
-    const N8N_WEBHOOK_URL = 'http://localhost:5678/webhook/tridenguard';
-    const AUTH_KEY = 'tridenguard_secret_key_2026';
+    // --- 1. BIBLIOTECA DE CONTRATOS COMPLETOS ---
+    const CONTRACTS = {
+      LIME_ENERGY: `📄 Contrato 1: LIMEENERGYCO (Distribución)
+docId: LIME_ENERGY_1999
 
+THIS DISTRIBUTOR AGREEMENT (the "Agreement") is made by and between Electric City Corp., a Delaware corporation ("Company") and Electric City of Illinois LLC ("Distributor") this 7th day of September, 1999.
+
+RECITALS
+
+A. The Company's Business. The Company is presently engaged in the business of selling an energy efficiency device, which is referred to as an "Energy Saver" which may be improved or otherwise changed from its present composition (the "Products").
+
+B. Representations. As an inducement to the Company to enter into this Agreement, the Distributor has represented that it has or will have the facilities, personnel, and financial capability to promote the sale and use of Products.
+
+1. APPOINTMENT AND EXCLUSIVITY
+Company hereby appoints Distributor as Company's exclusive distributor within the Market and grants to Distributor the exclusive right to sell and distribute Products within the Market. 
+
+2. TERM
+The term of this Agreement shall be ten (10) years which shall commence on the date upon which the Company delivers to Distributor the last Sample.`,
+
+      TECHVISTA: `📄 Contrato 2: TECHVISTA INC. (SaaS / Licencia de Software)
+docId: TECHVISTA_SaaS_2025
+
+THIS MASTER SOFTWARE AS A SERVICE AGREEMENT (the "Agreement") is entered into as of January 15, 2025 by and between TechVista Inc., a Delaware corporation ("Company") and GlobalLogic Corp., a Nevada corporation ("Customer").
+
+1. DEFINITIONS
+1.1 "Confidential Information" means any data or information, oral or written, that is treated as confidential by either Party.
+1.2 "Subscription Fee" means the annual fee payable by the Customer to the Company for the right to access and use the Software Services.
+
+2. GRANT OF LICENSE
+2.1 Subject to the terms and conditions of this Agreement, the Company hereby grants to the Customer a non-exclusive, non-transferable, limited right to access and use the Software Services solely for the Customer's internal business operations.
+
+3. FEES AND PAYMENT
+3.1 The Customer shall pay to the Company an annual Subscription Fee of Two Hundred Fifty Thousand Dollars ($250,000.00), payable within thirty (30) days of the Effective Date.`,
+
+      PHARMA_NDA: `📄 Contrato 3: PHARMA GLOBAL (NDA / Confidencialidad)
+docId: PHARMA_NDA_2024
+
+THIS MUTUAL NON-DISCLOSURE AGREEMENT (the "Agreement") is made and entered into as of March 1, 2024 by and between Pharma Global AG ("Disclosing Party") and BioResearch Solutions Ltd. ("Receiving Party").
+
+2. DEFINITION OF CONFIDENTIAL INFORMATION
+2.1 "Confidential Information" means any and all non-public information disclosed by the Disclosing Party to the Receiving Party, including trial data and results.
+
+3. OBLIGATIONS OF RECEIVING PARTY
+3.1 The Receiving Party shall: (a) hold the Confidential Information in strict confidence; (b) not disclose the Confidential Information to any third party without the prior written consent of the Disclosing Party; and (c) use the Confidential Information solely for the Purpose.`,
+
+      APEX_CONSTRUCTION: `📄 Contrato 4: APEX CONSTRUCTION (Construcción / Servicios)
+docId: APEX_CONSTRUCTION_2023
+
+THIS GENERAL CONTRACTOR AGREEMENT (the "Agreement") is made as of July 10, 2023, by and between Apex Construction LLC ("Contractor") and Metro Transit Authority ("Owner").
+
+1. SCOPE OF WORK
+1.1 The Contractor shall furnish all labor, materials, equipment, and services necessary for the construction of the Metro East Line Extension, located in the County of Los Angeles, State of California.
+
+2. CONTRACT PRICE
+2.1 The Owner shall pay to the Contractor the sum of Fourteen Million Five Hundred Thousand Dollars ($14,500,000.00) for the complete performance of the Work.
+
+3. TIME OF COMPLETION
+3.1 The Work shall commence within ten (10) calendar days after the Effective Date and shall be substantially completed within twenty-four (24) months.`
+    };
+
+    // --- 2. GROUND TRUTH (AXIOMAS) ---
+    const GROUND_TRUTH_DB = {
+      "REAL-R1": {
+        fullContract: CONTRACTS.LIME_ENERGY,
+        originalText: "Company hereby appoints Distributor as Company's exclusive distributor within the Market and grants to Distributor the exclusive right to sell and distribute Products within the Market",
+        radicals: { "Actor": ["Company", "Distributor"], "Action": ["appoints", "grants"], "Object": ["exclusive distributor", "exclusive right", "Products"], "Spatial": ["within the Market"] }
+      },
+      "REAL-R2": {
+        fullContract: CONTRACTS.LIME_ENERGY,
+        originalText: "Company hereby appoints Distributor as Company's exclusive distributor within the Market",
+        radicals: { "Actor": ["Company", "Distributor"], "Action": ["appoints"], "Object": ["exclusive distributor"], "Spatial": ["within the Market"] }
+      },
+      "TECH-R4": {
+        fullContract: CONTRACTS.TECHVISTA,
+        originalText: "The Customer shall pay to the Company an annual Subscription Fee of Two Hundred Fifty Thousand Dollars ($250,000.00)",
+        radicals: { "Actor": ["The Customer", "Company"], "Action": ["pay"], "Object": ["Subscription Fee"], "Metric": ["Two Hundred Fifty Thousand Dollars", "$250,000.00"] }
+      },
+      "PHARMA-R8": {
+        fullContract: CONTRACTS.PHARMA_NDA,
+        originalText: "The Receiving Party shall: (a) hold the Confidential Information in strict confidence; (b) not disclose the Confidential Information to any third party without the prior written consent of the Disclosing Party",
+        radicals: { "Actor": ["Receiving Party", "Disclosing Party"], "Deontic": ["shall", "not disclose"], "Object": ["Confidential Information"] }
+      },
+      "APEX-R7": {
+        fullContract: CONTRACTS.APEX_CONSTRUCTION,
+        originalText: "located in the County of Los Angeles, State of California",
+        radicals: { "Spatial": ["County of Los Angeles", "State of California"] }
+      }
+    };
+
+    // --- 3. MOCK CASES (EXTRACTOS PARA REVISIÓN) ---
+    const today = new Date().toISOString().split('T')[0];
     const MOCK_CASES = [
-      { caseId: "Q-001", text: "The Buyer shall pay $45M into escrow by Dec 31st.", axiom: "Buyer shall pay $45M into escrow", reason: "R2_ACTION_WITHOUT_SUBJECT", status: "QUARANTINED", severity: "CRITICAL", ground: "✗", errors: 1, radicals: 4, date: "2026-05-13", radicalsJSON: '[{"radical":"Action","value":"pay"},{"radical":"Object","value":"$45M"},{"radical":"Temporal","value":"Dec 31st"}]' },
-      { caseId: "Q-002", text: "Clause 4.2: The Seller's CEO Social Security Number is 444-90-1234.", axiom: "BLOCKED", reason: "BLOCKED_PII", status: "BLOCKED", severity: "BLOCKED", ground: "✓", errors: 0, radicals: 0, date: "2026-05-13", radicalsJSON: '[]' },
-      { caseId: "Q-003", text: "Whenever the index exceeds 3.5% for two consecutive quarters.", axiom: "Index exceeds 3.5% for two quarters", reason: "R5_CONDITION_WITHOUT_TRIGGER", status: "QUARANTINED", severity: "WARNING", ground: "✓", errors: 1, radicals: 1, date: "2026-05-12", radicalsJSON: '[{"radical":"Condition","value":"whenever the index exceeds 3.5%"},{"radical":"Temporal","value":"two consecutive quarters"}]' },
-      { caseId: "Q-004", text: "The profitability threshold is set at 15%.", axiom: "Profitability threshold is 15%", reason: "R4_ORPHAN_METRIC", status: "QUARANTINED", severity: "CRITICAL", ground: "✓", errors: 2, radicals: 1, date: "2026-05-12", radicalsJSON: '[{"radical":"Metric","value":"15%"}]' },
-      { caseId: "Q-005", text: "Any act contrary to the regulations is strictly prohibited.", axiom: "Acts contrary to regulations are prohibited", reason: "R1_SUBJECT_WITHOUT_ACTION, R3_OBJECT_WITHOUT_REFERENT, R8_DEONTIC_WITHOUT_BEHAVIOR", status: "QUARANTINED", severity: "BORDERLINE", ground: "✓", errors: 3, radicals: 2, date: "2026-05-11", radicalsJSON: '[{"radical":"Deontic","value":"prohibited"},{"radical":"Object","value":"any act contrary to the regulations"}]' }
+      { caseId: "REAL-R1", text: "Company and Distributor must comply with all obligations stipulated in this agreement.", axiom: "Company and Distributor must comply with obligations", reason: "R1_SUBJECT_WITHOUT_ACTION", riskLabel: "Exclusivity Drift / Obligation Removed", status: "QUARANTINED", severity: "CRITICAL", ground: "✓", errors: 1, radicals: 3, date: today, radicalsJSON: '[{"radical":"Actor","value":"Company"},{"radical":"Actor","value":"Distributor"},{"radical":"Deontic","value":"must"}]' },
+      { caseId: "TECH-R4", text: "The profitability threshold is set at 15%.", axiom: "Profitability threshold is 15%", reason: "R4_ORPHAN_METRIC", riskLabel: "Financial Metric Alteration", status: "QUARANTINED", severity: "CRITICAL", ground: "✓", errors: 2, radicals: 1, date: today, radicalsJSON: '[{"radical":"Metric","value":"15%"}]' },
+      { caseId: "PHARMA-R8", text: "The Receiving Party shall not from any source other than the Company.", axiom: "Receiving Party shall not from any source", reason: "R8_DEONTIC_WITHOUT_BEHAVIOR", riskLabel: "Confidentiality Breach Risk", status: "QUARANTINED", severity: "CRITICAL", ground: "✓", errors: 1, radicals: 2, date: today, radicalsJSON: '[{"radical":"Actor","value":"Receiving Party"},{"radical":"Deontic","value":"shall not"}]' },
+      { caseId: "APEX-R7", text: "Located in Los Angeles.", axiom: "Located in Los Angeles", reason: "R7_INERT_SPATIAL", riskLabel: "Jurisdiction Ambiguity", status: "QUARANTINED", severity: "BORDERLINE", ground: "✓", errors: 1, radicals: 1, date: today, radicalsJSON: '[{"radical":"Spatial","value":"Los Angeles"}]' }
     ];
 
     let cases = [];
-    let currentFilter = 'all';
-    let modalCb = null;
-
     const tbody = document.getElementById('tbody');
-    const footInfo = document.getElementById('footInfo');
-    const lastUpdate = document.getElementById('lastUpdate');
     const detailPanel = document.getElementById('detailPanel');
     const detailContent = document.getElementById('detailContent');
-    const btnRefresh = document.getElementById('btnRefresh');
-    const toastRack = document.getElementById('toastRack');
-    const overlay = document.getElementById('overlay');
-    const mTitle = document.getElementById('mTitle');
-    const mMsg = document.getElementById('mMsg');
-    const mOk = document.getElementById('mOk');
-    const mCancel = document.getElementById('mCancel');
     const docOverlay = document.getElementById('docOverlay');
     const docContent = document.getElementById('docContent');
+    const toastRack = document.getElementById('toastRack');
 
-    async function loadQuarantineCases() {
-      btnRefresh.classList.add('loading');
-      try {
-        const res = await fetch(`${N8N_API_URL}/${QUARANTINE_TABLE}/rows`, {
-          headers: { 'Accept': 'application/json', 'Authorization': `Basic ${btoa('admin:admin')}` }
-        });
-        if (!res.ok) throw new Error(res.status);
-        const data = await res.json();
-        cases = data.map(row => {
-          let severity = 'REVIEW';
-          if (row.has_critical) severity = 'CRITICAL';
-          else if (row.has_warning) severity = 'WARNING';
-          else if (row.has_borderline) severity = 'BORDERLINE';
-          else if (row.has_unknown) severity = 'UNKNOWN';
-          if (row.status === 'BLOCKED') severity = 'BLOCKED';
-
-          return {
-            caseId: row.case_id, text: row.original_text || 'No text', axiom: row.axiom || 'No axiom extracted',
-            reason: row.rejection_reason || 'NONE', status: row.status || 'QUARANTINED', severity: severity,
-            ground: row.source_integrity ? '✓' : '✗', errors: row.error_count || 0, radicals: row.radicals_extracted || 0,
-            date: row.timestamp ? new Date(row.timestamp).toISOString().split('T')[0] : '-', radicalsJSON: row.radicals_json || '[]'
-          };
-        });
-        lastUpdate.textContent = `Last update: ${new Date().toLocaleTimeString()}`;
-      } catch {
-        cases = JSON.parse(JSON.stringify(MOCK_CASES));
-        lastUpdate.textContent = 'Using mock data (n8n unreachable)';
-      }
-      btnRefresh.classList.remove('loading');
-      applyFilter();
+    function loadQuarantineCases() {
+      cases = JSON.parse(JSON.stringify(MOCK_CASES));
+      document.getElementById('lastUpdate').textContent = `System: Enterprise Audit Log - ${new Date().toLocaleTimeString()}`;
+      render();
+      updateStats();
     }
 
-    function refreshData() { loadQuarantineCases(); }
+    function truncate(str, len) { return str.length <= len ? str : str.slice(0, len) + '...'; }
 
-    function truncate(str, len) { if (!str) return ''; return str.length <= len ? str : str.slice(0, len) + '...'; }
-
-    function severityBadge(sev) { return { CRITICAL: 'badge-critical', WARNING: 'badge-warning', BORDERLINE: 'badge-borderline', BLOCKED: 'badge-critical' }[sev] || 'badge-unknown'; }
-    function severityEmoji(sev) { return { CRITICAL: '🔴', WARNING: '🟡', BORDERLINE: '🔵', BLOCKED: '🚫', UNKNOWN: '⚪' }[sev] || '⚪'; }
-
-    function applyFilter() { render((currentFilter === 'all' ? cases : cases.filter(c => c.severity === currentFilter)).filter(c => c.status !== 'APPROVED' && c.status !== 'DISCARDED')); updateStats(); }
-
-    function openDoc(caseId) { const c = cases.find(x => x.caseId === caseId); if (c) { docContent.textContent = c.text; docOverlay.classList.add('open'); } }
+    function openDoc(caseId) { 
+      const gt = GROUND_TRUTH_DB[caseId];
+      if (gt) { 
+        const highlightedHtml = gt.fullContract.replace(
+          gt.originalText, 
+          `<mark style="background-color: rgba(59, 130, 246, 0.25); color: #1e40af; font-weight: 800; padding: 2px 4px; border-radius: 4px; border-bottom: 2px solid var(--accent);">${gt.originalText}</mark>`
+        );
+        docContent.innerHTML = highlightedHtml.replace(/\n/g, '<br>');
+        docOverlay.classList.add('open'); 
+      } 
+    }
     function closeDoc() { docOverlay.classList.remove('open'); }
 
-    function render(active) {
+    function render() {
+      const active = cases.filter(c => c.status !== 'APPROVED' && c.status !== 'DISCARDED');
       if (active.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9"><div class="empty"><div class="empty-icon">&#9989;</div><h3>Quarantine Empty</h3><p>No cases pending review.</p></div></td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="9"><div style="text-align:center; padding: 40px; color:var(--fg-muted);">No cases pending review.</div></td></tr>`;
       } else {
         tbody.innerHTML = active.map((c, i) => `
         <tr data-id="${c.caseId}" style="animation-delay:${i * 0.06}s">
           <td class="cell-doc" onclick="event.stopPropagation(); openDoc('${c.caseId}')">📄</td>
           <td><span class="cell-id">${c.caseId}</span></td>
-          <td><div class="cell-text" onclick="toggleDetail('${c.caseId}')" style="cursor:pointer;">${truncate(c.text, 80)}<div class="reason">${c.reason}</div></div></td>
-          <td><span class="badge-sev ${severityBadge(c.severity)}">${severityEmoji(c.severity)} ${c.severity}</span></td>
+          <td><div class="cell-text" onclick="toggleDetail('${c.caseId}')" style="cursor:pointer;">${truncate(c.text, 65)}<div class="reason">${c.reason}</div></div></td>
+          <td><span class="badge-sev ${c.severity === 'CRITICAL' ? 'badge-critical' : c.severity === 'WARNING' ? 'badge-warning' : 'badge-borderline'}">${c.severity === 'CRITICAL' ? '🔴' : c.severity === 'WARNING' ? '🟡' : '🔵'} ${c.severity}</span></td>
           <td class="cell-number">${c.errors}</td><td class="cell-number">${c.radicals}</td>
           <td class="cell-ground ${c.ground === '✓' ? 'grounded' : 'ungrounded'}">${c.ground}</td>
           <td class="cell-number">${c.date}</td>
           <td><div class="actions" onclick="event.stopPropagation()">
-            <button class="btn btn-approve" data-id="${c.caseId}" data-action="approve"><span class="spin"></span><span class="btn-text">✓ Approve</span></button>
-            <button class="btn btn-discard" data-id="${c.caseId}" data-action="discard"><span class="spin"></span><span class="btn-text">✕ Discard</span></button>
+            <button class="btn btn-approve" onclick="handleAction('${c.caseId}', 'approve')">✓ Approve</button>
+            <button class="btn btn-discard" onclick="handleAction('${c.caseId}', 'discard')">✕ Discard</button>
           </div></td>
         </tr>`).join('');
       }
-      footInfo.textContent = `${active.length} case${active.length !== 1 ? 's' : ''} in view`;
+      document.getElementById('footInfo').textContent = `${active.length} audited cases in feed`;
     }
 
+    // Variable global para controlar la vista actual
+    let currentDetailView = 'legal';
+
+    // Función para cambiar de vista dentro del detalle
+    window.switchDetailView = function(view) {
+      currentDetailView = view;
+      document.getElementById('view-legal').style.display = view === 'legal' ? 'block' : 'none';
+      document.getElementById('view-raw').style.display = view === 'raw' ? 'flex' : 'none';
+      
+      // Actualizar estilos de los botones
+      document.getElementById('btn-view-legal').style.opacity = view === 'legal' ? '1' : '0.5';
+      document.getElementById('btn-view-raw').style.opacity = view === 'raw' ? '1' : '0.5';
+    };
+
     function toggleDetail(caseId) {
-      const c = cases.find(x => x.caseId === caseId); if (!c) return;
-      if (detailPanel.classList.contains('open') && detailPanel.dataset.caseId === caseId) { detailPanel.classList.remove('open'); return; }
+      const c = cases.find(x => x.caseId === caseId); 
+      if (!c) return;
+      
+      if (detailPanel.classList.contains('open') && detailPanel.dataset.caseId === caseId) { 
+        detailPanel.classList.remove('open'); return; 
+      }
+      
       detailPanel.dataset.caseId = caseId;
-      let radicals = []; try { radicals = JSON.parse(c.radicalsJSON || '[]'); } catch (e) { }
-      const rC = { 'Actor': '#3b82f6', 'Deontic': '#f59e0b', 'Action': '#10b981', 'Object': '#8b5cf6', 'Temporal': '#06b6d4', 'Spatial': '#f97316', 'Metric': '#ef4444', 'Condition': '#ec4899' };
-      const rE = { 'Actor': '👤', 'Deontic': '📜', 'Action': '⚡', 'Object': '📦', 'Temporal': '⏰', 'Spatial': '📍', 'Metric': '📊', 'Condition': '🔀' };
-      const gI = c.ground === '✓' ? '✅' : '❌';
-      const rT = radicals.length > 0 ? `<table style="width:100%;border-collapse:collapse;margin-top:8px;"><thead><tr style="font-size:0.65rem;color:var(--fg-muted);text-transform:uppercase;letter-spacing:0.5px;"><th style="padding:6px 8px;text-align:left;">Type</th><th style="padding:6px 8px;text-align:left;">Value</th><th style="padding:6px 8px;text-align:center;">Ground</th></tr></thead><tbody>${radicals.map(r => `<tr style="border-top:1px solid var(--border);"><td style="padding:6px 8px;"><span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;font-size:0.68rem;font-weight:600;background:${rC[r.radical] || '#4f6382'}22;color:${rC[r.radical] || '#8a9bba'};">${rE[r.radical] || '🔹'} ${r.radical}</span></td><td style="padding:6px 8px;font-size:0.75rem;color:var(--fg);">${r.value}</td><td style="padding:6px 8px;text-align:center;">${gI}</td></tr>`).join('')}</tbody></table>` : '<p style="color:var(--fg-muted);font-size:0.75rem;margin-top:8px;">No radicals extracted (Blocked at Ingress)</p>';
-      detailContent.innerHTML = `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="font-weight:700;color:var(--fg);">🧠 Axiom:</span><span style="color:var(--fg-secondary);font-size:0.8rem;">${c.axiom || c.text}</span></div><div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;"><span style="font-weight:700;color:var(--fg);">📋 Reason:</span><span class="badge-sev ${severityBadge(c.severity)}">${severityEmoji(c.severity)} ${c.reason}</span></div><div style="font-weight:700;color:var(--fg);margin-bottom:6px;">🔬 Extracted Radicals (${radicals.length}):</div>${rT}`;
+      let extracted = []; 
+      try { extracted = JSON.parse(c.radicalsJSON || '[]'); } catch (e) {}
+
+      // Agrupar los radicales entrantes
+      const extMap = {};
+      extracted.forEach(r => {
+        if (!extMap[r.radical]) extMap[r.radical] = [];
+        extMap[r.radical].push(r.value);
+      });
+
+      const gt = GROUND_TRUTH_DB[caseId] || { radicals: {} };
+      let comparisonRows = '';
+      const rTypes = ['Actor', 'Deontic', 'Action', 'Object', 'Temporal', 'Spatial', 'Metric', 'Condition'];
+      
+      rTypes.forEach(type => {
+        const oV = (gt.radicals && gt.radicals[type]) ? gt.radicals[type].join(', ') : '-';
+        const iV = extMap[type] ? extMap[type].join(', ') : '-';
+        let status = '✅ OK'; let sColor = 'var(--approve)';
+        if (oV !== '-' && iV === '-') { status = '❌ Error'; sColor = 'var(--discard)'; }
+        else if (oV === '-' && iV !== '-') { status = '⚠️ Halluc'; sColor = 'var(--warn)'; }
+
+        comparisonRows += `
+          <tr style="border-top:1px solid var(--border);">
+            <td style="padding:10px; font-weight:800; color:var(--accent);">${type}</td>
+            <td style="padding:10px; color:var(--fg-secondary);">${oV}</td>
+            <td style="padding:10px; color:var(--fg);">${iV}</td>
+            <td style="padding:10px; font-weight:bold; color:${sColor};">${status}</td>
+          </tr>
+        `;
+      });
+
+      // Formatear JSONs para la vista técnica
+      const gtJsonStr = JSON.stringify(gt.radicals || {}, null, 2);
+      const extractedJsonStr = JSON.stringify(extracted || [], null, 2);
+
+      // Los textos literales para la comparación
+      const originalTextSnippet = gt.originalText || "No original text found.";
+      const mutatedTextSnippet = c.text || "No text analyzed.";
+
+      detailContent.innerHTML = `
+        <div style="display:flex; justify-content: space-between; align-items: stretch; margin-bottom: 16px; gap: 12px;">
+          <div style="padding: 12px; background: rgba(239, 68, 68, 0.08); border-left: 3px solid var(--discard); border-radius: 4px; flex: 1.5; display: flex; flex-direction: column; justify-content: center;">
+            <h4 style="color: var(--discard); margin-bottom: 4px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px;">🔴 Structural Anomaly Detected</h4>
+            <p style="color: var(--fg); font-size: 0.8rem; margin-bottom: 8px;">Structural deviation from Ground Truth in <strong>${caseId}</strong>.</p>
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); padding: 4px 8px; border-radius: 4px; width: fit-content;">
+              <span style="font-size: 0.75rem;">⚠️</span>
+              <span style="font-size: 0.7rem; font-weight: bold; color: #fca5a5; text-transform: uppercase;">Business Risk: ${c.riskLabel}</span>
+            </div>
+          </div>
+          
+          <div style="padding: 12px; background: var(--bg-raised); border: 1px solid var(--border); border-radius: 4px; flex: 1; display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 6px;">
+              <span style="font-size: 0.65rem; color: var(--fg-muted); font-weight: bold; text-transform: uppercase;">Structural Match</span>
+              <span style="color: var(--discard); font-weight: 800; font-size: 0.75rem;">FAIL (${c.radicals - c.errors}/${c.radicals} Found)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.65rem; color: var(--fg-muted); font-weight: bold; text-transform: uppercase;">Topological Grounding</span>
+              <span style="color: ${c.ground === '✓' ? 'var(--approve)' : 'var(--discard)'}; font-weight: 800; font-size: 0.75rem;">${c.ground === '✓' ? 'VERIFIED' : 'UNGROUNDED'}</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 8px; justify-content: flex-end; margin-left: 4px;">
+            <button id="btn-view-legal" onclick="switchDetailView('legal')" style="background:var(--bg-raised); color:var(--fg); border:1px solid var(--border); padding:8px 12px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:bold; transition:0.2s;">⚖️ Legal View</button>
+            <button id="btn-view-raw" onclick="switchDetailView('raw')" style="background:var(--bg-raised); color:var(--fg); border:1px solid var(--border); padding:8px 12px; border-radius:4px; cursor:pointer; font-size:0.75rem; font-weight:bold; opacity:0.5; transition:0.2s;">⚙️ JSON Extractor</button>
+          </div>
+        </div>
+        
+        <div id="view-legal">
+          <div style="display: flex; gap: 10px; margin-bottom: 12px; font-size: 0.75rem;">
+            <div style="flex: 1; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 6px; padding: 10px;">
+              <div style="color: var(--approve); font-weight: bold; margin-bottom: 4px; text-transform: uppercase; font-size: 0.65rem;">📄 Original Extract (Ground Truth)</div>
+              <div style="color: var(--fg-secondary); font-style: italic;">"${originalTextSnippet}"</div>
+            </div>
+            <div style="flex: 1; background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 6px; padding: 10px;">
+              <div style="color: var(--warn); font-weight: bold; margin-bottom: 4px; text-transform: uppercase; font-size: 0.65rem;">⚠️ Analyzed Clause (Mutated)</div>
+              <div style="color: var(--fg); font-weight: 500;">"${mutatedTextSnippet}"</div>
+            </div>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; background: var(--bg-raised); border-radius: 6px; overflow: hidden; font-size: 0.75rem;">
+            <thead style="background: rgba(0,0,0,0.3);">
+              <tr style="color:var(--fg-muted); text-transform:uppercase; letter-spacing:0.5px;">
+                <th style="padding:10px; text-align:left; width: 20%;">Component</th>
+                <th style="padding:10px; text-align:left; width: 35%;">Ground Truth</th>
+                <th style="padding:10px; text-align:left; width: 30%;">Extracted</th>
+                <th style="padding:10px; text-align:left; width: 15%;">Result</th>
+              </tr>
+            </thead>
+            <tbody>${comparisonRows}</tbody>
+          </table>
+        </div>
+
+        <div id="view-raw" style="display:none; gap: 10px; margin-top: 10px;">
+          <div style="flex:1; background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 12px; overflow-x: auto;">
+            <div style="font-size:0.65rem; color:var(--approve); text-transform:uppercase; margin-bottom:8px; font-weight:bold;">✅ Ground Truth (Expected)</div>
+            <pre style="margin:0; color:#c9d1d9; font-family:monospace; font-size:0.75rem;">${gtJsonStr}</pre>
+          </div>
+          <div style="flex:1; background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 12px; overflow-x: auto;">
+            <div style="font-size:0.65rem; color:var(--warn); text-transform:uppercase; margin-bottom:8px; font-weight:bold;">🤖 Phi-4-mini (Extracted Payload)</div>
+            <pre style="margin:0; color:#c9d1d9; font-family:monospace; font-size:0.75rem;">${extractedJsonStr}</pre>
+          </div>
+        </div>
+      `;
+      
       detailPanel.classList.add('open');
+      currentDetailView = 'legal'; // Resetear a vista legal al abrir un caso nuevo
     }
+
+    let trainingCount = 0;
 
     function updateStats() {
       document.getElementById('sTotal').textContent = cases.length;
       document.getElementById('sBlocked').textContent = cases.filter(c => c.severity === 'BLOCKED').length;
-      document.getElementById('sCritical').textContent = cases.filter(c => c.severity === 'CRITICAL').length;
-      document.getElementById('sWarning').textContent = cases.filter(c => c.severity === 'WARNING').length;
-      document.getElementById('sBorderline').textContent = cases.filter(c => c.severity === 'BORDERLINE').length;
+      document.getElementById('sCritical').textContent = cases.filter(c => c.severity === 'CRITICAL' && c.status !== 'DISCARDED').length;
+      document.getElementById('sWarning').textContent = cases.filter(c => c.severity === 'WARNING' && c.status !== 'DISCARDED').length;
+      document.getElementById('sBorderline').textContent = cases.filter(c => c.severity === 'BORDERLINE' && c.status !== 'DISCARDED').length;
+      document.getElementById('sTraining').textContent = trainingCount;
     }
 
-    async function postAction(caseId, action) {
-      try { const res = await fetch(action === 'approve' ? 'http://localhost:5678/webhook/approve' : 'http://localhost:5678/webhook/discard', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ caseId }) }); if (!res.ok) throw new Error(); return { local: false }; } catch { return { local: true }; }
+    function handleAction(caseId, action) {
+      const c = cases.find(x => x.caseId === caseId);
+      if (c) c.status = action === 'approve' ? 'APPROVED' : 'DISCARDED';
+      
+      trainingCount++; // Incrementamos el dataset de entrenamiento local
+      
+      const el = document.createElement('div'); el.className = `toast ${action === 'approve' ? 'toast-ok' : 'toast-err'}`;
+      el.innerHTML = `<span>${action === 'approve' ? '✓' : '✕'}</span><span>Preference logged for <strong>Local LoRA</strong>.</span>`;
+      toastRack.appendChild(el); setTimeout(() => el.remove(), 3000);
+      render(); updateStats();
+      if(detailPanel.dataset.caseId === caseId) detailPanel.classList.remove('open');
     }
 
-    async function sendValidation() {
-      const input = document.getElementById('docInput');
-      const text = input.value.trim(); if (!text) return;
-      try {
-        const res = await fetch(N8N_WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-api-key': AUTH_KEY }, body: JSON.stringify({ text }) });
-        const data = await res.json();
-        if (data.action === 'DENY') toast('err', '🛡️ Ingress DPI Blocked: Malicious prompt or PII detected.');
-        else if (data.status === 'QUARANTINED') toast('err', `🔍 Structural Failure Detected: Missing radicals (${data.rejection_reason}).`);
-        else if (data.status === 'VALIDATED') toast('ok', '✅ Document Validated: Semantic integrity confirmed.');
-        else toast('note', `Pipeline response: ${JSON.stringify(data)}`);
-        refreshData(); input.value = '';
-      } catch (err) { toast('err', 'Connection error: Unable to reach n8n pipeline.'); }
+    function exportReport() {
+      const activeCases = cases.filter(c => c.status === 'QUARANTINED');
+      if (activeCases.length === 0) {
+        alert("No active cases to export.");
+        return;
+      }
+
+      let csv = "CaseID,Severity,Reason,Date,Extract,AxiomResult\n";
+      activeCases.forEach(c => {
+        csv += `"${c.caseId}","${c.severity}","${c.reason}","${c.date}","${c.text.replace(/"/g, '""')}","${c.ground === '✓' ? 'PASS' : 'FAIL'}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.setAttribute('hidden', '');
+      a.setAttribute('href', url);
+      a.setAttribute('download', `tridenguard_audit_${new Date().getTime()}.csv`);
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+
+      const el = document.createElement('div'); el.className = 'toast toast-note';
+      el.innerHTML = `<span>📥</span><span>Audit Report generated successfully.</span>`;
+      toastRack.appendChild(el); setTimeout(() => el.remove(), 3000);
     }
 
-    async function handleAction(caseId, action) {
-      const row = tbody.querySelector(`tr[data-id="${caseId}"]`);
-      const btns = row ? row.querySelectorAll('.btn') : [];
-      btns.forEach(b => { b.disabled = true; if (b.dataset.action === action) b.classList.add('loading'); });
-      const result = await postAction(caseId, action);
-      const c = cases.find(x => x.caseId === caseId); if (c) c.status = action === 'approve' ? 'APPROVED' : 'DISCARDED';
-      if (action === 'approve') toast('ok', `Case <strong>${caseId}</strong> approved and released.`);
-      else toast('err', `Case <strong>${caseId}</strong> discarded.`);
-      if (result.local) toast('note', `n8n unavailable — local change applied.`);
-      if (row) { row.classList.add('row-out'); row.addEventListener('animationend', () => { applyFilter(); }, { once: true }); } else applyFilter();
+    function sendValidation() {
+      const caseId = document.getElementById('groundTruthSelector').value;
+      const textInput = document.getElementById('docInput').value;
+      const btn = document.querySelector('.btn-validate');
+
+      if (!textInput.trim()) {
+        alert("Please paste the modified clause first.");
+        return;
+      }
+
+      // Simular latencia de red y procesamiento de Pipeline (Para el vídeo)
+      btn.disabled = true;
+      btn.innerHTML = "🛡️ Inspecting (Lobstrap)...";
+      btn.style.backgroundColor = "var(--warn)";
+      btn.style.color = "#000";
+
+      setTimeout(() => {
+        btn.innerHTML = "🧠 Extracting (Phi-4)...";
+        btn.style.backgroundColor = "var(--borderline)";
+        btn.style.color = "#fff";
+
+        setTimeout(() => {
+          // Resetear el botón
+          btn.disabled = false;
+          btn.innerHTML = "🔍 Validate";
+          btn.style.backgroundColor = "var(--accent)";
+
+          // Desplazar la pantalla suavemente hacia la tabla
+          document.querySelector('.table-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+          
+          // Abrir automáticamente el panel rojo de "Semantic Divergence"
+          // Si ya estaba abierto, lo cerramos y lo volvemos a abrir para que se note el efecto
+          if (detailPanel.classList.contains('open')) {
+            detailPanel.classList.remove('open');
+            setTimeout(() => toggleDetail(caseId), 150);
+          } else {
+            toggleDetail(caseId);
+          }
+
+          // Añadir un Toast de notificación
+          const el = document.createElement('div'); 
+          el.className = 'toast toast-err';
+          el.innerHTML = `<span>🔴</span><span><strong>Critical Failure</strong> intercepted and quarantined.</span>`;
+          toastRack.appendChild(el); 
+          setTimeout(() => el.remove(), 4000);
+
+        }, 1400); // Tiempo de la fase 2 (Phi-4)
+      }, 800); // Tiempo de la fase 1 (Lobster Trap)
     }
 
-    tbody.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn'); if (!btn || btn.disabled) return;
-      const caseId = btn.dataset.id; const action = btn.dataset.action;
-      if (action === 'discard') showModal('Discard Case', `Are you sure you want to discard case <strong>${caseId}</strong>? This action cannot be undone.`, 'Discard', () => handleAction(caseId, action));
-      else handleAction(caseId, action);
-    });
-
-    document.querySelectorAll('.filter-tab').forEach(tab => { tab.addEventListener('click', () => { document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active')); tab.classList.add('active'); currentFilter = tab.dataset.filter; applyFilter(); }); });
-
-    function toast(type, html) {
-      const el = document.createElement('div'); el.className = `toast ${type === 'ok' ? 'toast-ok' : type === 'err' ? 'toast-err' : 'toast-note'}`;
-      el.innerHTML = `<span>${type === 'ok' ? '✓' : type === 'err' ? '✕' : 'ℹ'}</span><span>${html}</span>`;
-      toastRack.appendChild(el); setTimeout(() => { el.classList.add('leaving'); el.addEventListener('animationend', () => el.remove(), { once: true }); }, 4200);
-    }
-
-    function showModal(title, msg, okLabel, cb) { mTitle.textContent = title; mMsg.innerHTML = msg; mOk.textContent = okLabel; modalCb = cb; overlay.classList.add('open'); }
-    function hideModal() { overlay.classList.remove('open'); modalCb = null; }
-    mOk.addEventListener('click', async () => { if (modalCb) await modalCb(); hideModal(); });
-    mCancel.addEventListener('click', hideModal);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) hideModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { if (docOverlay.classList.contains('open')) closeDoc(); else if (overlay.classList.contains('open')) hideModal(); } });
-
-    (async () => { await loadQuarantineCases(); })();
+    function refreshData() { loadQuarantineCases(); }
+    loadQuarantineCases();
   </script>
 </body>
-
 </html>

@@ -1,30 +1,30 @@
-# OS files
-.DS_Store
-Thumbs.db
-
-# Binaries & Artifacts
+# Local development noise
+scratch/
+snapshot.txt
+deepseek.md
+hackaton_sf.md
+docs/test.md
 lobstertrap
-*.exe
-*.dll
-*.so
-*.dylib
 
-# Logs
-*.log
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Node.js
+node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Environment
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 .env
-.env.local
-.env.*.local
 
-# n8n local data (if moved inside)
-.n8n/
-data/
-
-# Backup & Snapshots
-*_snapshot.txt
-*_backup.json
-snapshot.txt
+# Go binaries & logs
+bin/
+pkg/
+*.log

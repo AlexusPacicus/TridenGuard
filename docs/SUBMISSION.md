@@ -213,48 +213,48 @@ Human Decision → TOON Logogram → LoRA Dataset → Fine-Tuned Local Model →
 TridenGuard operates as a **local-first, zero-cloud pipeline**. The entire logic is orchestrated deterministically through n8n to manage state, handle sub-millisecond webhooks, and route decisions without ever exposing data to external clouds.
 
 ```
-               ┌────────────────────────┐
-               │   📄 Ingress Contract   │
-               └───────────┬────────────┘
-                           │
-                           ▼
-               ┌────────────────────────┐
-               │ 📥 n8n Webhook Trigger │
-               └───────────┬────────────┘
-                           │
-                           ▼
-               ┌────────────────────────┐
-               │ 🛡️ Lobster Trap Proxy  │◄── Enforces YAML Firewall
-               └───────────┬────────────┘    (Prompt Injection / PII)
-                           │
-                   (Clean JSON Payload)
-                           │
-                           ▼
-               ┌────────────────────────┐
-               │ 🧠 Local Ollama Node   │◄── Extract 8 Radicals
-               │      (Phi-4-mini)      │    (Temperature = 0)
-               └───────────┬────────────┘
-                           │
-                  (Structured Radicals)
-                           │
-                           ▼
-               ┌────────────────────────┐
-               │ ⚖️ Custom JS Validator  │◄── Run 8 Exclusion Rules
-               └───────────┬────────────┘    (Deterministic Math)
-                           │
-            ┌──────────────┴──────────────┐
-     (Pass) │                             │ (Fail)
-            ▼                             ▼
- ┌────────────────────────┐  ┌────────────────────────┐
- │ ✅ Approved Audit Log  │  │ 🔴 Validation Quarantine │
- │   (audit-log table)    │  │   (quarantine table)   │
- └────────────────────────┘  └────────────┬───────────┘
-                                          │
-                                          ▼
-                             ┌────────────────────────┐
-                             │ 👨‍⚖️ Legal Review Panel │◄── Generates TOON
-                             │  (Human-in-the-Loop)   │    Logogram for LoRA
-                             └────────────────────────┘
+              ┌────────────────────────┐
+              │   📄 Ingress Contract   │
+              └───────────┬────────────┘
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │ 📥 n8n Webhook Trigger │
+              └───────────┬────────────┘
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │ 🛡️ Lobster Trap Proxy  │◄── Enforces YAML Firewall
+              └───────────┬────────────┘    (Prompt Injection / PII)
+                          │
+                  (Clean JSON Payload)
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │ 🧠 Local Ollama Node   │◄── Extract 8 Radicals
+              │      (Phi-4-mini)      │    (Temperature = 0)
+              └───────────┬────────────┘
+                          │
+                 (Structured Radicals)
+                          │
+                          ▼
+              ┌────────────────────────┐
+              │ ⚖️ Custom JS Validator  │◄── Run 8 Exclusion Rules
+              └───────────┬────────────┘    (Deterministic Math)
+                          │
+           ┌──────────────┴──────────────┐
+    (Pass) │                             │ (Fail)
+           ▼                             ▼
+┌────────────────────────┐  ┌────────────────────────┐
+│ ✅ Approved Audit Log  │  │ 🔴 Validation Quarantine │
+│   (audit-log table)    │  │   (quarantine table)   │
+└────────────────────────┘  └────────────┬───────────┘
+                                         │
+                                         ▼
+                            ┌────────────────────────┐
+                            │ 👨‍⚖️ Legal Review Panel │◄── Generates TOON
+                            │  (Human-in-the-Loop)   │    Logogram for LoRA
+                            └────────────────────────┘
 ```
 
 ### 🔥 Built for the Edge — Hardware Note
@@ -322,3 +322,6 @@ To maintain deterministic integrity, TridenGuard operates under strict boundarie
 * **No Autonomous Legal Reasoning:** The system does not give legal advice or interpret the law.
 * **No Generative Rewrites:** The LLM is never allowed to "auto-correct" or rewrite a failed clause.
 * **Human-in-the-Loop Required:** The system acts strictly as a filter and router. Final approval or dismissal is always delegated to human counsel.
+
+
+
