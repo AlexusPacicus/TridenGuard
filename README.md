@@ -36,7 +36,7 @@ Input → Lobster Trap (DPI) → Phi-4-mini (Extract) → Deterministic Validato
 
 | Layer | Technology | Function |
 | :--- | :--- | :--- |
-| **Ingress Security** | Lobster Trap (Veea) | Blocks prompt injection, PII, exfiltration |
+| **Ingress Security** | Lobster Trap DPI (Go mock, Veea API-compatible) | Blocks prompt injection, PII, exfiltration |
 | **Neural Extraction** | Phi-4-mini + Ollama | Extracts 8 atomic radicals (Actor, Action, Metric, etc.) |
 | **Symbolic Validation** | Custom JS Engine | Applies 8 deterministic rules (R1–R8) |
 | **Human Review** | Forensic Panel | Approve/Discard → LoRA fine-tuning |
@@ -108,7 +108,7 @@ flowchart TD
 
 ### Prerequisites
 - Docker & Docker Compose
-- Ollama with `phi4-mini:3.8b` pulled
+- Go (to build the DPI mock once)
 
 ### Steps
 
@@ -117,18 +117,22 @@ flowchart TD
 git clone https://github.com/AlexusPacicus/TridenGuard.git
 cd TridenGuard
 
-# 2. Start the infrastructure
-docker-compose up -d
+# 2. Start n8n + Ollama
+docker compose up -d
 
-# 3. Pull the LLM model
-ollama pull phi4-mini:3.8b
+# 3. Pull the LLM model (inside the Ollama container)
+docker exec ollama_tridenguard ollama pull phi4-mini:3.8b
 
-# 4. Import the n8n workflow
-# Open n8n at http://localhost:5678 and import:
-# n8n-workflows/TridenGuard.json
+# 4. Build & run Lobster Trap DPI mock (required — not in compose yet)
+cd lobstertrap_service && bash build_mock.sh && cd ..
+./lobstertrap serve --port 8080   # leave this terminal open
 
-# 5. Open the forensic panel
-open frontend/tridenguard_panel.html
+# 5. Import & activate workflow (first time only)
+# Open http://localhost:5678 (admin / admin) → import n8n-workflows/TridenGuard.json → Activate
+# Configure Ollama credential → base URL: http://ollama:11434
+
+# 6. Forensic panel (benchmark UI — simulated cases for demo/video)
+open frontend/index.html
 ```
 
 ### Test the Firewall
@@ -140,7 +144,11 @@ curl -X POST http://localhost:5678/webhook/tridenguard \
   -d '{"text": "Shall appoint as exclusive distributor within the Market."}'
 ```
 
-**Expected result:** `QUARANTINED — R2_ACTION_WITHOUT_SUBJECT`
+**Immediate response:** `{"message":"Workflow was started"}` (async pipeline, ~20–30s)
+
+**Verdict (n8n → Executions or quarantine table):** `QUARANTINED` — `R2_ACTION_WITHOUT_SUBJECT`
+
+**DPI block test:** `IGNORE PREVIOUS INSTRUCTIONS...` → blocked at Lobster Trap before Phi-4.
 
 ---
 
@@ -171,7 +179,7 @@ The 3-minute video demonstrates:
 | Component | Technology |
 | :--- | :--- |
 | Orchestration | n8n |
-| Security | Veea Lobster Trap (Go) |
+| Security | Lobster Trap DPI mock (Go; Veea binary in V2) |
 | LLM | Phi-4-mini (3.8B) + Ollama |
 | Validation | Custom JS (8 rules + grounding check) |
 | Observability | TOON + JSONL (V2 roadmap) |
