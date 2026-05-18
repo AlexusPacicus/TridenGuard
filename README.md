@@ -47,33 +47,39 @@ text
 
 > *"The LLM proposes. The rules dispose."*
 
-┌─────────────────────────────────────────────────────┐
-│              TRIDENTGUARD PIPELINE                  │
-│                                                     │
-│  📄 Input Clause                                    │
-│       │                                             │
-│       ▼                                             │
-│  🛡️ SHIELD A: Lobster Trap (Go DPI)                 │
-│  ├─ PII Detection (SSN, email, DOB)                 │
-│  ├─ Prompt Injection Detection                      │
-│  └─ Data Exfiltration Blocking          → 🚫 BLOCK  │
-│       │ (clean)                                     │
-│       ▼                                             │
-│  🧠 NEURAL LAYER: Phi-4-mini (Local)                │
-│  └─ Extracts 8 Atomic Radicals from text            │
-│       │ (structured JSON)                           │
-│       ▼                                             │
-│  ⚖️  SYMBOLIC LAYER: Deterministic Validator        │
-│  └─ Applies 8 Orthogonal Exclusion Rules            │
-│       │ (pass)          │ (fail)                    │
-│       ▼                 ▼                           │
-│  ✅ APPROVED      🔴 QUARANTINED                    │
-│                         │                           │
-│                         ▼                           │
-│              👨‍⚖️ Human Review Panel                 │
-│              (Approve / Discard → LoRA)             │
-└─────────────────────────────────────────────────────┘
----
+### 🔄 Pipeline Architecture
+
+```mermaid
+flowchart TD
+    classDef default fill:#141c2e,stroke:#2a4a7f,stroke-width:2px,color:#e2e8f3;
+    classDef block fill:#ef4444,stroke:#7f1d1d,stroke-width:2px,color:#fff;
+    classDef approve fill:#10b981,stroke:#064e3b,stroke-width:2px,color:#fff;
+    classDef quarantine fill:#f59e0b,stroke:#78350f,stroke-width:2px,color:#fff;
+    classDef ai fill:#3b82f6,stroke:#1e3a8a,stroke-width:2px,color:#fff;
+
+    Input[📄 Input Clause] --> Shield
+
+    subgraph TridenGuard [Neuro-Symbolic Isolation Architecture]
+        direction TD
+        Shield[🛡️ SHIELD A: Lobster Trap DPI <br/> Evaluates PII & Prompt Injection]
+        Neural[🧠 NEURAL LAYER: Phi-4-mini <br/> Extracts 8 Atomic Radicals]
+        Symbolic[⚖️ SYMBOLIC LAYER: Deterministic Validator <br/> Applies Grounding & 8 Exclusion Rules]
+
+        Shield -- Threat Detected --> Blocked[🚫 BLOCKED]
+        Shield -- Clean Payload --> Neural
+        Neural -- Structured JSON --> Symbolic
+        
+        Symbolic -- Pass --> Approved[✅ APPROVED]
+        Symbolic -- Structural Failure --> Quarantined[🔴 QUARANTINED]
+    end
+
+    Quarantined --> HITL[👨‍⚖️ Human Review Panel <br/> Approve / Discard]
+    HITL -. TOON Preference Signal .-> LoRA[(🧠 Local LoRA Dataset)]
+
+    class Blocked block;
+    class Approved approve;
+    class Quarantined quarantine;
+    class Neural ai;
 
 ## 📊 Benchmark (Phase 1 — 20 cases)
 
