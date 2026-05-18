@@ -62,7 +62,7 @@ Fine-Tuning (LoRA on Gemma 4 E2B)
 | block_credential_leak | 100 | DENY | Blocks output containing credentials |
 | block_pii_leak | 90 | DENY | Blocks output containing PII |
 | schema_structure_check | 80 | HUMAN_REVIEW | Flags output that fails GBNF schema compliance |
-
+> **Note:** GBNF integration is planned for V2. In the current MVP (V1), schema validation is handled by the Deterministic Validator and the Radical Grounding Check.
 **Why Schema Check Matters:**
 Even with GBNF constraining token generation, a structurally invalid output can slip through in edge cases (e.g., truncated generation, context overflow). The schema check acts as a safety net, ensuring that the Validator only processes well-formed JSON.
 

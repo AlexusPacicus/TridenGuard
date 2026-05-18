@@ -47,6 +47,32 @@ text
 
 > *"The LLM proposes. The rules dispose."*
 
+┌─────────────────────────────────────────────────────┐
+│              TRIDENTGUARD PIPELINE                  │
+│                                                     │
+│  📄 Input Clause                                    │
+│       │                                             │
+│       ▼                                             │
+│  🛡️ SHIELD A: Lobster Trap (Go DPI)                 │
+│  ├─ PII Detection (SSN, email, DOB)                 │
+│  ├─ Prompt Injection Detection                      │
+│  └─ Data Exfiltration Blocking          → 🚫 BLOCK  │
+│       │ (clean)                                     │
+│       ▼                                             │
+│  🧠 NEURAL LAYER: Phi-4-mini (Local)                │
+│  └─ Extracts 8 Atomic Radicals from text            │
+│       │ (structured JSON)                           │
+│       ▼                                             │
+│  ⚖️  SYMBOLIC LAYER: Deterministic Validator        │
+│  └─ Applies 8 Orthogonal Exclusion Rules            │
+│       │ (pass)          │ (fail)                    │
+│       ▼                 ▼                           │
+│  ✅ APPROVED      🔴 QUARANTINED                    │
+│                         │                           │
+│                         ▼                           │
+│              👨‍⚖️ Human Review Panel                 │
+│              (Approve / Discard → LoRA)             │
+└─────────────────────────────────────────────────────┘
 ---
 
 ## 📊 Benchmark (Phase 1 — 20 cases)
