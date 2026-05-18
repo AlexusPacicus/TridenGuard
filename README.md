@@ -187,7 +187,15 @@ The 3-minute video demonstrates:
 | Deployment | Docker + Vercel |
 
 ---
+## 🦞 Lobster Trap Integration
 
+TridenGuard includes a complete set of YAML policies for Veea Lobster Trap (see `configs/`). 
+The n8n workflow includes an HTTP request node that calls Lobster Trap at `http://host.docker.internal:8080/inspect`.
+
+**Current MVP status:** The live demo on Vercel is a frontend simulation. 
+A fully functional local deployment with Lobster Trap (including the provided mock) is available via `docker-compose up`.
+
+---
 ## 🔥 Built for the Edge
 
 This entire B2B firewall — including local Phi-4-mini LLM inference, n8n orchestration, and Lobster Trap DPI — was developed and stress-tested on a 2020 Mac M1 with only 8GB of RAM.
