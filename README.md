@@ -6,7 +6,7 @@
 
 [![Demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://triden-guard.vercel.app)
 [![Video](https://img.shields.io/badge/video-youtube-red?logo=youtube)](https://www.youtube.com/watch?v=yPm0HQ-V0w8)
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![License: AGPL v3](https://img.shields.io/badge/license-AGPL%20v3-blue.svg)](LICENSE)
 
 **Veea / lablab.ai Hackathon · May 11–19, 2026**
 
